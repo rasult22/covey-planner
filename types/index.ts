@@ -48,17 +48,13 @@ export interface LongTermGoal {
 
 export interface BigRock {
   id: string;
-  roleId: string;
   title: string;
-  description: string;
-  weekStart: string; // ISO date of week start
-  scheduledDate?: string;
-  scheduledTime?: string;
-  estimatedDuration?: number; // Minutes
-  actualDuration?: number; // Actual minutes spent
-  timerStartedAt?: string; // For optional timer
-  completed: boolean;
+  weekId: string; // Week ID in format 'YYYY-WW'
+  estimatedHours: number;
+  linkedGoalId?: string;
+  linkedRoleId?: string;
   completedAt?: string;
+  createdAt: string;
   quadrant: 'II'; // Always Quadrant II
 }
 
@@ -67,14 +63,14 @@ export interface DailyTask {
   title: string;
   priority: Priority;
   status: TaskStatus;
-  date: string; // ISO date
+  date: string; // Date key in format 'YYYY-MM-DD'
   quadrant: Quadrant;
   linkedGoalId?: string;
   linkedBigRockId?: string;
-  linkedRoleId?: string; // For role connection
-  estimatedDuration?: number; // Estimated minutes
-  actualDuration?: number; // Actual minutes spent
-  timerStartedAt?: string; // For optional timer
+  linkedRoleId?: string;
+  estimatedMinutes: number;
+  actualMinutes?: number; // Actual minutes tracked
+  timerStartedAt?: string; // ISO timestamp when timer started
   createdAt: string;
   completedAt?: string;
 }
@@ -93,37 +89,53 @@ export interface CalendarEvent {
 
 export interface WeeklyPlan {
   id: string;
-  weekStart: string; // ISO date of Sunday
-  weekEnd: string;
+  weekId: string; // Week ID in format 'YYYY-WW'
+  startDate: string; // ISO date of week start (Sunday)
+  endDate: string; // ISO date of week end (Saturday)
   bigRockIds: string[]; // References to BigRocks
   notes?: string;
   createdAt: string;
-  completedAt?: string; // When planning was done
+  completedAt?: string;
 }
 
 // ============================================
 // GAMIFICATION
 // ============================================
 
-export interface HabitTracker {
+export interface Promise3010 {
+  id: string;
+  description: string;
+  date: string; // Date key 'YYYY-MM-DD'
+  kept: boolean;
+  keptAt?: string;
+  broken: boolean;
+  brokenAt?: string;
+  createdAt: string;
+}
+
+export interface StreakData {
   weeklyPlanning: {
-    [weekKey: string]: { // 'YYYY-WW'
-      completed: boolean;
-      date: string;
-      duration: number; // Minutes
+    currentStreak: number;
+    longestStreak: number;
+    lastWeekId?: string; // Last week that was planned
+    history: {
+      [weekId: string]: { // 'YYYY-WW'
+        completed: boolean;
+        completedAt: string;
+      };
     };
   };
   dailyPlanning: {
-    [dateKey: string]: { // 'YYYY-MM-DD'
-      completed: boolean;
-      date: string;
-      duration: number; // Minutes
+    currentStreak: number;
+    longestStreak: number;
+    lastDateKey?: string; // Last date that was planned
+    history: {
+      [dateKey: string]: { // 'YYYY-MM-DD'
+        completed: boolean;
+        completedAt: string;
+      };
     };
   };
-  currentWeeklyStreak: number;
-  longestWeeklyStreak: number;
-  currentDailyStreak: number;
-  longestDailyStreak: number;
 }
 
 export type AchievementKey =
@@ -256,9 +268,9 @@ export const STORAGE_KEYS = {
   CALENDAR_EVENTS: '@covey_planner:calendar_events',
 
   // Gamification
-  HABIT_TRACKER: '@covey_planner:habit_tracker',
   STREAKS: '@covey_planner:streaks',
   ACHIEVEMENTS: '@covey_planner:achievements',
+  PROMISES_3010: '@covey_planner:promises_3010',
 
   // Analytics
   QUADRANT_STATS: '@covey_planner:quadrant_stats',
