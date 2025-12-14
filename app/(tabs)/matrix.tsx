@@ -1,14 +1,14 @@
 // Covey Planner - Time Management Matrix Screen
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { useDailyTasks, getTodayKey } from '@/hooks/planning/useDailyTasks';
-import { useBigRocks } from '@/hooks/planning/useBigRocks';
-import { getCurrentWeekId } from '@/hooks/planning/useWeeklyPlan';
 import { Card } from '@/components/ui/Card';
-import { Quadrant } from '@/types';
+import { useBigRocks } from '@/hooks/planning/useBigRocks';
+import { getTodayKey, useDailyTasks } from '@/hooks/planning/useDailyTasks';
+import { getCurrentWeekId } from '@/hooks/planning/useWeeklyPlan';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { Quadrant } from '@/types';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function MatrixScreen() {
   const { tasks } = useDailyTasks(getTodayKey());
@@ -229,7 +229,7 @@ export default function MatrixScreen() {
         </View>
 
         <Card style={styles.insightCard}>
-          <Text style={styles.insightTitle}>Covey's Insight</Text>
+          <Text style={styles.insightTitle}>Key Insight</Text>
           <Text style={styles.insightText}>
             Effective people stay out of Quadrants III and IV because, urgent or not, they aren't important.
             They also shrink Quadrant I by spending more time in Quadrant II - the "Focus Zone."

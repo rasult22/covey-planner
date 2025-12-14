@@ -1,4 +1,4 @@
-// Covey Planner - Welcome Screen
+// Principle-Centered Planner - Welcome Screen
 import { Button } from '@/components/ui/Button';
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING } from '@/lib/constants/spacing';
@@ -11,10 +11,17 @@ export default function WelcomeScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
       <View style={styles.content}>
-        <Text style={styles.title}>Welcome to Covey Planner</Text>
+        <Text style={styles.title}>Welcome to{'\n'}Principle-Centered Planner</Text>
         <Text style={styles.subtitle}>
           Transform your life with the power of principle-centered planning
         </Text>
+        
+        <View style={styles.disclaimerContainer}>
+          <Text style={styles.disclaimer}>
+            This app is inspired by time management principles.{'\n'}
+            Not affiliated with or endorsed by FranklinCovey.
+          </Text>
+        </View>
       </View>
 
       <View style={styles.footer}>
@@ -48,6 +55,21 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.bodyLarge.fontSize,
     color: COLORS.text.secondary,
     textAlign: 'center',
+  },
+  disclaimerContainer: {
+    marginTop: PADDING.xl,
+    paddingHorizontal: PADDING.md,
+    paddingVertical: PADDING.md,
+    backgroundColor: COLORS.bg.secondary,
+    borderRadius: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: COLORS.primary,
+  },
+  disclaimer: {
+    fontSize: TYPOGRAPHY.bodySmall.fontSize,
+    color: COLORS.text.tertiary,
+    textAlign: 'center',
+    lineHeight: TYPOGRAPHY.bodySmall.lineHeight * TYPOGRAPHY.bodySmall.fontSize,
   },
   footer: {
     paddingBottom: PADDING.xl,

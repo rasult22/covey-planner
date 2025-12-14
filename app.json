@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "covey-planner",
-    "slug": "covey-planner",
+    "name": "Principle-Centered Planner",
+    "slug": "principle-centered-planner",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "coveyplanner",
+    "scheme": "principleplanner",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {

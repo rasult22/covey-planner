@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Covey Planner is a React Native mobile application built with Expo that implements Stephen Covey's time management principles (quadrants, priorities, big rocks). It helps users plan their days and weeks with foundation elements (mission, values, roles, goals).
+Principle-Centered Planner is a React Native mobile application built with Expo that implements time management principles including quadrants, priorities, and big rocks. It helps users plan their days and weeks with foundation elements (mission, values, roles, goals).
 
 ## Development Commands
 
@@ -83,7 +83,7 @@ export function useHookName() {
 
 ### Key Concepts
 
-**Quadrants** (Covey Matrix):
+**Quadrants** (Time Management Matrix):
 - `I` - Urgent & Important
 - `II` - Not Urgent & Important (focus area)
 - `III` - Urgent & Not Important
