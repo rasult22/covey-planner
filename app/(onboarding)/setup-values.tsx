@@ -1,16 +1,17 @@
 // Covey Planner - Values Setup Screen
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
-import { storageService } from '@/lib/storage/AsyncStorageService';
-import { PREDEFINED_VALUES, CATEGORY_LABELS } from '@/lib/constants/predefinedValues';
-import { Value, ValueCategory, STORAGE_KEYS } from '@/types';
+import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP, RADIUS } from '@/lib/constants/spacing';
+import { CATEGORY_LABELS, PREDEFINED_VALUES } from '@/lib/constants/predefinedValues';
+import { GAP, PADDING, RADIUS } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { storageService } from '@/lib/storage/AsyncStorageService';
+import { STORAGE_KEYS, Value, ValueCategory } from '@/types';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SetupValuesScreen() {
   const [selectedValues, setSelectedValues] = useState<Set<string>>(new Set());
@@ -102,7 +103,7 @@ export default function SetupValuesScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -185,7 +186,7 @@ export default function SetupValuesScreen() {
           Continue ({selectedValues.size} selected)
         </Button>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

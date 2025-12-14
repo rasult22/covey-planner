@@ -1,14 +1,15 @@
 // Covey Planner - Welcome Screen
-import { View, Text, StyleSheet } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { router } from 'expo-router';
+import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function WelcomeScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
       <View style={styles.content}>
         <Text style={styles.title}>Welcome to Covey Planner</Text>
         <Text style={styles.subtitle}>
@@ -21,7 +22,7 @@ export default function WelcomeScreen() {
           Get Started
         </Button>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -30,7 +31,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
     paddingHorizontal: PADDING.lg,
-    paddingVertical: PADDING.xl,
   },
   content: {
     flex: 1,

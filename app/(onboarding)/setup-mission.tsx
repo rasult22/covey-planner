@@ -1,14 +1,15 @@
 // Covey Planner - Mission Setup Screen
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
-import { storageService } from '@/lib/storage/AsyncStorageService';
+import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { storageService } from '@/lib/storage/AsyncStorageService';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const GUIDING_QUESTIONS = [
   'What are my deepest values?',
@@ -41,7 +42,7 @@ export default function SetupMissionScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -96,7 +97,7 @@ export default function SetupMissionScreen() {
           Continue
         </Button>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

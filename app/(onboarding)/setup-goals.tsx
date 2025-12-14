@@ -1,11 +1,12 @@
 // Covey Planner - Goals Setup Screen (Optional)
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { router } from 'expo-router';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SetupGoalsScreen() {
   const handleSkip = () => {
@@ -19,7 +20,7 @@ export default function SetupGoalsScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -63,7 +64,7 @@ export default function SetupGoalsScreen() {
           Set Goals Later
         </Button>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

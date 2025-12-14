@@ -1,16 +1,17 @@
 // Covey Planner - Roles Setup Screen
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
-import { storageService } from '@/lib/storage/AsyncStorageService';
-import { ROLE_EXAMPLES } from '@/lib/constants/roleExamples';
-import { Role, STORAGE_KEYS } from '@/types';
+import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP, RADIUS } from '@/lib/constants/spacing';
+import { ROLE_EXAMPLES } from '@/lib/constants/roleExamples';
+import { GAP, PADDING, RADIUS } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { storageService } from '@/lib/storage/AsyncStorageService';
+import { Role, STORAGE_KEYS } from '@/types';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const MAX_ROLES = 7;
 
@@ -90,7 +91,7 @@ export default function SetupRolesScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
@@ -222,7 +223,7 @@ export default function SetupRolesScreen() {
           Continue ({roles.length} roles)
         </Button>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

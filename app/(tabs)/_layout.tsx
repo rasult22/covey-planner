@@ -1,8 +1,11 @@
 // Covey Planner - Tabs Layout
-import { Tabs } from 'expo-router';
 import { COLORS } from '@/lib/constants/colors';
+import { Tabs } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabsLayout() {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tabs
       screenOptions={{
@@ -12,6 +15,8 @@ export default function TabsLayout() {
           backgroundColor: COLORS.bg.secondary,
           borderTopColor: COLORS.border.light,
           borderTopWidth: 1,
+          paddingBottom: insets.bottom,
+          height: 49 + insets.bottom,
         },
         headerStyle: {
           backgroundColor: COLORS.background,

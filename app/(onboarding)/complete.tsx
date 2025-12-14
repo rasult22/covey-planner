@@ -1,11 +1,12 @@
 // Covey Planner - Onboarding Complete Screen
-import { View, Text, StyleSheet } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { storageService } from '@/lib/storage/AsyncStorageService';
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { storageService } from '@/lib/storage/AsyncStorageService';
+import { router } from 'expo-router';
+import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function CompleteScreen() {
   const handleGetStarted = async () => {
@@ -19,7 +20,7 @@ export default function CompleteScreen() {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
       <View style={styles.content}>
         <Text style={styles.emoji}>🎉</Text>
         <Text style={styles.title}>You're All Set!</Text>
@@ -54,7 +55,7 @@ export default function CompleteScreen() {
           Start Planning
         </Button>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -63,7 +64,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
     paddingHorizontal: PADDING.lg,
-    paddingVertical: PADDING.xl,
   },
   content: {
     flex: 1,
