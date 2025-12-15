@@ -1,3 +1,4 @@
+import { fixMissionStorage } from '@/lib/migrations/fixMissionStorage';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
@@ -8,7 +9,8 @@ import queryClient from "../queries/index";
 
 export default function RootLayout() {
   useEffect(() => {
-    // Any app-wide initialization can go here
+    // Fix any corrupted mission storage from previous versions
+    fixMissionStorage().catch(console.error);
   }, []);
 
   return (

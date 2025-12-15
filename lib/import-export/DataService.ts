@@ -52,28 +52,28 @@ export class DataService {
       const data: ExportData['data'] = {};
 
       // Foundation
-      data.mission = await storageService.getItem(STORAGE_KEYS.USER_MISSION);
-      data.values = await storageService.getItem(STORAGE_KEYS.USER_VALUES);
-      data.roles = await storageService.getItem(STORAGE_KEYS.USER_ROLES);
-      data.goals = await storageService.getItem(STORAGE_KEYS.LONG_TERM_GOALS);
+      data.mission = (await storageService.getString(STORAGE_KEYS.USER_MISSION)) ?? undefined;
+      data.values = (await storageService.getItem(STORAGE_KEYS.USER_VALUES)) ?? undefined;
+      data.roles = (await storageService.getItem(STORAGE_KEYS.USER_ROLES)) ?? undefined;
+      data.goals = (await storageService.getItem(STORAGE_KEYS.LONG_TERM_GOALS)) ?? undefined;
 
       // Planning
-      data.weeklyPlans = await storageService.getItem(STORAGE_KEYS.WEEKLY_PLAN);
-      data.bigRocks = await storageService.getItem(STORAGE_KEYS.BIG_ROCKS);
-      data.dailyTasks = await storageService.getItem(STORAGE_KEYS.DAILY_TASKS);
+      data.weeklyPlans = (await storageService.getItem(STORAGE_KEYS.WEEKLY_PLAN)) ?? undefined;
+      data.bigRocks = (await storageService.getItem(STORAGE_KEYS.BIG_ROCKS)) ?? undefined;
+      data.dailyTasks = (await storageService.getItem(STORAGE_KEYS.DAILY_TASKS)) ?? undefined;
 
       // Gamification
-      data.streaks = await storageService.getItem(STORAGE_KEYS.STREAKS);
-      data.achievements = await storageService.getItem(STORAGE_KEYS.ACHIEVEMENTS);
-      data.promises = await storageService.getItem(STORAGE_KEYS.PROMISES_3010);
+      data.streaks = (await storageService.getItem(STORAGE_KEYS.STREAKS)) ?? undefined;
+      data.achievements = (await storageService.getItem(STORAGE_KEYS.ACHIEVEMENTS)) ?? undefined;
+      data.promises = (await storageService.getItem(STORAGE_KEYS.PROMISES_3010)) ?? undefined;
 
       // Analytics
-      data.quadrantStats = await storageService.getItem(STORAGE_KEYS.QUADRANT_STATS);
-      data.weeklyReflections = await storageService.getItem(STORAGE_KEYS.WEEKLY_REFLECTIONS);
+      data.quadrantStats = (await storageService.getItem(STORAGE_KEYS.QUADRANT_STATS)) ?? undefined;
+      data.weeklyReflections = (await storageService.getItem(STORAGE_KEYS.WEEKLY_REFLECTIONS)) ?? undefined;
 
       // Settings
-      data.notificationSettings = await storageService.getItem(STORAGE_KEYS.NOTIFICATION_SETTINGS);
-      data.appSettings = await storageService.getItem(STORAGE_KEYS.APP_SETTINGS);
+      data.notificationSettings = (await storageService.getItem(STORAGE_KEYS.NOTIFICATION_SETTINGS)) ?? undefined;
+      data.appSettings = (await storageService.getItem(STORAGE_KEYS.APP_SETTINGS)) ?? undefined;
 
       const exportData: ExportData = {
         version: this.VERSION,
@@ -160,12 +160,12 @@ export class DataService {
 
       // Import foundation data
       if (data.mission !== undefined) {
-        await storageService.setItem(STORAGE_KEYS.USER_MISSION, data.mission);
+        await storageService.setString(STORAGE_KEYS.USER_MISSION, data.mission);
       }
 
       if (data.values) {
         if (merge) {
-          const existing = await storageService.getItem(STORAGE_KEYS.USER_VALUES) || [];
+          const existing = (await storageService.getItem<any[]>(STORAGE_KEYS.USER_VALUES)) ?? [];
           const merged = this.mergeArrays(existing, data.values, 'id');
           await storageService.setItem(STORAGE_KEYS.USER_VALUES, merged);
         } else {
@@ -175,7 +175,7 @@ export class DataService {
 
       if (data.roles) {
         if (merge) {
-          const existing = await storageService.getItem(STORAGE_KEYS.USER_ROLES) || [];
+          const existing = (await storageService.getItem<any[]>(STORAGE_KEYS.USER_ROLES)) ?? [];
           const merged = this.mergeArrays(existing, data.roles, 'id');
           await storageService.setItem(STORAGE_KEYS.USER_ROLES, merged);
         } else {
@@ -185,7 +185,7 @@ export class DataService {
 
       if (data.goals) {
         if (merge) {
-          const existing = await storageService.getItem(STORAGE_KEYS.LONG_TERM_GOALS) || [];
+          const existing = (await storageService.getItem<any[]>(STORAGE_KEYS.LONG_TERM_GOALS)) ?? [];
           const merged = this.mergeArrays(existing, data.goals, 'id');
           await storageService.setItem(STORAGE_KEYS.LONG_TERM_GOALS, merged);
         } else {
@@ -196,7 +196,7 @@ export class DataService {
       // Import planning data
       if (data.weeklyPlans) {
         if (merge) {
-          const existing = await storageService.getItem(STORAGE_KEYS.WEEKLY_PLAN) || [];
+          const existing = (await storageService.getItem<any[]>(STORAGE_KEYS.WEEKLY_PLAN)) ?? [];
           const merged = this.mergeArrays(existing, data.weeklyPlans, 'id');
           await storageService.setItem(STORAGE_KEYS.WEEKLY_PLAN, merged);
         } else {
@@ -206,7 +206,7 @@ export class DataService {
 
       if (data.bigRocks) {
         if (merge) {
-          const existing = await storageService.getItem(STORAGE_KEYS.BIG_ROCKS) || [];
+          const existing = (await storageService.getItem<any[]>(STORAGE_KEYS.BIG_ROCKS)) ?? [];
           const merged = this.mergeArrays(existing, data.bigRocks, 'id');
           await storageService.setItem(STORAGE_KEYS.BIG_ROCKS, merged);
         } else {
@@ -216,7 +216,7 @@ export class DataService {
 
       if (data.dailyTasks) {
         if (merge) {
-          const existing = await storageService.getItem(STORAGE_KEYS.DAILY_TASKS) || [];
+          const existing = (await storageService.getItem<any[]>(STORAGE_KEYS.DAILY_TASKS)) ?? [];
           const merged = this.mergeArrays(existing, data.dailyTasks, 'id');
           await storageService.setItem(STORAGE_KEYS.DAILY_TASKS, merged);
         } else {
@@ -235,7 +235,7 @@ export class DataService {
 
       if (data.promises) {
         if (merge) {
-          const existing = await storageService.getItem(STORAGE_KEYS.PROMISES_3010) || [];
+          const existing = (await storageService.getItem<any[]>(STORAGE_KEYS.PROMISES_3010)) ?? [];
           const merged = this.mergeArrays(existing, data.promises, 'id');
           await storageService.setItem(STORAGE_KEYS.PROMISES_3010, merged);
         } else {
@@ -250,7 +250,7 @@ export class DataService {
 
       if (data.weeklyReflections) {
         if (merge) {
-          const existing = await storageService.getItem(STORAGE_KEYS.WEEKLY_REFLECTIONS) || [];
+          const existing = (await storageService.getItem<any[]>(STORAGE_KEYS.WEEKLY_REFLECTIONS)) ?? [];
           const merged = this.mergeArrays(existing, data.weeklyReflections, 'id');
           await storageService.setItem(STORAGE_KEYS.WEEKLY_REFLECTIONS, merged);
         } else {
@@ -281,7 +281,7 @@ export class DataService {
    */
   static async clearAllData(): Promise<boolean> {
     try {
-      await storageService.clear();
+      await storageService.clearAll();
       return true;
     } catch (error) {
       console.error('Error clearing data:', error);
