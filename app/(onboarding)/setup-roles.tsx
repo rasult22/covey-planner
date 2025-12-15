@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
+import { useAchievements } from '@/hooks/gamification/useAchievements';
 import { COLORS } from '@/lib/constants/colors';
 import { ROLE_EXAMPLES } from '@/lib/constants/roleExamples';
 import { GAP, PADDING, RADIUS } from '@/lib/constants/spacing';
@@ -21,6 +22,7 @@ export default function SetupRolesScreen() {
   const [customRole, setCustomRole] = useState('');
   const [customStatement, setCustomStatement] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const { unlockAchievement } = useAchievements();
 
   const addRole = (roleName: string) => {
     if (roles.length >= MAX_ROLES) {
@@ -81,6 +83,8 @@ export default function SetupRolesScreen() {
       }));
 
       await storageService.setItem(STORAGE_KEYS.USER_ROLES, rolesToSave);
+      // Unlock achievement for establishing roles
+      await unlockAchievement('roles_complete');
       router.push('/(onboarding)/setup-goals');
     } catch (error) {
       console.error('Error saving roles:', error);

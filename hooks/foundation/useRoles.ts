@@ -1,7 +1,7 @@
 // Covey Planner - useRoles Hook
 import { useState, useEffect, useCallback } from 'react';
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { Role, STORAGE_KEYS } from '@/types';
+import { Role, STORAGE_KEYS, Achievement } from '@/types';
 
 const MAX_ROLES = 7;
 
@@ -33,6 +33,7 @@ export function useRoles() {
         return null;
       }
 
+      const hadRoles = roles.length > 0;
       const newRole: Role = {
         ...role,
         id: `role-${Date.now()}-${Math.random()}`,
@@ -42,6 +43,24 @@ export function useRoles() {
       const updatedRoles = [...roles, newRole];
       await storageService.setItem(STORAGE_KEYS.USER_ROLES, updatedRoles);
       setRoles(updatedRoles);
+
+      // Unlock achievement for first role
+      if (!hadRoles) {
+        try {
+          const achievements = await storageService.getItem<Achievement[]>(STORAGE_KEYS.ACHIEVEMENTS);
+          if (achievements) {
+            const updated = achievements.map(a =>
+              a.key === 'roles_complete'
+                ? { ...a, isUnlocked: true, unlockedAt: new Date().toISOString() }
+                : a
+            );
+            await storageService.setItem(STORAGE_KEYS.ACHIEVEMENTS, updated);
+          }
+        } catch (achievementErr) {
+          console.error('Error unlocking achievement:', achievementErr);
+        }
+      }
+
       return newRole;
     } catch (err) {
       setError('Failed to add role');

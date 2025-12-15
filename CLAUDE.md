@@ -28,24 +28,42 @@ npm run reset-project
 
 ### Tech Stack
 - **Framework**: Expo 54 with React Native 0.81
-- **Routing**: Expo Router (file-based routing)
-- **Styling**: NativeWind (Tailwind CSS for React Native)
+- **React**: Version 19.1.0 (with new React compiler enabled)
+- **Routing**: Expo Router 6.0.19 (file-based routing)
+- **Styling**: NativeWind 4.2.1 (Tailwind CSS for React Native) + StyleSheet.create
 - **State Management**: React hooks + AsyncStorage (no external state library)
-- **Language**: TypeScript with strict mode enabled
+- **Language**: TypeScript 5.9.2 with strict mode enabled
+- **Date Utilities**: date-fns 4.1.0
 - **Path Aliases**: `@/*` maps to project root
+- **Testing**: No testing framework configured
 
 ### Route Groups & Navigation
 
 The app uses Expo Router with three main route groups defined in [app/_layout.tsx](app/_layout.tsx):
 
-1. **`(onboarding)/`** - Initial setup flow (welcome, mission, values, roles, goals)
-2. **`(tabs)/`** - Main app navigation with 5 tabs:
+1. **`(onboarding)/`** - Stack-based onboarding flow with 7 screens:
+   - `welcome.tsx` - Welcome screen
+   - `philosophy.tsx` - Philosophy introduction
+   - `setup-mission.tsx` - Mission statement setup
+   - `setup-values.tsx` - Values selection
+   - `setup-roles.tsx` - Life roles definition
+   - `setup-goals.tsx` - Goal setting
+   - `complete.tsx` - Onboarding completion
+
+2. **`(tabs)/`** - Main app navigation with 5 bottom tabs:
    - `today` - Daily task planning with A-B-C priorities
    - `week` - Weekly planning with "big rocks"
    - `matrix` - Quadrant-based view
    - `goals` - Long-term goal management
    - `profile` - User profile and settings
-3. **`(modals)/`** - Modal screens for editing/viewing details
+
+3. **`(modals)/`** - Modal presentation screens:
+   - `achievements.tsx` - Achievement list
+   - `analytics.tsx` - Analytics dashboard
+   - `mission.tsx`, `roles.tsx`, `values.tsx` - Foundation editors
+   - `goal/new.tsx`, `goal/[id].tsx` - Goal creation and editing (dynamic route)
+   - `reflection/weekly.tsx` - Weekly reflection form
+   - `settings/data.tsx`, `settings/notifications.tsx` - Settings screens
 
 Entry point [app/index.tsx](app/index.tsx) checks onboarding status and routes to either `(onboarding)/welcome` or `(tabs)/today`.
 
@@ -103,9 +121,11 @@ Reusable UI components in [components/ui/](components/ui/):
 - `Card.tsx` - Container component
 
 Design tokens centralized in `lib/constants/`:
-- [colors.ts](lib/constants/colors.ts) - Color palette and theme
-- [typography.ts](lib/constants/typography.ts) - Font sizes and weights
-- [spacing.ts](lib/constants/spacing.ts) - Padding and gap values
+- [colors.ts](lib/constants/colors.ts) - Monochrome dark theme with black background, white/gray text, and semantic colors for priorities (A/B/C), quadrants (I/II/III/IV), and status indicators
+- [typography.ts](lib/constants/typography.ts) - Font sizes (xs-5xl), weights (light-extrabold), and presets (h1-h4, body, caption, button, quote)
+- [spacing.ts](lib/constants/spacing.ts) - 4px base unit system with presets for padding, margin, gap, radius, and icon sizes
+- [predefinedValues.ts](lib/constants/predefinedValues.ts) - Curated list of values for user selection
+- [roleExamples.ts](lib/constants/roleExamples.ts) - Example life roles to guide users
 
 ### Services
 
@@ -115,8 +135,19 @@ Design tokens centralized in `lib/constants/`:
 
 ## Development Notes
 
+### Experimental Features
 - New React compiler enabled via `experiments.reactCompiler: true` in [app.json](app.json)
 - Typed routes enabled via `experiments.typedRoutes: true`
+- New architecture enabled via `newArchEnabled: true`
+
+### Code Organization Philosophy
+- **Minimal component abstraction**: Only 3 UI components in `components/ui/`. Most UI is built directly in screen files.
+- **Domain-organized hooks**: Hooks are organized by business domain (foundation, planning, gamification, etc.) rather than technical concerns
+- **Centralized types**: All TypeScript types live in a single file [types/index.ts](types/index.ts) for easy reference
+- **Styling approach**: Despite NativeWind setup, most styling uses `StyleSheet.create` with some inline styles
+
+### Configuration
 - First day of week is Sunday (US standard)
 - Dark mode support configured but implementation may be incomplete
-- The app uses StyleSheet.create for most styling, not Tailwind classes (despite NativeWind setup)
+- All storage keys prefixed with `@covey_planner:` (21 keys total in [types/index.ts](types/index.ts))
+- VSCode workspace settings include auto-fix on save for ESLint

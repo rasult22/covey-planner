@@ -1,7 +1,7 @@
 // Covey Planner - useGoals Hook
 import { useState, useEffect, useCallback } from 'react';
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { LongTermGoal, GoalStep, STORAGE_KEYS } from '@/types';
+import { LongTermGoal, GoalStep, STORAGE_KEYS, Achievement } from '@/types';
 
 export function useGoals() {
   const [goals, setGoals] = useState<LongTermGoal[]>([]);
@@ -35,6 +35,24 @@ export function useGoals() {
       const updatedGoals = [...goals, newGoal];
       await storageService.setItem(STORAGE_KEYS.LONG_TERM_GOALS, updatedGoals);
       setGoals(updatedGoals);
+
+      // Unlock achievement for first goal
+      if (updatedGoals.length === 1) {
+        try {
+          const achievements = await storageService.getItem<Achievement[]>(STORAGE_KEYS.ACHIEVEMENTS);
+          if (achievements) {
+            const updated = achievements.map(a =>
+              a.key === 'first_goal'
+                ? { ...a, isUnlocked: true, unlockedAt: new Date().toISOString() }
+                : a
+            );
+            await storageService.setItem(STORAGE_KEYS.ACHIEVEMENTS, updated);
+          }
+        } catch (achievementErr) {
+          console.error('Error unlocking achievement:', achievementErr);
+        }
+      }
+
       return newGoal;
     } catch (err) {
       setError('Failed to add goal');

@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
+import { useAchievements } from '@/hooks/gamification/useAchievements';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
@@ -22,6 +23,7 @@ const GUIDING_QUESTIONS = [
 export default function SetupMissionScreen() {
   const [mission, setMission] = useState('');
   const [isSaving, setIsSaving] = useState(false);
+  const { unlockAchievement } = useAchievements();
 
   const handleContinue = async () => {
     if (!mission.trim()) {
@@ -32,6 +34,8 @@ export default function SetupMissionScreen() {
     setIsSaving(true);
     try {
       await storageService.setUserMission(mission.trim());
+      // Unlock achievement for defining mission
+      await unlockAchievement('first_mission');
       router.push('/(onboarding)/setup-values');
     } catch (error) {
       console.error('Error saving mission:', error);

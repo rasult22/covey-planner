@@ -169,7 +169,6 @@ const styles = StyleSheet.create({
     marginBottom: PADDING.lg,
   },
   actions: {
-    flexDirection: 'row',
     gap: GAP.md,
   },
   footer: {

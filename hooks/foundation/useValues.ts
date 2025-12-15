@@ -1,7 +1,7 @@
 // Covey Planner - useValues Hook
 import { useState, useEffect, useCallback } from 'react';
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { Value, STORAGE_KEYS } from '@/types';
+import { Value, STORAGE_KEYS, Achievement } from '@/types';
 
 export function useValues() {
   const [values, setValues] = useState<Value[]>([]);
@@ -25,6 +25,7 @@ export function useValues() {
   const addValue = useCallback(async (value: Omit<Value, 'id' | 'createdAt'>) => {
     try {
       setError(null);
+      const hadValues = values.length > 0;
       const newValue: Value = {
         ...value,
         id: `value-${Date.now()}-${Math.random()}`,
@@ -34,6 +35,24 @@ export function useValues() {
       const updatedValues = [...values, newValue];
       await storageService.setItem(STORAGE_KEYS.USER_VALUES, updatedValues);
       setValues(updatedValues);
+
+      // Unlock achievement for first value
+      if (!hadValues) {
+        try {
+          const achievements = await storageService.getItem<Achievement[]>(STORAGE_KEYS.ACHIEVEMENTS);
+          if (achievements) {
+            const updated = achievements.map(a =>
+              a.key === 'values_defined'
+                ? { ...a, isUnlocked: true, unlockedAt: new Date().toISOString() }
+                : a
+            );
+            await storageService.setItem(STORAGE_KEYS.ACHIEVEMENTS, updated);
+          }
+        } catch (achievementErr) {
+          console.error('Error unlocking achievement:', achievementErr);
+        }
+      }
+
       return newValue;
     } catch (err) {
       setError('Failed to add value');

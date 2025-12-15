@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
+import { useAchievements } from '@/hooks/gamification/useAchievements';
 import { COLORS } from '@/lib/constants/colors';
 import { CATEGORY_LABELS, PREDEFINED_VALUES } from '@/lib/constants/predefinedValues';
 import { GAP, PADDING, RADIUS } from '@/lib/constants/spacing';
@@ -19,6 +20,7 @@ export default function SetupValuesScreen() {
   const [customStatement, setCustomStatement] = useState('');
   const [showCustomForm, setShowCustomForm] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const { unlockAchievement } = useAchievements();
 
   const toggleValue = (valueName: string) => {
     const newSelected = new Set(selectedValues);
@@ -62,6 +64,8 @@ export default function SetupValuesScreen() {
       });
 
       await storageService.setItem(STORAGE_KEYS.USER_VALUES, valuesToSave);
+      // Unlock achievement for defining values
+      await unlockAchievement('values_defined');
       router.push('/(onboarding)/setup-roles');
     } catch (error) {
       console.error('Error saving values:', error);

@@ -1,9 +1,10 @@
 // Covey Planner - Entry Point
-import { useEffect, useState } from 'react';
-import { router } from 'expo-router';
-import { View, ActivityIndicator } from 'react-native';
-import { storageService } from '@/lib/storage/AsyncStorageService';
 import { COLORS } from '@/lib/constants/colors';
+import { unlockInitialAchievements } from '@/lib/migrations/unlockInitialAchievements';
+import { storageService } from '@/lib/storage/AsyncStorageService';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
 
 export default function Index() {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +18,8 @@ export default function Index() {
       const isCompleted = await storageService.isOnboardingCompleted();
 
       if (isCompleted) {
+        // Run achievement migration for existing users
+        await unlockInitialAchievements();
         router.replace('/(tabs)/today');
       } else {
         router.replace('/(onboarding)/welcome');
