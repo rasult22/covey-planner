@@ -53,10 +53,10 @@ export function Button({
 
     switch (variant) {
       case 'primary':
-        return COLORS.background; // Black text on white background
+      case 'danger':
+        return COLORS.background; // White text on primary/danger background
       case 'secondary':
       case 'ghost':
-      case 'danger':
         return COLORS.text.primary;
       default:
         return COLORS.background;

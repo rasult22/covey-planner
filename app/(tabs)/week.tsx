@@ -216,6 +216,7 @@ export default function WeekScreen() {
             onPress={() => setShowAddForm(true)}
             variant="ghost"
             fullWidth
+            style={{ marginTop: PADDING.lg }}
           >
             + Add Big Rock
           </Button>
