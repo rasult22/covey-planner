@@ -1,6 +1,7 @@
 // Covey Planner - New Goal Modal
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { DatePicker } from '@/components/ui/DatePicker';
 import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
@@ -28,7 +29,7 @@ export default function NewGoalModal() {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [deadline, setDeadline] = useState('');
+  const [deadline, setDeadline] = useState<Date>(new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)); // Default 1 year from now
   const [quadrant, setQuadrant] = useState<Quadrant>('II');
   const [selectedValueIds, setSelectedValueIds] = useState<string[]>([]);
   const [selectedRoleIds, setSelectedRoleIds] = useState<string[]>([]);
@@ -59,7 +60,7 @@ export default function NewGoalModal() {
       {
         title: title.trim(),
         description: description.trim(),
-        deadline: deadline || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // Default 1 year
+        deadline: deadline.toISOString(),
         linkedValueIds: selectedValueIds,
         linkedRoleIds: selectedRoleIds,
         steps: [],
@@ -99,10 +100,11 @@ export default function NewGoalModal() {
             style={styles.input}
           />
 
-          <Input
+          <DatePicker
             value={deadline}
-            onChangeText={setDeadline}
-            placeholder="Deadline (YYYY-MM-DD)"
+            onChange={setDeadline}
+            placeholder="Select deadline"
+            minimumDate={new Date()}
             style={styles.input}
           />
         </Card>
