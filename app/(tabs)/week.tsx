@@ -2,39 +2,35 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { useGoals } from '@/hooks/foundation/useGoals';
-import { useRoles } from '@/hooks/foundation/useRoles';
-import { useBigRocks } from '@/hooks/planning/useBigRocks';
-import { getCurrentWeekId, getWeekDates, useWeeklyPlan } from '@/hooks/planning/useWeeklyPlan';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { useGoalsQuery } from '@/queries/foundation/goals';
+import { useRolesQuery } from '@/queries/foundation/roles';
+import { useAddBigRockMutation, useBigRocksQuery, useCompleteBigRockMutation, useDeleteBigRockMutation, useUncompleteBigRockMutation } from '@/queries/planning/bigRocks';
+import { getCurrentWeekId, getWeekDates, useWeeklyPlanQuery } from '@/queries/planning/weeklyPlan';
 import { format } from 'date-fns';
-import { useFocusEffect } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function WeekScreen() {
   const currentWeekId = getCurrentWeekId();
-  const { bigRocks, completeBigRock, uncompleteBigRock, addBigRock, deleteBigRock, getCompletedCount, getTotalEstimatedHours, reload: reloadBigRocks } = useBigRocks(currentWeekId);
-  const { weeklyPlan, isLoading, reload: reloadWeeklyPlan } = useWeeklyPlan(currentWeekId);
-  const { goals, reload: reloadGoals } = useGoals();
-  const { roles, reload: reloadRoles } = useRoles();
-
-  // Reload data when screen receives focus (e.g., after editing goals in modals)
-  useFocusEffect(
-    useCallback(() => {
-      reloadBigRocks();
-      reloadWeeklyPlan();
-      reloadGoals();
-      reloadRoles();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-  );
+  const { data: bigRocks = [] } = useBigRocksQuery(currentWeekId);
+  const { data: weeklyPlan = null, isLoading } = useWeeklyPlanQuery(currentWeekId);
+  const { data: goals = [] } = useGoalsQuery();
+  const { data: roles = [] } = useRolesQuery();
+  const { mutate: completeBigRock } = useCompleteBigRockMutation();
+  const { mutate: uncompleteBigRock } = useUncompleteBigRockMutation();
+  const { mutate: addBigRock } = useAddBigRockMutation();
+  const { mutate: deleteBigRock } = useDeleteBigRockMutation();
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newRockTitle, setNewRockTitle] = useState('');
   const [newRockHours, setNewRockHours] = useState('');
+
+  // Helper functions
+  const getCompletedCount = () => bigRocks.filter(r => r.completedAt).length;
+  const getTotalEstimatedHours = () => bigRocks.reduce((sum, r) => sum + r.estimatedHours, 0);
 
   const { startDate, endDate } = getWeekDates(currentWeekId);
 
@@ -44,15 +40,15 @@ export default function WeekScreen() {
     return `${format(start, 'MMM d')} - ${format(end, 'MMM d, yyyy')}`;
   };
 
-  const handleToggleBigRock = async (id: string, isCompleted: boolean) => {
+  const handleToggleBigRock = (id: string, isCompleted: boolean) => {
     if (isCompleted) {
-      await uncompleteBigRock(id);
+      uncompleteBigRock(id);
     } else {
-      await completeBigRock(id);
+      completeBigRock(id);
     }
   };
 
-  const handleAddBigRock = async () => {
+  const handleAddBigRock = () => {
     if (!newRockTitle.trim()) {
       Alert.alert('Missing Information', 'Please enter a title for your Big Rock.');
       return;
@@ -64,32 +60,27 @@ export default function WeekScreen() {
       return;
     }
 
-    const success = await addBigRock({
-      title: newRockTitle.trim(),
-      estimatedHours: hours,
-      weekId: currentWeekId,
-    });
-
-    if (success) {
-      setNewRockTitle('');
-      setNewRockHours('');
-      setShowAddForm(false);
-    }
+    addBigRock(
+      {
+        title: newRockTitle.trim(),
+        estimatedHours: hours,
+        weekId: currentWeekId,
+      },
+      {
+        onSuccess: () => {
+          setNewRockTitle('');
+          setNewRockHours('');
+          setShowAddForm(false);
+        },
+      }
+    );
   };
 
   const handleDeleteBigRock = (id: string, title: string) => {
-    Alert.alert(
-      'Delete Big Rock',
-      `Are you sure you want to delete "${title}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => deleteBigRock(id),
-        },
-      ]
-    );
+    Alert.alert('Delete Big Rock', `Are you sure you want to delete "${title}"?`, [
+      { text: 'Cancel', style: 'cancel' },
+      { text: 'Delete', style: 'destructive', onPress: () => deleteBigRock(id) },
+    ]);
   };
 
   const getLinkedGoalTitle = (goalId?: string) => {

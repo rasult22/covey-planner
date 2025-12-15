@@ -1,47 +1,57 @@
 // Covey Planner - Values Modal
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
-import { useValues } from '@/hooks/foundation/useValues';
-import { CATEGORY_LABELS } from '@/lib/constants/predefinedValues';
-import { Value, ValueCategory } from '@/types';
+import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP, RADIUS } from '@/lib/constants/spacing';
+import { CATEGORY_LABELS } from '@/lib/constants/predefinedValues';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { useAddValueMutation, useDeleteValueMutation, useUpdateValueMutation, useValuesQuery } from '@/queries/foundation/values';
+import { Value, ValueCategory } from '@/types';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ValuesModal() {
-  const { values, addValue, updateValue, deleteValue, isLoading } = useValues();
+  const { data: values = [], isLoading } = useValuesQuery();
+  const { mutate: addValue } = useAddValueMutation();
+  const { mutate: updateValue } = useUpdateValueMutation();
+  const { mutate: deleteValue } = useDeleteValueMutation();
   const [showAddForm, setShowAddForm] = useState(false);
   const [newValueName, setNewValueName] = useState('');
   const [newValueStatement, setNewValueStatement] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editStatement, setEditStatement] = useState('');
 
-  const handleAddValue = async () => {
+  const handleAddValue = () => {
     if (!newValueName.trim()) return;
 
-    const result = await addValue({
-      name: newValueName.trim(),
-      statement: newValueStatement.trim(),
-      predefined: false,
-    });
-
-    if (result) {
-      setNewValueName('');
-      setNewValueStatement('');
-      setShowAddForm(false);
-    }
+    addValue(
+      {
+        name: newValueName.trim(),
+        statement: newValueStatement.trim(),
+        predefined: false,
+      },
+      {
+        onSuccess: () => {
+          setNewValueName('');
+          setNewValueStatement('');
+          setShowAddForm(false);
+        },
+      }
+    );
   };
 
-  const handleUpdateStatement = async (id: string) => {
-    const success = await updateValue(id, { statement: editStatement });
-    if (success) {
-      setEditingId(null);
-      setEditStatement('');
-    }
+  const handleUpdateStatement = (id: string) => {
+    updateValue(
+      { id, updates: { statement: editStatement } },
+      {
+        onSuccess: () => {
+          setEditingId(null);
+          setEditStatement('');
+        },
+      }
+    );
   };
 
   const handleDelete = (id: string, name: string) => {

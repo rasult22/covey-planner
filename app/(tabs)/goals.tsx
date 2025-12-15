@@ -1,29 +1,21 @@
 // Covey Planner - Goals Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { useGoals } from '@/hooks/foundation/useGoals';
-import { useRoles } from '@/hooks/foundation/useRoles';
-import { useValues } from '@/hooks/foundation/useValues';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { useGoalsQuery } from '@/queries/foundation/goals';
+import { useRolesQuery } from '@/queries/foundation/roles';
+import { useValuesQuery } from '@/queries/foundation/values';
 import { LongTermGoal } from '@/types';
-import { router, useFocusEffect } from 'expo-router';
-import { useCallback } from 'react';
+import { router } from 'expo-router';
+import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function GoalsScreen() {
-  const { goals, isLoading, reload } = useGoals();
-
-  // Reload data when screen receives focus (e.g., after creating a goal in modal)
-  useFocusEffect(
-    useCallback(() => {
-      reload();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-  );
-  const { values } = useValues();
-  const { roles } = useRoles();
+  const { data: goals = [], isLoading } = useGoalsQuery();
+  const { data: values = [] } = useValuesQuery();
+  const { data: roles = [] } = useRolesQuery();
 
   const getLinkedValueNames = (goal: LongTermGoal) => {
     return goal.linkedValueIds

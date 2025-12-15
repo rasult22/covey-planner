@@ -1,19 +1,19 @@
 // Covey Planner - Mission Modal
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
-import { useMission } from '@/hooks/foundation/useMission';
+import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { useMissionQuery, useSaveMissionMutation } from '@/queries/foundation/mission';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function MissionModal() {
-  const { mission: savedMission, saveMission, isLoading } = useMission();
+  const { data: savedMission = '', isLoading } = useMissionQuery();
+  const { mutate: saveMission, isPending } = useSaveMissionMutation();
   const [mission, setMission] = useState(savedMission);
-  const [isSaving, setIsSaving] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   // Update local state when saved mission loads
@@ -23,22 +23,21 @@ export default function MissionModal() {
     }
   });
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!mission.trim()) {
       Alert.alert('Error', 'Mission statement cannot be empty');
       return;
     }
 
-    setIsSaving(true);
-    const success = await saveMission(mission.trim());
-    setIsSaving(false);
-
-    if (success) {
-      setIsEditing(false);
-      Alert.alert('Success', 'Mission statement saved');
-    } else {
-      Alert.alert('Error', 'Failed to save mission statement');
-    }
+    saveMission(mission.trim(), {
+      onSuccess: () => {
+        setIsEditing(false);
+        Alert.alert('Success', 'Mission statement saved');
+      },
+      onError: () => {
+        Alert.alert('Error', 'Failed to save mission statement');
+      },
+    });
   };
 
   const handleCancel = () => {
@@ -101,7 +100,7 @@ export default function MissionModal() {
               <Button
                 onPress={handleSave}
                 fullWidth
-                loading={isSaving}
+                loading={isPending}
                 disabled={!mission.trim()}
               >
                 Save

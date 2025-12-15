@@ -2,10 +2,10 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { useDailyTasks } from '@/hooks/planning/useDailyTasks';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { getTodayKey, useAddDailyTaskMutation, useCompleteDailyTaskMutation, useDailyTasksQuery, useDeleteDailyTaskMutation, useStartTimerMutation, useStopTimerMutation, useUncompleteDailyTaskMutation } from '@/queries/planning/dailyTasks';
 import { DailyTask, Priority, Quadrant } from '@/types';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
@@ -15,20 +15,15 @@ const PRIORITIES: Priority[] = ['A', 'B', 'C'];
 const QUADRANTS: Quadrant[] = ['I', 'II', 'III', 'IV'];
 
 export default function TodayScreen() {
-  const {
-    tasks,
-    isLoading,
-    addTask,
-    deleteTask,
-    completeTask,
-    uncompleteTask,
-    startTimer,
-    stopTimer,
-    getCompletedCount,
-    getTotalEstimatedMinutes,
-    getTotalActualMinutes,
-    getActiveTimer,
-  } = useDailyTasks();
+  const currentDateKey = getTodayKey();
+  const { data: tasks = [], isLoading } = useDailyTasksQuery(currentDateKey);
+  const { mutate: addTask } = useAddDailyTaskMutation();
+  const { mutate: deleteTask } = useDeleteDailyTaskMutation();
+  const { mutate: completeTask } = useCompleteDailyTaskMutation();
+  const { mutate: uncompleteTask } = useUncompleteDailyTaskMutation();
+  const { mutate: startTimer } = useStartTimerMutation();
+  const { mutate: stopTimer } = useStopTimerMutation();
+
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -37,6 +32,12 @@ export default function TodayScreen() {
   const [newTaskMinutes, setNewTaskMinutes] = useState('');
   const [timerTask, setTimerTask] = useState<DailyTask | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
+
+  // Helper functions
+  const getCompletedCount = () => tasks.filter(t => t.status === 'completed').length;
+  const getTotalEstimatedMinutes = () => tasks.reduce((sum, t) => sum + t.estimatedMinutes, 0);
+  const getTotalActualMinutes = () => tasks.reduce((sum, t) => sum + (t.actualMinutes || 0), 0);
+  const getActiveTimer = () => tasks.find(t => t.timerStartedAt) || null;
 
   // Update timer every second
   useEffect(() => {
@@ -64,7 +65,7 @@ export default function TodayScreen() {
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const handleAddTask = async () => {
+ const handleAddTask = () => {
     if (!newTaskTitle.trim()) {
       Alert.alert('Missing Information', 'Please enter a task title.');
       return;
@@ -72,56 +73,65 @@ export default function TodayScreen() {
 
     const minutes = parseInt(newTaskMinutes) || 30;
 
-    const success = await addTask({
-      title: newTaskTitle.trim(),
-      priority: newTaskPriority,
-      quadrant: newTaskQuadrant,
-      estimatedMinutes: minutes,
-    });
-
-    if (success) {
-      setNewTaskTitle('');
-      setNewTaskMinutes('');
-      setNewTaskPriority('B');
-      setNewTaskQuadrant('II');
-      setShowAddForm(false);
-    }
+    addTask(
+      {
+        dateKey: currentDateKey,
+        data: {
+          title: newTaskTitle.trim(),
+          priority: newTaskPriority,
+          quadrant: newTaskQuadrant,
+          estimatedMinutes: minutes,
+        },
+      },
+      {
+        onSuccess: () => {
+          setNewTaskTitle('');
+          setNewTaskMinutes('');
+          setNewTaskPriority('B');
+          setNewTaskQuadrant('II');
+          setShowAddForm(false);
+        },
+      }
+    );
   };
 
-  const handleToggleTask = async (task: DailyTask) => {
+  const handleToggleTask = (task: DailyTask) => {
     if (task.status === 'completed') {
-      await uncompleteTask(task.id);
+      uncompleteTask({ id: task.id, dateKey: currentDateKey });
     } else {
-      await completeTask(task.id);
+      completeTask({ id: task.id, dateKey: currentDateKey });
     }
   };
 
-  const handleToggleTimer = async (task: DailyTask) => {
+  const handleToggleTimer = (task: DailyTask) => {
     if (task.timerStartedAt) {
-      await stopTimer(task.id);
+      const startTime = new Date(task.timerStartedAt).getTime();
+      const elapsedMinutes = Math.round((Date.now() - startTime) / 60000);
+      stopTimer({ id: task.id, dateKey: currentDateKey, elapsedMinutes });
     } else {
-      // Stop any other running timer first
       const activeTimer = getActiveTimer();
       if (activeTimer) {
-        await stopTimer(activeTimer.id);
+        const startTime = new Date(activeTimer.timerStartedAt!).getTime();
+        const elapsedMinutes = Math.round((Date.now() - startTime) / 60000);
+        stopTimer(
+          { id: activeTimer.id, dateKey: currentDateKey, elapsedMinutes },
+          { onSuccess: () => startTimer({ id: task.id, dateKey: currentDateKey }) }
+        );
+      } else {
+        startTimer({ id: task.id, dateKey: currentDateKey });
       }
-      await startTimer(task.id);
     }
   };
 
   const handleDeleteTask = (id: string, title: string) => {
-    Alert.alert(
-      'Delete Task',
-      `Are you sure you want to delete "${title}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => deleteTask(id),
-        },
-      ]
-    );
+    Alert.alert('Delete Task', `Are you sure you want to delete "${title}"?`, [
+      { text: 'Cancel', style: 'cancel' },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => deleteTask({ id, dateKey: currentDateKey }),
+      },
+    ]);
   };
 
   const getPriorityColor = (priority: Priority): string => {
@@ -260,7 +270,10 @@ export default function TodayScreen() {
                           task.timerStartedAt && styles.timerButtonActive
                         ]}
                       >
-                        <Text style={styles.timerButtonText}>
+                        <Text style={[
+                          styles.timerButtonText,
+                          task.timerStartedAt && styles.timerButtonTextActive
+                        ]}>
                           {task.timerStartedAt ? '⏸' : '▶'}
                         </Text>
                       </TouchableOpacity>
@@ -283,6 +296,7 @@ export default function TodayScreen() {
             onPress={() => setShowAddForm(true)}
             variant="ghost"
             fullWidth
+            style={{ marginTop: PADDING.lg }}
           >
             + Add Task
           </Button>
@@ -443,7 +457,7 @@ const styles = StyleSheet.create({
   },
   timerCard: {
     marginTop: PADDING.md,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.bg.tertiary,
   },
   timerHeader: {
     flexDirection: 'row',
@@ -453,7 +467,7 @@ const styles = StyleSheet.create({
   },
   timerTitle: {
     fontSize: TYPOGRAPHY.bodySmall.fontSize,
-    color: COLORS.text.tertiary,
+    color: COLORS.text.secondary,
     textTransform: 'uppercase',
   },
   timerStop: {
@@ -572,11 +586,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   timerButtonActive: {
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
   },
   timerButtonText: {
     fontSize: 14,
+    color: COLORS.text.primary,
+  },
+  timerButtonTextActive: {
+    color: COLORS.background,
   },
   deleteButton: {
     padding: PADDING.xs,

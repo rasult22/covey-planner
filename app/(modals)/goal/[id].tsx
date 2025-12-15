@@ -1,23 +1,27 @@
 // Covey Planner - Goal Detail Modal
-import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
-import { useGoals } from '@/hooks/foundation/useGoals';
-import { useValues } from '@/hooks/foundation/useValues';
-import { useRoles } from '@/hooks/foundation/useRoles';
-import { LongTermGoal } from '@/types';
+import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { useAddStepMutation, useDeleteGoalMutation, useGoalsQuery, useToggleStepCompletionMutation, useUpdateGoalMutation } from '@/queries/foundation/goals';
+import { useRolesQuery } from '@/queries/foundation/roles';
+import { useValuesQuery } from '@/queries/foundation/values';
+import { LongTermGoal } from '@/types';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function GoalDetailModal() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { goals, updateGoal, deleteGoal, toggleStepCompletion, addStep } = useGoals();
-  const { values } = useValues();
-  const { roles } = useRoles();
+  const { data: goals = [] } = useGoalsQuery();
+  const { data: values = [] } = useValuesQuery();
+  const { data: roles = [] } = useRolesQuery();
+  const { mutate: updateGoal } = useUpdateGoalMutation();
+  const { mutate: deleteGoal } = useDeleteGoalMutation();
+  const { mutate: toggleStepCompletion } = useToggleStepCompletionMutation();
+  const { mutate: addStep } = useAddStepMutation();
 
   const [goal, setGoal] = useState<LongTermGoal | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -68,29 +72,29 @@ export default function GoalDetailModal() {
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   };
 
-  const handleSaveEdit = async () => {
-    const success = await updateGoal(goal.id, {
-      title: editedTitle.trim(),
-      description: editedDescription.trim(),
-    });
-
-    if (success) {
-      setIsEditing(false);
-    }
+  const handleSaveEdit = () => {
+    updateGoal(
+      { id: goal.id, updates: { title: editedTitle.trim(), description: editedDescription.trim() } },
+      { onSuccess: () => setIsEditing(false) }
+    );
   };
 
-  const handleAddStep = async () => {
+  const handleAddStep = () => {
     if (!newStepTitle.trim()) return;
 
-    const success = await addStep(goal.id, newStepTitle.trim());
-    if (success) {
-      setNewStepTitle('');
-      setShowAddStep(false);
-    }
+    addStep(
+      { goalId: goal.id, step: { title: newStepTitle.trim() } },
+      {
+        onSuccess: () => {
+          setNewStepTitle('');
+          setShowAddStep(false);
+        },
+      }
+    );
   };
 
-  const handleToggleStep = async (stepId: string) => {
-    await toggleStepCompletion(goal.id, stepId);
+  const handleToggleStep = (stepId: string) => {
+    toggleStepCompletion({ goalId: goal.id, stepId });
   };
 
   const handleDelete = () => {
@@ -102,11 +106,10 @@ export default function GoalDetailModal() {
         {
           text: 'Delete',
           style: 'destructive',
-          onPress: async () => {
-            const success = await deleteGoal(goal.id);
-            if (success) {
-              router.back();
-            }
+          onPress: () => {
+            deleteGoal(goal.id, {
+              onSuccess: () => router.back(),
+            });
           },
         },
       ]

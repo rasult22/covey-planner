@@ -1,25 +1,30 @@
 // Covey Planner - Roles Modal
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
-import { useRoles } from '@/hooks/foundation/useRoles';
-import { Role } from '@/types';
+import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP, RADIUS } from '@/lib/constants/spacing';
+import { GAP, PADDING, RADIUS } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { MAX_ROLES, useAddRoleMutation, useCanAddRole, useDeleteRoleMutation, useRolesQuery, useUpdateRoleMutation } from '@/queries/foundation/roles';
+import { Role } from '@/types';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function RolesModal() {
-  const { roles, addRole, updateRole, deleteRole, canAddRole, maxRoles, isLoading } = useRoles();
+  const { data: roles = [], isLoading } = useRolesQuery();
+  const { mutate: addRole } = useAddRoleMutation();
+  const { mutate: updateRole } = useUpdateRoleMutation();
+  const { mutate: deleteRole } = useDeleteRoleMutation();
+  const canAddRole = useCanAddRole();
+  const maxRoles = MAX_ROLES;
   const [showAddForm, setShowAddForm] = useState(false);
   const [newRoleName, setNewRoleName] = useState('');
   const [newRoleStatement, setNewRoleStatement] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editStatement, setEditStatement] = useState('');
 
-  const handleAddRole = async () => {
+  const handleAddRole = () => {
     if (!newRoleName.trim()) return;
 
     if (!canAddRole) {
@@ -31,24 +36,31 @@ export default function RolesModal() {
       return;
     }
 
-    const result = await addRole({
-      name: newRoleName.trim(),
-      statement: newRoleStatement.trim(),
-    });
-
-    if (result) {
-      setNewRoleName('');
-      setNewRoleStatement('');
-      setShowAddForm(false);
-    }
+    addRole(
+      {
+        name: newRoleName.trim(),
+        statement: newRoleStatement.trim(),
+      },
+      {
+        onSuccess: () => {
+          setNewRoleName('');
+          setNewRoleStatement('');
+          setShowAddForm(false);
+        },
+      }
+    );
   };
 
-  const handleUpdateStatement = async (id: string) => {
-    const success = await updateRole(id, { statement: editStatement });
-    if (success) {
-      setEditingId(null);
-      setEditStatement('');
-    }
+  const handleUpdateStatement = (id: string) => {
+    updateRole(
+      { id, updates: { statement: editStatement } },
+      {
+        onSuccess: () => {
+          setEditingId(null);
+          setEditStatement('');
+        },
+      }
+    );
   };
 
   const handleDelete = (id: string, name: string) => {

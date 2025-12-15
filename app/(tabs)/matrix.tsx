@@ -1,29 +1,19 @@
 // Covey Planner - Time Management Matrix Screen
 import { Card } from '@/components/ui/Card';
-import { useBigRocks } from '@/hooks/planning/useBigRocks';
-import { getTodayKey, useDailyTasks } from '@/hooks/planning/useDailyTasks';
-import { getCurrentWeekId } from '@/hooks/planning/useWeeklyPlan';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { useBigRocksQuery } from '@/queries/planning/bigRocks';
+import { getTodayKey, useDailyTasksQuery } from '@/queries/planning/dailyTasks';
+import { getCurrentWeekId } from '@/queries/planning/weeklyPlan';
 import { Quadrant } from '@/types';
-import { useFocusEffect } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function MatrixScreen() {
-  const { tasks, reload: reloadTasks } = useDailyTasks(getTodayKey());
-  const { bigRocks, reload: reloadBigRocks } = useBigRocks(getCurrentWeekId());
+  const { data: tasks = [] } = useDailyTasksQuery(getTodayKey());
+  const { data: bigRocks = [] } = useBigRocksQuery(getCurrentWeekId());
   const [selectedQuadrant, setSelectedQuadrant] = useState<Quadrant | null>(null);
-
-  // Reload data when screen receives focus (e.g., after adding tasks on Today screen)
-  useFocusEffect(
-    useCallback(() => {
-      reloadTasks();
-      reloadBigRocks();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-  );
 
   const getQuadrantTitle = (quadrant: Quadrant): string => {
     const titles = {

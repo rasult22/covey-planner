@@ -2,12 +2,12 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { useGoals } from '@/hooks/foundation/useGoals';
-import { useRoles } from '@/hooks/foundation/useRoles';
-import { useValues } from '@/hooks/foundation/useValues';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { useAddGoalMutation } from '@/queries/foundation/goals';
+import { useRolesQuery } from '@/queries/foundation/roles';
+import { useValuesQuery } from '@/queries/foundation/values';
 import { router } from 'expo-router';
 import { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -22,9 +22,9 @@ const QUADRANT_OPTIONS = [
 ];
 
 export default function NewGoalModal() {
-  const { addGoal } = useGoals();
-  const { values } = useValues();
-  const { roles } = useRoles();
+  const { mutate: addGoal, isPending } = useAddGoalMutation();
+  const { data: values = [] } = useValuesQuery();
+  const { data: roles = [] } = useRolesQuery();
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -32,7 +32,6 @@ export default function NewGoalModal() {
   const [quadrant, setQuadrant] = useState<Quadrant>('II');
   const [selectedValueIds, setSelectedValueIds] = useState<string[]>([]);
   const [selectedRoleIds, setSelectedRoleIds] = useState<string[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toggleValue = (valueId: string) => {
     setSelectedValueIds(prev =>
@@ -50,29 +49,28 @@ export default function NewGoalModal() {
     );
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!title.trim()) {
       Alert.alert('Missing Information', 'Please enter a goal title.');
       return;
     }
 
-    setIsSubmitting(true);
-
-    const result = await addGoal({
-      title: title.trim(),
-      description: description.trim(),
-      deadline: deadline || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // Default 1 year
-      linkedValueIds: selectedValueIds,
-      linkedRoleIds: selectedRoleIds,
-      steps: [],
-      quadrant,
-    });
-
-    setIsSubmitting(false);
-
-    if (result) {
-      router.back();
-    }
+    addGoal(
+      {
+        title: title.trim(),
+        description: description.trim(),
+        deadline: deadline || new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // Default 1 year
+        linkedValueIds: selectedValueIds,
+        linkedRoleIds: selectedRoleIds,
+        steps: [],
+        quadrant,
+      },
+      {
+        onSuccess: () => {
+          router.back();
+        },
+      }
+    );
   };
 
   return (
@@ -210,19 +208,10 @@ export default function NewGoalModal() {
       </ScrollView>
 
       <View style={styles.footer}>
-        <Button
-          onPress={() => router.back()}
-          variant="ghost"
-          style={styles.footerButton}
-        >
+        <Button onPress={() => router.back()} variant="ghost" style={styles.footerButton}>
           Cancel
         </Button>
-        <Button
-          onPress={handleSubmit}
-          disabled={!title.trim() || isSubmitting}
-          loading={isSubmitting}
-          style={styles.footerButton}
-        >
+        <Button onPress={handleSubmit} loading={isPending} disabled={isPending} style={styles.footerButton}>
           Create Goal
         </Button>
       </View>

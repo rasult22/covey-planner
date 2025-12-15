@@ -1,8 +1,10 @@
+import { QueryClientProvider } from '@tanstack/react-query';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import '../global.css';
+import queryClient from "../queries/index";
 
 export default function RootLayout() {
   useEffect(() => {
@@ -10,6 +12,7 @@ export default function RootLayout() {
   }, []);
 
   return (
+    <QueryClientProvider client={queryClient}>
     <SafeAreaProvider>
       <StatusBar style="light" />
       <Stack
@@ -38,5 +41,6 @@ export default function RootLayout() {
         />
       </Stack>
     </SafeAreaProvider>
+    </QueryClientProvider>
   );
 }
