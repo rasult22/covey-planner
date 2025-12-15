@@ -8,7 +8,7 @@ import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { useMissionQuery, useSaveMissionMutation } from '@/queries/foundation/mission';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function MissionModal() {
   const { data: savedMission = '', isLoading } = useMissionQuery();
@@ -55,11 +55,15 @@ export default function MissionModal() {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoid}
       >
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <Card style={styles.infoCard}>
           <Text style={styles.infoTitle}>Your Personal Constitution</Text>
           <Text style={styles.infoText}>
@@ -108,7 +112,8 @@ export default function MissionModal() {
             </View>
           </>
         )}
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <View style={styles.footer}>
         <Button
@@ -127,6 +132,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scroll: {
     flex: 1,

@@ -1,13 +1,13 @@
 // Covey Planner - Data Management Screen
-import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, Alert } from 'react-native';
-import { router } from 'expo-router';
-import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { useDataManagement } from '@/hooks/settings/useDataManagement';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function DataManagementScreen() {
   const {
@@ -145,11 +145,15 @@ export default function DataManagementScreen() {
         </Button>
       </View>
 
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoid}
       >
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <Card style={styles.infoCard}>
           <Text style={styles.infoTitle}>Your Data</Text>
           <View style={styles.infoRow}>
@@ -258,7 +262,8 @@ export default function DataManagementScreen() {
             </Button>
           </Card>
         </View>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -280,6 +285,13 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.h2.fontSize,
     fontWeight: TYPOGRAPHY.h2.fontWeight,
     color: COLORS.text.primary,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scroll: {
     flex: 1,

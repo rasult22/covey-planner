@@ -9,7 +9,7 @@ import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const GUIDING_QUESTIONS = [
@@ -47,11 +47,15 @@ export default function SetupMissionScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoid}
       >
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <Text style={styles.title}>Your Personal Mission</Text>
         <Text style={styles.subtitle}>
           A personal mission statement is your constitution - the solid expression of your vision and values.
@@ -82,7 +86,8 @@ export default function SetupMissionScreen() {
             Don't worry about making it perfect. You can always refine it later. Focus on capturing what truly matters to you.
           </Text>
         </Card>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <View style={styles.footer}>
         <Button
@@ -109,6 +114,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scroll: {
     flex: 1,

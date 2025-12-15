@@ -1,15 +1,15 @@
 // Covey Planner - Weekly Reflection Screen
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TextInput, Alert } from 'react-native';
-import { router } from 'expo-router';
-import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
-import { useWeeklyReflection } from '@/hooks/reflection/useWeeklyReflection';
+import { Card } from '@/components/ui/Card';
 import { useAchievements } from '@/hooks/gamification/useAchievements';
+import { useWeeklyReflection } from '@/hooks/reflection/useWeeklyReflection';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
-import { format, startOfWeek, endOfWeek } from 'date-fns';
+import { endOfWeek, format } from 'date-fns';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function WeeklyReflectionScreen() {
   const {
@@ -97,7 +97,7 @@ export default function WeeklyReflectionScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <View style={styles.headerLeft}>
+       <View style={styles.headerLeft}>
           <Text style={styles.title}>Weekly Reflection</Text>
           <Text style={styles.subtitle}>{formatWeekRange()}</Text>
         </View>
@@ -106,11 +106,15 @@ export default function WeeklyReflectionScreen() {
         </Button>
       </View>
 
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoid}
       >
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <Card style={styles.introCard}>
           <Text style={styles.introTitle}>Take Time to Reflect</Text>
           <Text style={styles.introText}>
@@ -218,7 +222,8 @@ export default function WeeklyReflectionScreen() {
         >
           {reflection ? 'Update Reflection' : 'Save Reflection'}
         </Button>
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -248,6 +253,13 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: TYPOGRAPHY.bodySmall.fontSize,
     color: COLORS.text.secondary,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: COLORS.background,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scroll: {
     flex: 1,

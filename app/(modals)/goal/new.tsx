@@ -11,7 +11,7 @@ import { useRolesQuery } from '@/queries/foundation/roles';
 import { useValuesQuery } from '@/queries/foundation/values';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type Quadrant = 'I' | 'II' | 'III' | 'IV';
 
@@ -76,11 +76,15 @@ export default function NewGoalModal() {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoid}
       >
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <Card>
           <Text style={styles.sectionTitle}>Goal Details</Text>
 
@@ -207,7 +211,8 @@ export default function NewGoalModal() {
             </View>
           </Card>
         )}
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <View style={styles.footer}>
         <Button onPress={() => router.back()} variant="ghost" style={styles.footerButton}>
@@ -225,6 +230,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scroll: {
     flex: 1,

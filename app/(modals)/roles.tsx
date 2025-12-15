@@ -9,7 +9,7 @@ import { MAX_ROLES, useAddRoleMutation, useCanAddRole, useDeleteRoleMutation, us
 import { Role } from '@/types';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function RolesModal() {
   const { data: roles = [], isLoading } = useRolesQuery();
@@ -93,11 +93,15 @@ export default function RolesModal() {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoid}
       >
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <Card style={styles.countCard}>
           <Text style={styles.countText}>
             {roles.length} / {maxRoles} Roles
@@ -223,7 +227,8 @@ export default function RolesModal() {
             </View>
           </Card>
         )}
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       <View style={styles.footer}>
         <Button
@@ -242,6 +247,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scroll: {
     flex: 1,

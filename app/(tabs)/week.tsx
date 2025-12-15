@@ -11,7 +11,7 @@ import { useAddBigRockMutation, useBigRocksQuery, useCompleteBigRockMutation, us
 import { getCurrentWeekId, getWeekDates, useWeeklyPlanQuery } from '@/queries/planning/weeklyPlan';
 import { format } from 'date-fns';
 import { useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function WeekScreen() {
   const currentWeekId = getCurrentWeekId();
@@ -103,11 +103,15 @@ export default function WeekScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoid}
       >
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <View style={styles.header}>
           <Text style={styles.weekTitle}>Week of {formatWeekRange()}</Text>
           <Text style={styles.weekSubtitle}>
@@ -249,7 +253,8 @@ export default function WeekScreen() {
             </View>
           </Card>
         )}
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -258,6 +263,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scroll: {
     flex: 1,

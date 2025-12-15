@@ -9,7 +9,7 @@ import { getTodayKey, useAddDailyTaskMutation, useCompleteDailyTaskMutation, use
 import { DailyTask, Priority, Quadrant } from '@/types';
 import { format } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const PRIORITIES: Priority[] = ['A', 'B', 'C'];
 const QUADRANTS: Quadrant[] = ['I', 'II', 'III', 'IV'];
@@ -159,11 +159,15 @@ export default function TodayScreen() {
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoid}
       >
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
         <View style={styles.header}>
           <Text style={styles.dateText}>{format(new Date(), 'EEEE, MMMM d')}</Text>
           <Text style={styles.subtitle}>Plan your day, win your day</Text>
@@ -396,7 +400,8 @@ export default function TodayScreen() {
             </View>
           </Card>
         )}
-      </ScrollView>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -405,6 +410,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scroll: {
     flex: 1,
