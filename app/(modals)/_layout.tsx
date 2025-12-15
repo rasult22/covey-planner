@@ -1,6 +1,6 @@
 // Covey Planner - Modals Layout
-import { Stack } from 'expo-router';
 import { COLORS } from '@/lib/constants/colors';
+import { Stack } from 'expo-router';
 
 export default function ModalsLayout() {
   return (
@@ -35,6 +35,36 @@ export default function ModalsLayout() {
         name="roles"
         options={{
           title: 'Life Roles',
+        }}
+      />
+      <Stack.Screen
+        name="goal"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="achievements"
+        options={{
+          title: 'Achievements',
+        }}
+      />
+      <Stack.Screen
+        name="analytics"
+        options={{
+          title: 'Analytics',
+        }}
+      />
+      <Stack.Screen
+        name="reflection"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="settings"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>
