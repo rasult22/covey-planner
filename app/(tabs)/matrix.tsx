@@ -7,13 +7,23 @@ import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { Quadrant } from '@/types';
-import { useState } from 'react';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function MatrixScreen() {
-  const { tasks } = useDailyTasks(getTodayKey());
-  const { bigRocks } = useBigRocks(getCurrentWeekId());
+  const { tasks, reload: reloadTasks } = useDailyTasks(getTodayKey());
+  const { bigRocks, reload: reloadBigRocks } = useBigRocks(getCurrentWeekId());
   const [selectedQuadrant, setSelectedQuadrant] = useState<Quadrant | null>(null);
+
+  // Reload data when screen receives focus (e.g., after adding tasks on Today screen)
+  useFocusEffect(
+    useCallback(() => {
+      reloadTasks();
+      reloadBigRocks();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
 
   const getQuadrantTitle = (quadrant: Quadrant): string => {
     const titles = {
@@ -160,7 +170,7 @@ export default function MatrixScreen() {
                       <Text style={styles.detailItemComplete}>✓</Text>
                     )}
                   </View>
-                  <Text style={styles.detailItemMeta}>
+                  <Text style={styles.detailItemMetaText}>
                     {rock.estimatedHours}h estimated
                   </Text>
                 </Card>

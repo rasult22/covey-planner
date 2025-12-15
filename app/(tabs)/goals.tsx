@@ -1,18 +1,27 @@
 // Covey Planner - Goals Screen
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { useGoals } from '@/hooks/foundation/useGoals';
-import { useValues } from '@/hooks/foundation/useValues';
 import { useRoles } from '@/hooks/foundation/useRoles';
-import { LongTermGoal } from '@/types';
+import { useValues } from '@/hooks/foundation/useValues';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { LongTermGoal } from '@/types';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function GoalsScreen() {
-  const { goals, isLoading } = useGoals();
+  const { goals, isLoading, reload } = useGoals();
+
+  // Reload data when screen receives focus (e.g., after creating a goal in modal)
+  useFocusEffect(
+    useCallback(() => {
+      reload();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
   const { values } = useValues();
   const { roles } = useRoles();
 
@@ -239,7 +248,7 @@ const styles = StyleSheet.create({
   },
   statsCard: {
     flexDirection: 'row',
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.bg.tertiary,
     borderRadius: 12,
     padding: PADDING.md,
     marginBottom: PADDING.lg,

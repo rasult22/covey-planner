@@ -5,6 +5,7 @@ export const COLORS = {
   // Base colors
   background: '#000000', // Pure black background
   primary: '#FFFFFF', // Pure white for primary elements
+  surface: '#262626', // Surface color for cards and elevated elements
 
   // Gray scale (light to dark)
   gray: {

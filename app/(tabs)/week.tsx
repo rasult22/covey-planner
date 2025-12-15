@@ -1,24 +1,36 @@
 // Covey Planner - Week Screen
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { format } from 'date-fns';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { useBigRocks } from '@/hooks/planning/useBigRocks';
-import { useWeeklyPlan, getCurrentWeekId, getWeekDates } from '@/hooks/planning/useWeeklyPlan';
 import { useGoals } from '@/hooks/foundation/useGoals';
 import { useRoles } from '@/hooks/foundation/useRoles';
+import { useBigRocks } from '@/hooks/planning/useBigRocks';
+import { getCurrentWeekId, getWeekDates, useWeeklyPlan } from '@/hooks/planning/useWeeklyPlan';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { format } from 'date-fns';
+import { useFocusEffect } from 'expo-router';
+import { useCallback, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function WeekScreen() {
   const currentWeekId = getCurrentWeekId();
-  const { bigRocks, completeBigRock, uncompleteBigRock, addBigRock, deleteBigRock, getCompletedCount, getTotalEstimatedHours } = useBigRocks(currentWeekId);
-  const { weeklyPlan, isLoading } = useWeeklyPlan(currentWeekId);
-  const { goals } = useGoals();
-  const { roles } = useRoles();
+  const { bigRocks, completeBigRock, uncompleteBigRock, addBigRock, deleteBigRock, getCompletedCount, getTotalEstimatedHours, reload: reloadBigRocks } = useBigRocks(currentWeekId);
+  const { weeklyPlan, isLoading, reload: reloadWeeklyPlan } = useWeeklyPlan(currentWeekId);
+  const { goals, reload: reloadGoals } = useGoals();
+  const { roles, reload: reloadRoles } = useRoles();
+
+  // Reload data when screen receives focus (e.g., after editing goals in modals)
+  useFocusEffect(
+    useCallback(() => {
+      reloadBigRocks();
+      reloadWeeklyPlan();
+      reloadGoals();
+      reloadRoles();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newRockTitle, setNewRockTitle] = useState('');

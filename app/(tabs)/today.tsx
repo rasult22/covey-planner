@@ -1,15 +1,15 @@
 // Covey Planner - Today Screen
-import { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { format } from 'date-fns';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
-import { useDailyTasks, getTodayKey } from '@/hooks/planning/useDailyTasks';
-import { DailyTask, Priority, Quadrant } from '@/types';
+import { useDailyTasks } from '@/hooks/planning/useDailyTasks';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { DailyTask, Priority, Quadrant } from '@/types';
+import { format } from 'date-fns';
+import { useEffect, useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const PRIORITIES: Priority[] = ['A', 'B', 'C'];
 const QUADRANTS: Quadrant[] = ['I', 'II', 'III', 'IV'];
@@ -307,7 +307,10 @@ export default function TodayScreen() {
                       style={[
                         styles.priorityOption,
                         newTaskPriority === p && styles.priorityOptionSelected,
-                        { borderColor: getPriorityColor(p) }
+                        { 
+                          borderColor: getPriorityColor(p),
+                          backgroundColor: newTaskPriority === p ? getPriorityColor(p) : COLORS.background
+                        }
                       ]}
                     >
                       <Text
@@ -616,14 +619,14 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   priorityOptionSelected: {
-    backgroundColor: COLORS.gray[100],
+    // Background color set by borderColor (priority color)
   },
   priorityOptionText: {
     fontSize: TYPOGRAPHY.body.fontSize,
     fontWeight: 'bold',
   },
   priorityOptionTextSelected: {
-    // Text color already set by priority color
+    color: COLORS.background,
   },
   quadrantSelector: {
     flexDirection: 'row',
@@ -639,7 +642,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.background,
   },
   quadrantOptionSelected: {
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.primary,
     borderColor: COLORS.primary,
   },
   quadrantOptionText: {
@@ -648,7 +651,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   quadrantOptionTextSelected: {
-    color: COLORS.text.primary,
+    color: COLORS.background,
   },
   addFormActions: {
     flexDirection: 'row',

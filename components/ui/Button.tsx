@@ -1,9 +1,9 @@
 // Covey Planner - Button Component
-import React from 'react';
-import { TouchableOpacity, Text, ActivityIndicator, View, StyleSheet } from 'react-native';
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING, RADIUS } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import React from 'react';
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, ViewStyle } from 'react-native';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -17,6 +17,7 @@ interface ButtonProps {
   loading?: boolean;
   fullWidth?: boolean;
   className?: string;
+  style?: ViewStyle;
 }
 
 export function Button({
@@ -28,6 +29,7 @@ export function Button({
   loading = false,
   fullWidth = false,
   className,
+  style,
 }: ButtonProps) {
   const getBackgroundColor = () => {
     if (disabled) return COLORS.interactive.disabled;
@@ -102,6 +104,7 @@ export function Button({
           width: fullWidth ? '100%' : 'auto',
         },
         getPadding(),
+        style,
       ]}
       className={className}
     >

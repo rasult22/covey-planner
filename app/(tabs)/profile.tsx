@@ -1,24 +1,37 @@
 // Covey Planner - Profile Screen
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
-import { router } from 'expo-router';
 import { Card } from '@/components/ui/Card';
-import { useMission } from '@/hooks/foundation/useMission';
-import { useValues } from '@/hooks/foundation/useValues';
-import { useRoles } from '@/hooks/foundation/useRoles';
 import { useGoals } from '@/hooks/foundation/useGoals';
+import { useMission } from '@/hooks/foundation/useMission';
+import { useRoles } from '@/hooks/foundation/useRoles';
+import { useValues } from '@/hooks/foundation/useValues';
 import { useAchievements } from '@/hooks/gamification/useAchievements';
 import { useStreaks } from '@/hooks/gamification/useStreaks';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ProfileScreen() {
-  const { mission } = useMission();
-  const { values } = useValues();
-  const { roles } = useRoles();
-  const { goals } = useGoals();
-  const { getUnlockedCount, getTotalCount, getProgress } = useAchievements();
+  const { mission, reload: reloadMission } = useMission();
+  const { values, reload: reloadValues } = useValues();
+  const { roles, reload: reloadRoles } = useRoles();
+  const { goals, reload: reloadGoals } = useGoals();
+  const { getUnlockedCount, getTotalCount, getProgress, reload: reloadAchievements } = useAchievements();
   const { getWeeklyStreak, getDailyStreak } = useStreaks();
+
+  // Reload data when screen receives focus (e.g., after editing in modals)
+  useFocusEffect(
+    useCallback(() => {
+      reloadMission();
+      reloadValues();
+      reloadRoles();
+      reloadGoals();
+      reloadAchievements();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+  );
 
   const foundationItems = [
     {

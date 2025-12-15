@@ -1,16 +1,16 @@
 // Covey Planner - New Goal Modal
-import { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { router } from 'expo-router';
 import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
+import { Input } from '@/components/ui/Input';
 import { useGoals } from '@/hooks/foundation/useGoals';
-import { useValues } from '@/hooks/foundation/useValues';
 import { useRoles } from '@/hooks/foundation/useRoles';
+import { useValues } from '@/hooks/foundation/useValues';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type Quadrant = 'I' | 'II' | 'III' | 'IV';
 
@@ -65,7 +65,6 @@ export default function NewGoalModal() {
       linkedValueIds: selectedValueIds,
       linkedRoleIds: selectedRoleIds,
       steps: [],
-      progress: 0,
       quadrant,
     });
 
@@ -270,7 +269,7 @@ const styles = StyleSheet.create({
   },
   quadrantOptionSelected: {
     borderColor: COLORS.primary,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.primary,
   },
   quadrantLabel: {
     fontSize: TYPOGRAPHY.body.fontSize,
@@ -279,14 +278,14 @@ const styles = StyleSheet.create({
     marginBottom: PADDING.xs,
   },
   quadrantLabelSelected: {
-    color: COLORS.text.primary,
+    color: COLORS.background,
   },
   quadrantDescription: {
     fontSize: TYPOGRAPHY.bodySmall.fontSize,
     color: COLORS.text.tertiary,
   },
   quadrantDescriptionSelected: {
-    color: COLORS.text.secondary,
+    color: COLORS.background,
   },
   chipContainer: {
     flexDirection: 'row',
@@ -303,14 +302,14 @@ const styles = StyleSheet.create({
   },
   chipSelected: {
     borderColor: COLORS.primary,
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.primary,
   },
   chipText: {
     fontSize: TYPOGRAPHY.bodySmall.fontSize,
     color: COLORS.text.secondary,
   },
   chipTextSelected: {
-    color: COLORS.text.primary,
+    color: COLORS.background,
     fontWeight: '600',
   },
   footer: {
