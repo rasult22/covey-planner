@@ -9,7 +9,7 @@ import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const GUIDING_QUESTIONS = [
@@ -56,7 +56,15 @@ export default function SetupMissionScreen() {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-        <Text style={styles.title}>Your Personal Mission</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>Your Personal Mission</Text>
+          <TouchableOpacity 
+            onPress={() => router.push('/(modals)/wiki/mission' as any)}
+            style={styles.helpButton}
+          >
+            <Text style={styles.helpText}>?</Text>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.subtitle}>
           A personal mission statement is your constitution - the solid expression of your vision and values.
         </Text>
@@ -125,11 +133,32 @@ const styles = StyleSheet.create({
     padding: PADDING.lg,
     paddingBottom: PADDING['2xl'],
   },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: PADDING.sm,
+  },
   title: {
     fontSize: TYPOGRAPHY.h2.fontSize,
     fontWeight: TYPOGRAPHY.h2.fontWeight,
     color: COLORS.text.primary,
-    marginBottom: PADDING.sm,
+    flex: 1,
+  },
+  helpButton: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: COLORS.surface,
+    borderWidth: 1,
+    borderColor: COLORS.border.light,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  helpText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: COLORS.primary,
   },
   subtitle: {
     fontSize: TYPOGRAPHY.body.fontSize,

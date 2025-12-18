@@ -235,6 +235,25 @@ export default function ProfileScreen() {
               </View>
             </Card>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => router.push('/(modals)/wiki' as any)}
+            activeOpacity={0.7}
+          >
+            <Card style={styles.settingsCard}>
+              <View style={styles.cardContent}>
+                <View style={styles.cardLeft}>
+                  <Text style={styles.cardTitle}>📚 Learn the Method</Text>
+                  <Text style={styles.cardDescription}>
+                    Understand Covey's planning principles
+                  </Text>
+                </View>
+                <View style={styles.cardRight}>
+                  <Text style={styles.cardArrow}>›</Text>
+                </View>
+              </View>
+            </Card>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

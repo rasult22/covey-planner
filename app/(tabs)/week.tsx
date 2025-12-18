@@ -1,15 +1,18 @@
 // Covey Planner - Week Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { HelpIcon } from '@/components/ui/HelpIcon';
 import { Input } from '@/components/ui/Input';
+import { CalendarService } from '@/lib/calendar/CalendarService';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { useGoalsQuery } from '@/queries/foundation/goals';
 import { useRolesQuery } from '@/queries/foundation/roles';
-import { useAddBigRockMutation, useBigRocksQuery, useCompleteBigRockMutation, useDeleteBigRockMutation, useUncompleteBigRockMutation } from '@/queries/planning/bigRocks';
+import { useAddBigRockMutation, useBigRocksQuery, useCompleteBigRockMutation, useDeleteBigRockMutation, useUncompleteBigRockMutation, useUpdateBigRockMutation } from '@/queries/planning/bigRocks';
 import { getCurrentWeekId, getWeekDates, useWeeklyPlanQuery } from '@/queries/planning/weeklyPlan';
-import { format } from 'date-fns';
+import { BigRock } from '@/types';
+import { addDays, format, setHours } from 'date-fns';
 import { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -23,10 +26,12 @@ export default function WeekScreen() {
   const { mutate: uncompleteBigRock } = useUncompleteBigRockMutation();
   const { mutate: addBigRock } = useAddBigRockMutation();
   const { mutate: deleteBigRock } = useDeleteBigRockMutation();
+  const { mutate: updateBigRock } = useUpdateBigRockMutation();
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newRockTitle, setNewRockTitle] = useState('');
   const [newRockHours, setNewRockHours] = useState('');
+  const [syncingRockId, setSyncingRockId] = useState<string | null>(null);
 
   // Helper functions
   const getCompletedCount = () => bigRocks.filter(r => r.completedAt).length;
@@ -93,6 +98,40 @@ export default function WeekScreen() {
     return roles.find(r => r.id === roleId)?.name;
   };
 
+  const handleAddToCalendar = async (rock: BigRock) => {
+    setSyncingRockId(rock.id);
+    try {
+      // Calculate event time - next available weekday at 9am
+      const weekStart = new Date(startDate);
+      const eventStart = setHours(addDays(weekStart, 1), 9); // Monday 9am
+      const eventEnd = new Date(eventStart.getTime() + rock.estimatedHours * 60 * 60 * 1000);
+
+      if (rock.calendarEventId) {
+        // Update existing event
+        await CalendarService.updateEvent(rock.calendarEventId, {
+          title: `🪨 ${rock.title}`,
+          startDate: eventStart,
+          endDate: eventEnd,
+        });
+        Alert.alert('Calendar Updated', 'Big Rock event has been updated.');
+      } else {
+        // Create new event
+        const eventId = await CalendarService.createBigRockEvent(rock, eventStart, eventEnd);
+        if (eventId) {
+          updateBigRock({ id: rock.id, updates: { calendarEventId: eventId } });
+          Alert.alert('Added to Calendar', 'Big Rock has been added to your calendar.');
+        } else {
+          Alert.alert('Calendar Access', 'Please grant calendar permissions in settings.');
+        }
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to add to calendar.');
+      console.error('Calendar sync error:', error);
+    } finally {
+      setSyncingRockId(null);
+    }
+  };
+
   if (isLoading) {
     return (
       <View style={styles.container}>
@@ -113,7 +152,13 @@ export default function WeekScreen() {
           showsVerticalScrollIndicator={false}
         >
         <View style={styles.header}>
-          <Text style={styles.weekTitle}>Week of {formatWeekRange()}</Text>
+          <View style={styles.headerRow}>
+            <Text style={styles.weekTitle}>Week of {formatWeekRange()}</Text>
+            <View style={styles.helpIcons}>
+              <HelpIcon conceptId="big-rocks" size="small" />
+              <HelpIcon conceptId="weekly-planning" size="small" />
+            </View>
+          </View>
           <Text style={styles.weekSubtitle}>
             Focus on your most important priorities
           </Text>
@@ -198,12 +243,28 @@ export default function WeekScreen() {
                       </View>
                     </View>
 
-                    <TouchableOpacity
-                      onPress={() => handleDeleteBigRock(rock.id, rock.title)}
-                      style={styles.deleteButton}
-                    >
-                      <Text style={styles.deleteButtonText}>✕</Text>
-                    </TouchableOpacity>
+                    <View style={styles.rockActions}>
+                      <TouchableOpacity
+                        onPress={() => handleAddToCalendar(rock)}
+                        style={styles.calendarButton}
+                        disabled={syncingRockId === rock.id}
+                      >
+                        <Text style={styles.calendarButtonText}>
+                          {syncingRockId === rock.id 
+                            ? '...' 
+                            : rock.calendarEventId 
+                              ? '📅✓' 
+                              : '📅+'}
+                        </Text>
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        onPress={() => handleDeleteBigRock(rock.id, rock.title)}
+                        style={styles.deleteButton}
+                      >
+                        <Text style={styles.deleteButtonText}>✕</Text>
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </Card>
               ))}
@@ -283,6 +344,15 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: PADDING.lg,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  helpIcons: {
+    flexDirection: 'row',
+    gap: GAP.xs,
   },
   weekTitle: {
     fontSize: TYPOGRAPHY.h2.fontSize,
@@ -398,9 +468,19 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.bodySmall.fontSize,
     color: COLORS.text.tertiary,
   },
+  rockActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  calendarButton: {
+    padding: PADDING.xs,
+  },
+  calendarButtonText: {
+    fontSize: 18,
+  },
   deleteButton: {
     padding: PADDING.xs,
-    marginLeft: PADDING.sm,
+    marginLeft: PADDING.xs,
   },
   deleteButtonText: {
     fontSize: 20,

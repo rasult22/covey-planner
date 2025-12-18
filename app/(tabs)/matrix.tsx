@@ -1,5 +1,6 @@
 // Covey Planner - Time Management Matrix Screen
 import { Card } from '@/components/ui/Card';
+import { HelpIcon } from '@/components/ui/HelpIcon';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
@@ -222,7 +223,10 @@ export default function MatrixScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Time Management Matrix</Text>
+          <View style={styles.headerRow}>
+            <Text style={styles.title}>Time Management Matrix</Text>
+            <HelpIcon conceptId="quadrants" />
+          </View>
           <Text style={styles.subtitle}>
             Organize your life by urgency and importance
           </Text>
@@ -291,6 +295,11 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: PADDING.lg,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   title: {
     fontSize: TYPOGRAPHY.h2.fontSize,
