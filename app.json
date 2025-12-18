@@ -12,7 +12,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "UIViewControllerBasedStatusBarAppearance": true
-      }
+      },
+      "bundleIdentifier": "com.rasult22.principle-centered-planner"
     },
     "android": {
       "adaptiveIcon": {
