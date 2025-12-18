@@ -1,6 +1,7 @@
 // Covey Planner - Goals Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { HelpIcon } from '@/components/ui/HelpIcon';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
@@ -56,7 +57,10 @@ export default function GoalsScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Long-term Goals</Text>
+          <View style={styles.headerRow}>
+            <Text style={styles.title}>Long-term Goals</Text>
+            <HelpIcon conceptId="goals" />
+          </View>
           <Text style={styles.subtitle}>
             Connect your goals to your values and roles
           </Text>
@@ -208,6 +212,11 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: PADDING.lg,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   title: {
     fontSize: TYPOGRAPHY.h2.fontSize,

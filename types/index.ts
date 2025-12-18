@@ -56,6 +56,7 @@ export interface BigRock {
   completedAt?: string;
   createdAt: string;
   quadrant: 'II'; // Always Quadrant II
+  calendarEventId?: string; // Device calendar event ID
 }
 
 export interface DailyTask {
@@ -73,6 +74,7 @@ export interface DailyTask {
   timerStartedAt?: string; // ISO timestamp when timer started
   createdAt: string;
   completedAt?: string;
+  calendarEventId?: string; // Device calendar event ID
 }
 
 export interface CalendarEvent {

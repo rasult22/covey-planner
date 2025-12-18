@@ -1,6 +1,7 @@
 // Covey Planner - Today Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { HelpIcon } from '@/components/ui/HelpIcon';
 import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
@@ -169,7 +170,13 @@ export default function TodayScreen() {
           showsVerticalScrollIndicator={false}
         >
         <View style={styles.header}>
-          <Text style={styles.dateText}>{format(new Date(), 'EEEE, MMMM d')}</Text>
+          <View style={styles.headerRow}>
+            <Text style={styles.dateText}>{format(new Date(), 'EEEE, MMMM d')}</Text>
+            <View style={styles.helpIcons}>
+              <HelpIcon conceptId="priorities" size="small" />
+              <HelpIcon conceptId="daily-planning" size="small" />
+            </View>
+          </View>
           <Text style={styles.subtitle}>Plan your day, win your day</Text>
         </View>
 
@@ -316,7 +323,10 @@ export default function TodayScreen() {
 
             <View style={styles.formRow}>
               <View style={styles.formField}>
-                <Text style={styles.formLabel}>Priority</Text>
+                <View style={styles.formLabelRow}>
+                  <Text style={styles.formLabel}>Priority</Text>
+                  <HelpIcon conceptId="priorities" size="small" />
+                </View>
                 <View style={styles.prioritySelector}>
                   {PRIORITIES.map((p) => (
                     <TouchableOpacity
@@ -346,7 +356,10 @@ export default function TodayScreen() {
               </View>
 
               <View style={styles.formField}>
-                <Text style={styles.formLabel}>Quadrant</Text>
+                <View style={styles.formLabelRow}>
+                  <Text style={styles.formLabel}>Quadrant</Text>
+                  <HelpIcon conceptId="quadrants" size="small" />
+                </View>
                 <View style={styles.quadrantSelector}>
                   {QUADRANTS.map((q) => (
                     <TouchableOpacity
@@ -429,6 +442,15 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: PADDING.lg,
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  helpIcons: {
+    flexDirection: 'row',
+    gap: GAP.xs,
   },
   dateText: {
     fontSize: TYPOGRAPHY.h2.fontSize,
@@ -630,6 +652,11 @@ const styles = StyleSheet.create({
   formLabel: {
     fontSize: TYPOGRAPHY.bodySmall.fontSize,
     color: COLORS.text.secondary,
+  },
+  formLabelRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: PADDING.xs,
   },
   prioritySelector: {
