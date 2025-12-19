@@ -48,7 +48,8 @@
         {
           "calendarPermission": "Allow Planner to access your calendar to schedule Big Rocks and tasks."
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true,
