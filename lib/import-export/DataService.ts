@@ -8,6 +8,21 @@
 // import * as Sharing from 'expo-sharing';
 // import * as DocumentPicker from 'expo-document-picker';
 
+// Type declarations for optional dependencies (uncomment imports above when packages are installed)
+declare const FileSystem: {
+  documentDirectory: string;
+  writeAsStringAsync: (fileUri: string, contents: string, options?: any) => Promise<void>;
+  readAsStringAsync: (fileUri: string, options?: any) => Promise<string>;
+  EncodingType: { UTF8: string };
+};
+declare const Sharing: {
+  isAvailableAsync: () => Promise<boolean>;
+  shareAsync: (url: string, options?: any) => Promise<void>;
+};
+declare const DocumentPicker: {
+  getDocumentAsync: (options?: any) => Promise<{ canceled: boolean; assets: Array<{ uri: string }> }>;
+};
+
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { STORAGE_KEYS } from '@/types';
 

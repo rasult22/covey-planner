@@ -118,7 +118,7 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Weekly Planning</Text>
               <Switch
                 value={settings.weeklyPlanningEnabled}
-                onValueChange={toggleWeeklyPlanning}
+                onValueChange={(bool) => {toggleWeeklyPlanning(bool)}} 
                 trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
                 thumbColor={COLORS.text.primary}
               />
@@ -147,7 +147,9 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Daily Planning</Text>
               <Switch
                 value={settings.dailyPlanningEnabled}
-                onValueChange={toggleDailyPlanning}
+                onValueChange={bool => {
+                  toggleDailyPlanning(bool)
+                }}
                 trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
                 thumbColor={COLORS.text.primary}
               />
@@ -173,7 +175,9 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Weekly Compass</Text>
               <Switch
                 value={settings.weeklyCompassEnabled}
-                onValueChange={toggleWeeklyCompass}
+                onValueChange={bool => {
+                  toggleWeeklyCompass(bool)
+                }}
                 trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
                 thumbColor={COLORS.text.primary}
               />
@@ -199,7 +203,9 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Weekly Reflection</Text>
               <Switch
                 value={settings.weeklyReflectionEnabled}
-                onValueChange={toggleWeeklyReflection}
+                onValueChange={bool => {
+                  toggleWeeklyReflection(bool)
+                }}
                 trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
                 thumbColor={COLORS.text.primary}
               />

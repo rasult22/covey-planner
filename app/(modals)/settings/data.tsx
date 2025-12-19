@@ -286,10 +286,6 @@ const styles = StyleSheet.create({
     fontWeight: TYPOGRAPHY.h2.fontWeight,
     color: COLORS.text.primary,
   },
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
-  },
   keyboardAvoid: {
     flex: 1,
   },

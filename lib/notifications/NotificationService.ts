@@ -10,6 +10,8 @@ Notifications.setNotificationHandler({
     shouldShowAlert: true,
     shouldPlaySound: true,
     shouldSetBadge: true,
+    shouldShowBanner: true,
+    shouldShowList: true,
   }),
 });
 
@@ -80,10 +82,10 @@ export class NotificationService {
           priority: Notifications.AndroidNotificationPriority.HIGH,
         },
         trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
           weekday: settings.weeklyPlanningDay + 1, // expo uses 1-7, our settings use 0-6
           hour: hours,
           minute: minutes,
-          repeats: true,
         },
       });
 
@@ -120,9 +122,9 @@ export class NotificationService {
           priority: Notifications.AndroidNotificationPriority.HIGH,
         },
         trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DAILY,
           hour: hours,
           minute: minutes,
-          repeats: true,
         },
       });
 
@@ -159,10 +161,10 @@ export class NotificationService {
           priority: Notifications.AndroidNotificationPriority.DEFAULT,
         },
         trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
           weekday: 1, // Sunday
           hour: hours,
           minute: minutes,
-          repeats: true,
         },
       });
 
@@ -199,10 +201,10 @@ export class NotificationService {
           priority: Notifications.AndroidNotificationPriority.DEFAULT,
         },
         trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
           weekday: settings.weeklyReflectionDay + 1,
           hour: hours,
           minute: minutes,
-          repeats: true,
         },
       });
 
