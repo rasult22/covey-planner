@@ -1,4 +1,4 @@
-// Covey Planner - Fix Mission Storage Migration
+// Principle Centered Planner - Fix Mission Storage Migration
 // This migration fixes the mission data that was incorrectly stored with JSON.stringify
 
 import { STORAGE_KEYS } from '@/types';

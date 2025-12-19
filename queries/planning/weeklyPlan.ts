@@ -1,4 +1,4 @@
-// Covey Planner - Weekly Plan Queries & Mutations
+// Principle Centered Planner - Weekly Plan Queries & Mutations
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { STORAGE_KEYS, WeeklyPlan } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

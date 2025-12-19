@@ -1,4 +1,4 @@
-// Covey Planner - Data Management (import/export - no TanStack Query needed)
+// Principle Centered Planner - Data Management (import/export - no TanStack Query needed)
 // This is utility logic, not data fetching - keep as hook or convert to service
 import { DataService, ExportData } from '@/lib/import-export/DataService';
 import { useState } from 'react';
@@ -40,7 +40,7 @@ export function useDataManagement() {
     try {
       const jsonString = await exportDataAsJSON();
       if (!jsonString) return false;
-      await Share.share({ message: jsonString, title: 'Covey Planner Data Export' });
+      await Share.share({ message: jsonString, title: 'Principle Centered Planner Data Export' });
       return true;
     } catch (error) {
       console.error('Error sharing data:', error);

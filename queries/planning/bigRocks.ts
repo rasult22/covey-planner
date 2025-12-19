@@ -1,4 +1,4 @@
-// Covey Planner - Big Rocks Queries & Mutations
+// Principle Centered Planner - Big Rocks Queries & Mutations
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { BigRock, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

@@ -1,4 +1,4 @@
-// Covey Planner - Data Import/Export Service
+// Principle Centered Planner - Data Import/Export Service
 //
 // NOTE: To enable file import/export functionality, install these packages:
 // npm install expo-file-system expo-sharing expo-document-picker
@@ -7,6 +7,21 @@
 // import * as FileSystem from 'expo-file-system';
 // import * as Sharing from 'expo-sharing';
 // import * as DocumentPicker from 'expo-document-picker';
+
+// Type declarations for optional dependencies (uncomment imports above when packages are installed)
+declare const FileSystem: {
+  documentDirectory: string;
+  writeAsStringAsync: (fileUri: string, contents: string, options?: any) => Promise<void>;
+  readAsStringAsync: (fileUri: string, options?: any) => Promise<string>;
+  EncodingType: { UTF8: string };
+};
+declare const Sharing: {
+  isAvailableAsync: () => Promise<boolean>;
+  shareAsync: (url: string, options?: any) => Promise<void>;
+};
+declare const DocumentPicker: {
+  getDocumentAsync: (options?: any) => Promise<{ canceled: boolean; assets: Array<{ uri: string }> }>;
+};
 
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { STORAGE_KEYS } from '@/types';
@@ -107,7 +122,7 @@ export class DataService {
       if (canShare) {
         await Sharing.shareAsync(fileUri, {
           mimeType: 'application/json',
-          dialogTitle: 'Export Covey Planner Data',
+          dialogTitle: 'Export Principle Centered Planner Data',
         });
       }
 

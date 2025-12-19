@@ -1,8 +1,8 @@
-// Covey Planner - useNotificationSettings Hook
-import { useState, useEffect, useCallback } from 'react';
-import { NotificationSettings, STORAGE_KEYS } from '@/types';
-import { storageService } from '@/lib/storage/AsyncStorageService';
+// Principle Centered Planner - useNotificationSettings Hook
 import { NotificationService } from '@/lib/notifications/NotificationService';
+import { storageService } from '@/lib/storage/AsyncStorageService';
+import { NotificationSettings, STORAGE_KEYS } from '@/types';
+import { useCallback, useEffect, useState } from 'react';
 
 const DEFAULT_SETTINGS: NotificationSettings = {
   weeklyPlanningEnabled: true,

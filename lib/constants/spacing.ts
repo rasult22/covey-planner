@@ -1,4 +1,4 @@
-// Covey Planner - Spacing System
+// Principle Centered Planner - Spacing System
 
 // Base spacing unit (4px)
 const BASE_UNIT = 4;

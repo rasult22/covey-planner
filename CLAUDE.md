@@ -31,7 +31,7 @@ npm run reset-project
 - **React**: Version 19.1.0 (with new React compiler enabled)
 - **Routing**: Expo Router 6.0.19 (file-based routing)
 - **Styling**: NativeWind 4.2.1 (Tailwind CSS for React Native) + StyleSheet.create
-- **State Management**: React hooks + AsyncStorage (no external state library)
+- **State Management**: React Query 5.90.12 + React hooks + AsyncStorage
 - **Language**: TypeScript 5.9.2 with strict mode enabled
 - **Date Utilities**: date-fns 4.1.0
 - **Path Aliases**: `@/*` maps to project root
@@ -71,25 +71,21 @@ Entry point [app/index.tsx](app/index.tsx) checks onboarding status and routes t
 
 **Storage Layer**: Centralized [AsyncStorageService](lib/storage/AsyncStorageService.ts) wraps `@react-native-async-storage/async-storage` with type-safe methods. All data persists locally.
 
-**Data Access Pattern**: Custom hooks in `hooks/` directory provide CRUD operations:
-- `hooks/foundation/` - Mission, values, roles, goals
-- `hooks/planning/` - Daily tasks, weekly plans, big rocks
-- `hooks/gamification/` - Streaks, achievements, promises
-- `hooks/reflection/` - Weekly reflections
-- `hooks/analytics/` - Quadrant statistics
-- `hooks/settings/` - Notifications and data management
+**Data Access Patterns**: The app uses TWO parallel data access patterns (both provide identical functionality):
 
-Each hook follows this pattern:
-```typescript
-export function useHookName() {
-  const [data, setData] = useState<Type>()
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+1. **Traditional React Hooks** (`hooks/` directory):
+   - Uses `useState` + `useEffect` for data fetching
+   - Organized by domain: foundation, planning, gamification, reflection, analytics, settings
+   - Pattern: `{ data, isLoading, error, save, update, delete, reload }`
 
-  // Load from storage on mount
-  // Return { data, isLoading, error, save, update, delete, reload }
-}
-```
+2. **React Query Hooks** (`queries/` directory):
+   - Uses `@tanstack/react-query` (`useQuery` + `useMutation`)
+   - Same domain organization as hooks
+   - QueryClient configured in [queries/index.ts](queries/index.ts) with 2 retry attempts
+   - App wrapped with `QueryClientProvider` in [app/_layout.tsx](app/_layout.tsx:17)
+   - Pattern: `useQuery({ queryKey, queryFn })` + `useMutation({ mutationFn, onSuccess })`
+
+Both patterns coexist and access the same AsyncStorage backend. Choose based on project preferences or use existing pattern in files being modified.
 
 **Type Definitions**: All types defined in [types/index.ts](types/index.ts) including:
 - Foundation entities: `Value`, `Role`, `LongTermGoal`, `GoalStep`
@@ -132,6 +128,15 @@ Design tokens centralized in `lib/constants/`:
 - [AsyncStorageService.ts](lib/storage/AsyncStorageService.ts) - All local storage operations
 - [NotificationService.ts](lib/notifications/NotificationService.ts) - Push notification scheduling
 - [DataService.ts](lib/import-export/DataService.ts) - Data import/export functionality
+- [CalendarService.ts](lib/calendar/CalendarService.ts) - Calendar integration for scheduling tasks and big rocks
+
+### Data Migrations
+
+**Migration System**: [lib/migrations/](lib/migrations/) contains data migration scripts that run on app startup:
+- `fixMissionStorage.ts` - Fixes corrupted mission storage from previous versions (runs in [app/_layout.tsx](app/_layout.tsx:13))
+- `unlockInitialAchievements.ts` - Retroactively unlocks achievements for existing user data
+
+Migrations run automatically when the app starts to ensure data consistency across version updates.
 
 ## Development Notes
 
@@ -142,7 +147,8 @@ Design tokens centralized in `lib/constants/`:
 
 ### Code Organization Philosophy
 - **Minimal component abstraction**: Only 3 UI components in `components/ui/`. Most UI is built directly in screen files.
-- **Domain-organized hooks**: Hooks are organized by business domain (foundation, planning, gamification, etc.) rather than technical concerns
+- **Dual data access patterns**: Both traditional React hooks AND React Query coexist, providing the same functionality through different approaches
+- **Domain-organized hooks**: Hooks/queries are organized by business domain (foundation, planning, gamification, etc.) rather than technical concerns
 - **Centralized types**: All TypeScript types live in a single file [types/index.ts](types/index.ts) for easy reference
 - **Styling approach**: Despite NativeWind setup, most styling uses `StyleSheet.create` with some inline styles
 
@@ -151,3 +157,8 @@ Design tokens centralized in `lib/constants/`:
 - Dark mode support configured but implementation may be incomplete
 - All storage keys prefixed with `@covey_planner:` (21 keys total in [types/index.ts](types/index.ts))
 - VSCode workspace settings include auto-fix on save for ESLint
+
+### Plugin Configuration
+- **expo-notifications**: Configured with custom icon, color (#ffffff), default channel, and sound files in `local/assets/`. Background remote notifications disabled.
+- **expo-calendar**: Calendar permission message configured for Big Rocks and task scheduling
+- **expo-splash-screen**: Custom splash with 200px image, white/black background for light/dark modes

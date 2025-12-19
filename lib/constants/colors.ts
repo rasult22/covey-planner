@@ -1,4 +1,4 @@
-// Covey Planner - Dark Theme Color Palette
+// Principle Centered Planner - Dark Theme Color Palette
 // Monochrome theme with white/light-gray text on black/dark-gray background
 
 export const COLORS = {

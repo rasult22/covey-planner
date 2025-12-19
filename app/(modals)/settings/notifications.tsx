@@ -1,12 +1,12 @@
-// Covey Planner - Notification Settings Screen
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, Alert } from 'react-native';
-import { router } from 'expo-router';
-import { Card } from '@/components/ui/Card';
+// Principle Centered Planner - Notification Settings Screen
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { useNotificationSettings } from '@/hooks/settings/useNotificationSettings';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { router } from 'expo-router';
+import { Alert, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 
 const DAYS_OF_WEEK = [
   'Sunday',
@@ -87,7 +87,7 @@ export default function NotificationSettingsScreen() {
           <Card style={styles.permissionCard}>
             <Text style={styles.permissionTitle}>Permissions Required</Text>
             <Text style={styles.permissionText}>
-              Covey Planner needs notification permissions to send you helpful reminders for planning and reflection.
+              Principle Centered Planner needs notification permissions to send you helpful reminders for planning and reflection.
             </Text>
             <Button onPress={handleRequestPermissions} style={styles.permissionButton}>
               Enable Notifications
@@ -118,7 +118,7 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Weekly Planning</Text>
               <Switch
                 value={settings.weeklyPlanningEnabled}
-                onValueChange={toggleWeeklyPlanning}
+                onValueChange={(bool) => {toggleWeeklyPlanning(bool)}} 
                 trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
                 thumbColor={COLORS.text.primary}
               />
@@ -147,7 +147,9 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Daily Planning</Text>
               <Switch
                 value={settings.dailyPlanningEnabled}
-                onValueChange={toggleDailyPlanning}
+                onValueChange={bool => {
+                  toggleDailyPlanning(bool)
+                }}
                 trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
                 thumbColor={COLORS.text.primary}
               />
@@ -173,7 +175,9 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Weekly Compass</Text>
               <Switch
                 value={settings.weeklyCompassEnabled}
-                onValueChange={toggleWeeklyCompass}
+                onValueChange={bool => {
+                  toggleWeeklyCompass(bool)
+                }}
                 trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
                 thumbColor={COLORS.text.primary}
               />
@@ -199,7 +203,9 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Weekly Reflection</Text>
               <Switch
                 value={settings.weeklyReflectionEnabled}
-                onValueChange={toggleWeeklyReflection}
+                onValueChange={bool => {
+                  toggleWeeklyReflection(bool)
+                }}
                 trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
                 thumbColor={COLORS.text.primary}
               />

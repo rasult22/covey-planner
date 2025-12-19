@@ -1,7 +1,7 @@
-// Covey Planner - useGoals Hook
-import { useState, useEffect, useCallback } from 'react';
+// Principle Centered Planner - useGoals Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { LongTermGoal, GoalStep, STORAGE_KEYS, Achievement } from '@/types';
+import { Achievement, GoalStep, LongTermGoal, STORAGE_KEYS } from '@/types';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useGoals() {
   const [goals, setGoals] = useState<LongTermGoal[]>([]);

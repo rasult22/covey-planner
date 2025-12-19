@@ -1,7 +1,7 @@
-// Covey Planner - useBigRocks Hook
-import { useState, useEffect, useCallback } from 'react';
-import { BigRock, STORAGE_KEYS } from '@/types';
+// Principle Centered Planner - useBigRocks Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
+import { BigRock, STORAGE_KEYS } from '@/types';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useBigRocks(weekId?: string) {
   const [bigRocks, setBigRocks] = useState<BigRock[]>([]);

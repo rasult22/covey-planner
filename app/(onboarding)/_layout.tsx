@@ -1,4 +1,4 @@
-// Covey Planner - Onboarding Layout
+// Principle Centered Planner - Onboarding Layout
 import { Stack } from 'expo-router';
 
 export default function OnboardingLayout() {

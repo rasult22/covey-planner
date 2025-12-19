@@ -1,4 +1,4 @@
-// Covey Planner - Roles Modal
+// Principle Centered Planner - Roles Modal
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';

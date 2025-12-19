@@ -1,4 +1,4 @@
-// Covey Planner - Data Management Screen
+// Principle Centered Planner - Data Management Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { useDataManagement } from '@/hooks/settings/useDataManagement';
@@ -285,10 +285,6 @@ const styles = StyleSheet.create({
     fontSize: TYPOGRAPHY.h2.fontSize,
     fontWeight: TYPOGRAPHY.h2.fontWeight,
     color: COLORS.text.primary,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.background,
   },
   keyboardAvoid: {
     flex: 1,

@@ -1,4 +1,4 @@
-// Covey Planner - Philosophy Screen
+// Principle Centered Planner - Philosophy Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { COLORS } from '@/lib/constants/colors';
@@ -50,7 +50,7 @@ export default function PhilosophyScreen() {
       >
         <Text style={styles.title}>The Time Management Matrix</Text>
         <Text style={styles.subtitle}>
-          Stephen Covey's framework for prioritizing what truly matters
+          Inspired by Stephen Covey's framework for prioritizing what truly matters
         </Text>
 
         <View style={styles.quadrantsContainer}>

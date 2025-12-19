@@ -1,4 +1,4 @@
-// Covey Planner - Mission Setup Screen
+// Principle Centered Planner - Mission Setup Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';

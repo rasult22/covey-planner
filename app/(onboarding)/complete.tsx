@@ -1,4 +1,4 @@
-// Covey Planner - Onboarding Complete Screen
+// Principle Centered Planner - Onboarding Complete Screen
 import { Button } from '@/components/ui/Button';
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING } from '@/lib/constants/spacing';

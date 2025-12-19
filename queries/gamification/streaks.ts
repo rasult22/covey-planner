@@ -1,4 +1,4 @@
-// Covey Planner - Streaks Queries & Mutations
+// Principle Centered Planner - Streaks Queries & Mutations
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { STORAGE_KEYS, StreakData } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

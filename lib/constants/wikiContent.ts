@@ -1,4 +1,4 @@
-// Covey Planner - Wiki Content
+// Principle Centered Planner - Wiki Content
 // Content for in-app wiki pages explaining Covey methodology concepts
 
 export interface WikiConcept {

@@ -1,4 +1,4 @@
-// Covey Planner - Goals Queries & Mutations
+// Principle Centered Planner - Goals Queries & Mutations
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { Achievement, GoalStep, LongTermGoal, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

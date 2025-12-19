@@ -1,8 +1,8 @@
-// Covey Planner - Card Component
-import React from 'react';
-import { View, StyleSheet, ViewProps } from 'react-native';
+// Principle Centered Planner - Card Component
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING, RADIUS } from '@/lib/constants/spacing';
+import React from 'react';
+import { StyleSheet, View, ViewProps } from 'react-native';
 
 interface CardProps extends ViewProps {
   children: React.ReactNode;

@@ -1,4 +1,4 @@
-// Covey Planner - Roles Setup Screen
+// Principle Centered Planner - Roles Setup Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';

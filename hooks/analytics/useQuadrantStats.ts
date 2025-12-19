@@ -1,9 +1,8 @@
-// Covey Planner - useQuadrantStats Hook
-import { useState, useEffect, useCallback } from 'react';
-import { QuadrantStats, Quadrant, STORAGE_KEYS } from '@/types';
+// Principle Centered Planner - useQuadrantStats Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { useDailyTasks } from '@/hooks/planning/useDailyTasks';
+import { Quadrant, QuadrantStats, STORAGE_KEYS } from '@/types';
 import { getWeek, getYear } from 'date-fns';
+import { useCallback, useEffect, useState } from 'react';
 
 // Helper to get week ID
 function getWeekId(date: Date): string {

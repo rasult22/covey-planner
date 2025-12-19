@@ -1,4 +1,4 @@
-// Covey Planner - Time Management Matrix Screen
+// Principle Centered Planner - Time Management Matrix Screen
 import { Card } from '@/components/ui/Card';
 import { HelpIcon } from '@/components/ui/HelpIcon';
 import { COLORS } from '@/lib/constants/colors';

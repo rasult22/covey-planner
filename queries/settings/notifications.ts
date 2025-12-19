@@ -1,4 +1,4 @@
-// Covey Planner - Notification Settings Query
+// Principle Centered Planner - Notification Settings Query
 import { NotificationService } from '@/lib/notifications/NotificationService';
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { NotificationSettings, STORAGE_KEYS } from '@/types';

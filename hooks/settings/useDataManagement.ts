@@ -1,6 +1,6 @@
-// Covey Planner - useDataManagement Hook
-import { useState } from 'react';
+// Principle Centered Planner - useDataManagement Hook
 import { DataService, ExportData } from '@/lib/import-export/DataService';
+import { useState } from 'react';
 import { Share } from 'react-native';
 
 export function useDataManagement() {
@@ -38,7 +38,7 @@ export function useDataManagement() {
 
       await Share.share({
         message: jsonString,
-        title: 'Covey Planner Data Export',
+        title: 'Principle Centered Planner Data Export',
       });
 
       return true;

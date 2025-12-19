@@ -1,4 +1,4 @@
-// Covey Planner - Achievements Queries & Mutations
+// Principle Centered Planner - Achievements Queries & Mutations
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { Achievement, AchievementKey, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

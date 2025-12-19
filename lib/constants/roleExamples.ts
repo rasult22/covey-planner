@@ -1,4 +1,4 @@
-// Covey Planner - Role Examples
+// Principle Centered Planner - Role Examples
 
 export const ROLE_EXAMPLES = [
   // Personal

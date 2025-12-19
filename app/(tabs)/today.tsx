@@ -1,4 +1,4 @@
-// Covey Planner - Today Screen
+// Principle Centered Planner - Today Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { HelpIcon } from '@/components/ui/HelpIcon';

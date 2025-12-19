@@ -1,4 +1,4 @@
-// Covey Planner - Predefined Values
+// Principle Centered Planner - Predefined Values
 
 import { ValueCategory } from '@/types';
 

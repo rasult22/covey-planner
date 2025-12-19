@@ -1,4 +1,4 @@
-// Covey Planner - TypeScript Type Definitions
+// Principle Centered Planner - TypeScript Type Definitions
 
 // ============================================
 // FOUNDATION ENTITIES

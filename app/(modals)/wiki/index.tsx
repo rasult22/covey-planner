@@ -1,4 +1,4 @@
-// Covey Planner - Wiki Home
+// Principle Centered Planner - Wiki Home
 import { Card } from '@/components/ui/Card';
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING } from '@/lib/constants/spacing';
