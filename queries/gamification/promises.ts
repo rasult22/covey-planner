@@ -1,4 +1,4 @@
-// Covey Planner - Promises (30/10) Queries & Mutations
+// Principle Centered Planner - Promises (30/10) Queries & Mutations
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { Promise3010, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

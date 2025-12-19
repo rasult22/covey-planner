@@ -1,4 +1,4 @@
-// Covey Planner - DatePicker Component
+// Principle Centered Planner - DatePicker Component
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';

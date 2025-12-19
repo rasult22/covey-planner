@@ -1,8 +1,8 @@
-// Covey Planner - AsyncStorage Service
+// Principle Centered Planner - AsyncStorage Service
 // Centralized service for all local storage operations
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { STORAGE_KEYS } from '@/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class AsyncStorageService {
   /**
@@ -184,7 +184,7 @@ class AsyncStorageService {
   }
 
   // ============================================
-  // Specialized getters for Covey Planner data
+  // Specialized getters for Principle Centered Planner data
   // ============================================
 
   /**

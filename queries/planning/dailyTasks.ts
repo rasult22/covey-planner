@@ -1,4 +1,4 @@
-// Covey Planner - Daily Tasks Queries & Mutations
+// Principle Centered Planner - Daily Tasks Queries & Mutations
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { DailyTask, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

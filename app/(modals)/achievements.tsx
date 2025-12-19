@@ -1,14 +1,14 @@
-// Covey Planner - Achievements Screen
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { router } from 'expo-router';
-import { Card } from '@/components/ui/Card';
+// Principle Centered Planner - Achievements Screen
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { useAchievements } from '@/hooks/gamification/useAchievements';
 import { useStreaks } from '@/hooks/gamification/useStreaks';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { Achievement } from '@/types';
+import { router } from 'expo-router';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function AchievementsScreen() {
   const {

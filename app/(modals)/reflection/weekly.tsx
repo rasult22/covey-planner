@@ -1,4 +1,4 @@
-// Covey Planner - Weekly Reflection Screen
+// Principle Centered Planner - Weekly Reflection Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { useAchievements } from '@/hooks/gamification/useAchievements';

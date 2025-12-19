@@ -1,8 +1,8 @@
-// Covey Planner - Notification Service
-import * as Notifications from 'expo-notifications';
-import * as Device from 'expo-device';
-import { Platform } from 'react-native';
+// Principle Centered Planner - Notification Service
 import { NotificationSettings } from '@/types';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native';
 
 // Configure how notifications are handled when the app is foregrounded
 Notifications.setNotificationHandler({
@@ -40,7 +40,7 @@ export class NotificationService {
       // Configure notification channel for Android
       if (Platform.OS === 'android') {
         await Notifications.setNotificationChannelAsync('default', {
-          name: 'Covey Planner Reminders',
+          name: 'Principle Centered Planner Reminders',
           importance: Notifications.AndroidImportance.HIGH,
           vibrationPattern: [0, 250, 250, 250],
           lightColor: '#FFFFFF',

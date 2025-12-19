@@ -1,14 +1,14 @@
-// Covey Planner - Analytics Screen
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import { router } from 'expo-router';
-import { Card } from '@/components/ui/Card';
+// Principle Centered Planner - Analytics Screen
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { useQuadrantStats } from '@/hooks/analytics/useQuadrantStats';
 import { useWeeklyReflection } from '@/hooks/reflection/useWeeklyReflection';
-import { Quadrant } from '@/types';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { Quadrant } from '@/types';
+import { router } from 'expo-router';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 export default function AnalyticsScreen() {
   const {

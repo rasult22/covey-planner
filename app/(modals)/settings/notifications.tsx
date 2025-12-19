@@ -1,12 +1,12 @@
-// Covey Planner - Notification Settings Screen
-import { View, Text, StyleSheet, ScrollView, Switch, TouchableOpacity, Alert } from 'react-native';
-import { router } from 'expo-router';
-import { Card } from '@/components/ui/Card';
+// Principle Centered Planner - Notification Settings Screen
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { useNotificationSettings } from '@/hooks/settings/useNotificationSettings';
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { router } from 'expo-router';
+import { Alert, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 
 const DAYS_OF_WEEK = [
   'Sunday',
@@ -87,7 +87,7 @@ export default function NotificationSettingsScreen() {
           <Card style={styles.permissionCard}>
             <Text style={styles.permissionTitle}>Permissions Required</Text>
             <Text style={styles.permissionText}>
-              Covey Planner needs notification permissions to send you helpful reminders for planning and reflection.
+              Principle Centered Planner needs notification permissions to send you helpful reminders for planning and reflection.
             </Text>
             <Button onPress={handleRequestPermissions} style={styles.permissionButton}>
               Enable Notifications

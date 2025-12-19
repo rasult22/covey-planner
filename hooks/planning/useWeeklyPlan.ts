@@ -1,8 +1,8 @@
-// Covey Planner - useWeeklyPlan Hook
-import { useState, useEffect, useCallback } from 'react';
-import { WeeklyPlan, STORAGE_KEYS } from '@/types';
+// Principle Centered Planner - useWeeklyPlan Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { startOfWeek, endOfWeek, getWeek, getYear } from 'date-fns';
+import { STORAGE_KEYS, WeeklyPlan } from '@/types';
+import { endOfWeek, getWeek, getYear, startOfWeek } from 'date-fns';
+import { useCallback, useEffect, useState } from 'react';
 
 // Helper to get week ID in format "YYYY-WW" (US format: Sunday start)
 export function getWeekId(date: Date): string {

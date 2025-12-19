@@ -1,4 +1,4 @@
-// Covey Planner - Goals Screen
+// Principle Centered Planner - Goals Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { HelpIcon } from '@/components/ui/HelpIcon';

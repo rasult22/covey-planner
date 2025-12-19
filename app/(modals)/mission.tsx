@@ -1,4 +1,4 @@
-// Covey Planner - Mission Modal
+// Principle Centered Planner - Mission Modal
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';

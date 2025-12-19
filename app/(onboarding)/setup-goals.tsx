@@ -1,4 +1,4 @@
-// Covey Planner - Goals Setup Screen (Optional)
+// Principle Centered Planner - Goals Setup Screen (Optional)
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { COLORS } from '@/lib/constants/colors';
@@ -32,7 +32,7 @@ export default function SetupGoalsScreen() {
         </Text>
 
         <Card style={styles.infoCard}>
-          <Text style={styles.infoTitle}>🎯 Goals in Covey Planner</Text>
+          <Text style={styles.infoTitle}>🎯 Goals in Principle Centered Planner</Text>
           <Text style={styles.infoText}>
             Long-term goals connect your daily actions to your mission and values.
             {'\n\n'}

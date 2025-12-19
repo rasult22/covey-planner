@@ -1,4 +1,4 @@
-// Covey Planner - New Goal Modal
+// Principle Centered Planner - New Goal Modal
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { DatePicker } from '@/components/ui/DatePicker';

@@ -1,7 +1,7 @@
-// Covey Planner - Tabs Layout
+// Principle Centered Planner - Tabs Layout
 import { COLORS } from '@/lib/constants/colors';
-import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabsLayout() {

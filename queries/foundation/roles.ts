@@ -1,4 +1,4 @@
-// Covey Planner - Roles Queries & Mutations
+// Principle Centered Planner - Roles Queries & Mutations
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { Achievement, Role, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

@@ -1,7 +1,7 @@
-// Covey Planner - useMission Hook
-import { useState, useEffect, useCallback } from 'react';
+// Principle Centered Planner - useMission Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { STORAGE_KEYS, Achievement } from '@/types';
+import { Achievement, STORAGE_KEYS } from '@/types';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useMission() {
   const [mission, setMission] = useState<string>('');

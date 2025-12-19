@@ -1,4 +1,4 @@
-// Covey Planner - Help Icon Component
+// Principle Centered Planner - Help Icon Component
 // Contextual help button that links to wiki pages
 import { COLORS } from '@/lib/constants/colors';
 import { router } from 'expo-router';

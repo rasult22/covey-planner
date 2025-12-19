@@ -1,7 +1,7 @@
-// Covey Planner - useAchievements Hook
-import { useState, useEffect, useCallback } from 'react';
-import { Achievement, AchievementKey, STORAGE_KEYS } from '@/types';
+// Principle Centered Planner - useAchievements Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
+import { Achievement, AchievementKey, STORAGE_KEYS } from '@/types';
+import { useCallback, useEffect, useState } from 'react';
 
 // Achievement definitions
 const ACHIEVEMENT_DEFINITIONS: Record<AchievementKey, { title: string; description: string }> = {

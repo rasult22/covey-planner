@@ -1,6 +1,6 @@
-// Covey Planner - Achievement Migration Utility
+// Principle Centered Planner - Achievement Migration Utility
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { STORAGE_KEYS, Achievement, Value, Role, LongTermGoal } from '@/types';
+import { Achievement, LongTermGoal, Role, STORAGE_KEYS, Value } from '@/types';
 
 /**
  * Checks existing user data and unlocks appropriate achievements

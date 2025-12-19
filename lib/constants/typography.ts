@@ -1,4 +1,4 @@
-// Covey Planner - Typography System
+// Principle Centered Planner - Typography System
 
 export const FONT_SIZES = {
   xs: 12,

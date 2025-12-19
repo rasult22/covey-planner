@@ -1,4 +1,4 @@
-// Covey Planner - Quadrant Stats Query (read-only analytics)
+// Principle Centered Planner - Quadrant Stats Query (read-only analytics)
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { QuadrantStats, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';

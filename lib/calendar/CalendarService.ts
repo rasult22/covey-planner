@@ -1,4 +1,4 @@
-// Covey Planner - Calendar Service
+// Principle Centered Planner - Calendar Service
 // Integrates with device calendar for scheduling Big Rocks and tasks
 
 import { storageService } from '@/lib/storage/AsyncStorageService';
@@ -33,7 +33,7 @@ export class CalendarService {
   }
 
   /**
-   * Get or create the Covey Planner calendar
+   * Get or create the Principle Centered Planner calendar
    */
   static async getOrCreateCalendar(): Promise<string | null> {
     try {
@@ -69,7 +69,7 @@ export class CalendarService {
   }
 
   /**
-   * Create a new Covey Planner calendar
+   * Create a new Principle Centered Planner calendar
    */
   private static async createCalendar(): Promise<string | null> {
     try {
@@ -82,13 +82,13 @@ export class CalendarService {
         // Android
         defaultCalendarSource = {
           isLocalAccount: true,
-          name: 'Covey Planner',
+          name: 'Principle Centered Planner',
           type: Calendar.SourceType.LOCAL,
         } as Calendar.Source;
       }
 
       const newCalendarId = await Calendar.createCalendarAsync({
-        title: 'Covey Planner',
+        title: 'Principle Centered Planner',
         color: '#007AFF', // iOS blue
         entityType: Calendar.EntityTypes.EVENT,
         sourceId: defaultCalendarSource.id,

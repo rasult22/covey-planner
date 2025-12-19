@@ -1,7 +1,7 @@
-// Covey Planner - useValues Hook
-import { useState, useEffect, useCallback } from 'react';
+// Principle Centered Planner - useValues Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { Value, STORAGE_KEYS, Achievement } from '@/types';
+import { Achievement, STORAGE_KEYS, Value } from '@/types';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useValues() {
   const [values, setValues] = useState<Value[]>([]);

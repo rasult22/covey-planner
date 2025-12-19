@@ -1,9 +1,9 @@
-// Covey Planner - Input Component
-import React from 'react';
-import { TextInput, View, Text, StyleSheet, TextInputProps } from 'react-native';
+// Principle Centered Planner - Input Component
 import { COLORS } from '@/lib/constants/colors';
-import { PADDING, RADIUS, GAP } from '@/lib/constants/spacing';
+import { GAP, PADDING, RADIUS } from '@/lib/constants/spacing';
 import { FONT_SIZES } from '@/lib/constants/typography';
+import React from 'react';
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
 
 interface InputProps extends TextInputProps {
   label?: string;

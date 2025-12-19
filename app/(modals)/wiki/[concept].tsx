@@ -1,4 +1,4 @@
-// Covey Planner - Wiki Concept Page
+// Principle Centered Planner - Wiki Concept Page
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { COLORS } from '@/lib/constants/colors';

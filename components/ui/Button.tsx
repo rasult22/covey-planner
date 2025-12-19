@@ -1,4 +1,4 @@
-// Covey Planner - Button Component
+// Principle Centered Planner - Button Component
 import { COLORS } from '@/lib/constants/colors';
 import { PADDING, RADIUS } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';

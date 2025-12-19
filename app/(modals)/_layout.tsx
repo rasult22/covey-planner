@@ -1,4 +1,4 @@
-// Covey Planner - Modals Layout
+// Principle Centered Planner - Modals Layout
 import { COLORS } from '@/lib/constants/colors';
 import { Stack } from 'expo-router';
 

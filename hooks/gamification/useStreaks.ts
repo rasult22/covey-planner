@@ -1,8 +1,8 @@
-// Covey Planner - useStreaks Hook
-import { useState, useEffect, useCallback } from 'react';
-import { StreakData, STORAGE_KEYS } from '@/types';
+// Principle Centered Planner - useStreaks Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { getWeek, getYear, parseISO, differenceInDays, subDays } from 'date-fns';
+import { STORAGE_KEYS, StreakData } from '@/types';
+import { getWeek, getYear, parseISO, subDays } from 'date-fns';
+import { useCallback, useEffect, useState } from 'react';
 
 // Helper to get week ID
 function getWeekId(date: Date): string {

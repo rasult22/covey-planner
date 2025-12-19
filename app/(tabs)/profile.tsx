@@ -1,4 +1,4 @@
-// Covey Planner - Profile Screen
+// Principle Centered Planner - Profile Screen
 import { Card } from '@/components/ui/Card';
 import { useAchievements } from '@/hooks/gamification/useAchievements';
 import { useStreaks } from '@/hooks/gamification/useStreaks';

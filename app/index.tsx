@@ -1,4 +1,4 @@
-// Covey Planner - Entry Point
+// Principle Centered Planner - Entry Point
 import { COLORS } from '@/lib/constants/colors';
 import { unlockInitialAchievements } from '@/lib/migrations/unlockInitialAchievements';
 import { storageService } from '@/lib/storage/AsyncStorageService';
