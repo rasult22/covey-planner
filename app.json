@@ -13,7 +13,10 @@
       "infoPlist": {
         "UIViewControllerBasedStatusBarAppearance": true
       },
-      "bundleIdentifier": "com.rasult22.principle-centered-planner"
+      "bundleIdentifier": "com.rasult22.principle-centered-planner",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
