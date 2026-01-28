@@ -20,6 +20,9 @@ npm run web
 # Linting
 npm run lint
 
+# iOS production archive (prebuild + release build)
+npm run ios-archive
+
 # Reset project (moves starter code to app-example/)
 npm run reset-project
 ```
