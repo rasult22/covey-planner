@@ -51,12 +51,12 @@ export const COLORS = {
     C: '#34D399', // Green - Can wait
   },
 
-  // Quadrant colors (I, II, III, IV) - using gray shades
+  // Quadrant colors (I, II, III, IV) - bright distinct colors
   quadrant: {
-    I: '#FFFFFF', // White - Urgent & Important
-    II: '#D4D4D4', // Light gray - Not urgent but Important (FOCUS)
-    III: '#737373', // Medium gray - Urgent but not Important
-    IV: '#404040', // Dark gray - Neither urgent nor important
+    I: '#EF4444', // Red - Urgent & Important (crises, fires)
+    II: '#22C55E', // Green - Not urgent but Important (FOCUS zone)
+    III: '#F59E0B', // Amber - Urgent but not Important (interruptions)
+    IV: '#6B7280', // Gray - Neither urgent nor important (time wasters)
   },
 
   // Status colors
@@ -92,12 +92,12 @@ export const COLORS = {
     glow: '#E5E5E5',
   },
 
-  // Chart/Graph colors (varying grays for different segments)
+  // Chart/Graph colors (matching quadrant colors)
   chart: {
-    quadrant1: '#FFFFFF',
-    quadrant2: '#D4D4D4',
-    quadrant3: '#A3A3A3',
-    quadrant4: '#737373',
+    quadrant1: '#EF4444', // Red - matches quadrant.I
+    quadrant2: '#22C55E', // Green - matches quadrant.II
+    quadrant3: '#F59E0B', // Amber - matches quadrant.III
+    quadrant4: '#6B7280', // Gray - matches quadrant.IV
     streak: '#E5E5E5',
     progress: '#FFFFFF',
   },

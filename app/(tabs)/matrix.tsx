@@ -44,12 +44,22 @@ export default function MatrixScreen() {
 
   const getQuadrantTime = (quadrant: Quadrant): number => {
     const completedTasks = tasks.filter(task => task.quadrant === quadrant && task.status === 'completed');
-    return completedTasks.reduce((sum, task) => sum + task.estimatedMinutes, 0);
+    const taskMinutes = completedTasks.reduce((sum, task) => sum + task.estimatedMinutes, 0);
+
+    const completedRocks = bigRocks.filter(rock => rock.quadrant === quadrant && rock.completedAt);
+    const rockMinutes = completedRocks.reduce((sum, rock) => sum + (rock.estimatedHours * 60), 0);
+
+    return taskMinutes + rockMinutes;
   };
 
   const getTotalTime = (): number => {
     const completedTasks = tasks.filter(task => task.status === 'completed');
-    return completedTasks.reduce((sum, task) => sum + task.estimatedMinutes, 0);
+    const taskMinutes = completedTasks.reduce((sum, task) => sum + task.estimatedMinutes, 0);
+
+    const completedRocks = bigRocks.filter(rock => rock.completedAt);
+    const rockMinutes = completedRocks.reduce((sum, rock) => sum + (rock.estimatedHours * 60), 0);
+
+    return taskMinutes + rockMinutes;
   };
 
   const getQuadrantPercentage = (quadrant: Quadrant): number => {
@@ -73,7 +83,6 @@ export default function MatrixScreen() {
     const { tasks: quadrantTasks, rocks: quadrantRocks } = getQuadrantItems(quadrant);
     const totalItems = quadrantTasks.length + quadrantRocks.length;
     const timeSpent = getQuadrantTime(quadrant);
-    const percentage = getQuadrantPercentage(quadrant);
     const isQ2 = quadrant === 'II';
 
     return (
@@ -113,12 +122,6 @@ export default function MatrixScreen() {
                 <Text style={styles.statValue}>{quadrantRocks.length}</Text>
               </View>
             </>
-          )}
-          {percentage > 0 && (
-            <View style={styles.percentageBar}>
-              <View style={[styles.percentageFill, { width: `${percentage}%` }]} />
-              <Text style={styles.percentageText}>{percentage}%</Text>
-            </View>
           )}
         </View>
 
@@ -245,29 +248,54 @@ export default function MatrixScreen() {
           </View>
         </View>
 
-        {getTotalTime() > 0 && (
-          <Card style={styles.summaryCard}>
-            <Text style={styles.summaryTitle}>Time Distribution</Text>
-            <View style={styles.summaryRow}>
-              <Text style={styles.summaryLabel}>Total Time Tracked:</Text>
-              <Text style={styles.summaryValue}>{formatMinutes(getTotalTime())}</Text>
-            </View>
-            <View style={styles.summaryGrid}>
-              {(['I', 'II', 'III', 'IV'] as Quadrant[]).map(q => {
+        <Card style={styles.summaryCard}>
+          <Text style={styles.summaryTitle}>Time Balance</Text>
+          <View style={styles.summaryRow}>
+            <Text style={styles.summaryLabel}>Total Time:</Text>
+            <Text style={styles.summaryValue}>{getTotalTime() > 0 ? formatMinutes(getTotalTime()) : '0m'}</Text>
+          </View>
+
+          {/* Unified balance bar */}
+          <View style={styles.balanceBarContainer}>
+            {getTotalTime() === 0 ? (
+              <View style={[styles.balanceSegment, { flex: 1, backgroundColor: COLORS.border.light }]} />
+            ) : (
+              (['I', 'II', 'III', 'IV'] as Quadrant[]).map(q => {
                 const percentage = getQuadrantPercentage(q);
                 if (percentage === 0) return null;
                 return (
-                  <View key={q} style={styles.summaryItem}>
-                    <View style={[styles.summaryBadge, { backgroundColor: getQuadrantColor(q) }]}>
-                      <Text style={styles.summaryBadgeText}>{q}</Text>
-                    </View>
-                    <Text style={styles.summaryPercent}>{percentage}%</Text>
-                  </View>
+                  <View
+                    key={q}
+                    style={[
+                      styles.balanceSegment,
+                      { flex: percentage, backgroundColor: getQuadrantColor(q) },
+                    ]}
+                  />
                 );
-              })}
-            </View>
-          </Card>
-        )}
+              })
+            )}
+          </View>
+
+          {/* Legend */}
+          <View style={styles.legendContainer}>
+            {(['I', 'II', 'III', 'IV'] as Quadrant[]).map(q => {
+              const percentage = getQuadrantPercentage(q);
+              return (
+                <View key={q} style={styles.legendItem}>
+                  <View style={[styles.legendDot, { backgroundColor: getQuadrantColor(q) }]} />
+                  <Text style={styles.legendText}>Q{q}</Text>
+                  <Text style={styles.legendPercent}>{percentage}%</Text>
+                </View>
+              );
+            })}
+            {getTotalTime() === 0 && (
+              <View style={styles.legendItem}>
+                <View style={[styles.legendDot, { backgroundColor: COLORS.border.light }]} />
+                <Text style={styles.legendText}>None</Text>
+              </View>
+            )}
+          </View>
+        </Card>
       </ScrollView>
 
       {selectedQuadrant && renderDetailView()}
@@ -478,6 +506,40 @@ const styles = StyleSheet.create({
     color: COLORS.background,
   },
   summaryPercent: {
+    fontSize: TYPOGRAPHY.bodySmall.fontSize,
+    fontWeight: '600',
+    color: COLORS.text.primary,
+  },
+  balanceBarContainer: {
+    flexDirection: 'row',
+    height: 24,
+    borderRadius: 12,
+    overflow: 'hidden',
+    marginBottom: PADDING.md,
+  },
+  balanceSegment: {
+    height: '100%',
+  },
+  legendContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: GAP.md,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: GAP.xs,
+  },
+  legendDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+  },
+  legendText: {
+    fontSize: TYPOGRAPHY.bodySmall.fontSize,
+    color: COLORS.text.secondary,
+  },
+  legendPercent: {
     fontSize: TYPOGRAPHY.bodySmall.fontSize,
     fontWeight: '600',
     color: COLORS.text.primary,

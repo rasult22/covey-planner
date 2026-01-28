@@ -133,28 +133,28 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| TD-3.1 | [ ] | Complete task | 1. Tap checkbox | Checkmark appears, title strikethrough |
-| TD-3.2 | [ ] | Uncomplete task | 1. Tap completed checkbox | Checkmark removed, text normal |
-| TD-3.3 | [ ] | Delete task | 1. Tap X 2. Confirm | Task removed |
-| TD-3.4 | [ ] | Cancel delete | 1. Tap X 2. Cancel | Task remains |
-| TD-3.5 | [ ] | Task sorting | 1. Add tasks A, B, C priority | Sorted A > B > C |
-| TD-3.6 | [ ] | Completed at bottom | 1. Complete task | Completed tasks sorted last |
+| TD-3.1 | [x] | Complete task | 1. Tap checkbox | Checkmark appears, title strikethrough |
+| TD-3.2 | [x] | Uncomplete task | 1. Tap completed checkbox | Checkmark removed, text normal |
+| TD-3.3 | [x] | Delete task | 1. Tap X 2. Confirm | Task removed |
+| TD-3.4 | [x] | Cancel delete | 1. Tap X 2. Cancel | Task remains |
+| TD-3.5 | [x] | Task sorting | 1. Add tasks A, B, C priority | Sorted A > B > C |
+| TD-3.6 | [x] | Completed at bottom | 1. Complete task | Completed tasks sorted last within priority group |
 
 ### 2.4 Statistics
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| TD-4.1 | [ ] | Task count | 1. Add 5 tasks | Stats show "5" Tasks |
-| TD-4.2 | [ ] | Done count | 1. Complete 3 tasks | Stats show "3" Done |
-| TD-4.3 | [ ] | Planned minutes | 1. Add tasks (30m+45m+15m) | Stats show "90m" Planned |
-| TD-4.4 | [ ] | Real-time update | 1. Add/complete/delete | Stats update immediately |
+| TD-4.1 | [x] | Task count | 1. Add 5 tasks | Stats show "5" Tasks |
+| TD-4.2 | [x] | Done count | 1. Complete 3 tasks | Stats show "3" Done |
+| TD-4.3 | [x] | Planned minutes | 1. Add tasks (30m+45m+15m) | Stats show "90m" Planned |
+| TD-4.4 | [x] | Real-time update | 1. Add/complete/delete | Stats update immediately |
 
 ### 2.5 Data Persistence
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| TD-5.1 | [ ] | Task persistence | 1. Add task 2. Close app 3. Reopen | Task still exists |
-| TD-5.2 | [ ] | Completion persistence | 1. Complete task 2. Close/reopen | Task still completed |
+| TD-5.1 | [x] | Task persistence | 1. Add task 2. Close app 3. Reopen | Task still exists |
+| TD-5.2 | [x] | Completion persistence | 1. Complete task 2. Close/reopen | Task still completed |
 | TD-5.3 | [ ] | Date-based tasks | 1. Add task today 2. Check tomorrow | Task only on correct date |
 
 ---
@@ -168,29 +168,30 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| WK-1.1 | [ ] | Week range | 1. Open Week tab | Shows "Week of MMM d - MMM d, yyyy" |
-| WK-1.2 | [ ] | Correct week | 1. Check current date | Week range matches ISO week |
-| WK-1.3 | [ ] | Empty state | 1. No Big Rocks | "No Big Rocks Yet" displayed |
-| WK-1.4 | [ ] | Help icons | 1. View header | Two help icons visible |
+| WK-1.1 | [x] | Week range | 1. Open Week tab | Shows "Week of MMM d - MMM d" (no year) |
+| WK-1.2 | [x] | Correct week | 1. Check current date | Week range matches ISO week |
+| WK-1.3 | [x] | Empty state | 1. No Big Rocks | "No Big Rocks Yet" displayed with help icon |
+| WK-1.4 | [x] | Help icon (header) | 1. View header | Help icon links to Weekly Planning wiki |
+| WK-1.5 | [x] | Help icon (Big Rocks) | 1. View "Your Big Rocks" section | Help icon links to Big Rocks wiki |
 
 ### 3.2 Big Rock Creation
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| WK-2.1 | [ ] | Open add form | 1. Tap "+ Add Big Rock" | Form appears |
-| WK-2.2 | [ ] | Empty title blocked | 1. Leave title empty 2. Tap Add | Alert: "Please enter a title" |
-| WK-2.3 | [ ] | Invalid hours | 1. Enter 0 hours 2. Tap Add | Alert about valid hours |
-| WK-2.4 | [ ] | Create Big Rock | 1. Enter title, hours 2. Tap Add | Big Rock in list |
-| WK-2.5 | [ ] | Big Rock display | 1. Add Big Rock | Shows title, hours, checkbox |
+| WK-2.1 | [x] | Open add form | 1. Tap "+ Add Big Rock" | Form appears |
+| WK-2.2 | [x] | Empty title blocked | 1. Leave title empty 2. Tap Add | Alert: "Please enter a title" |
+| WK-2.3 | [x] | Invalid hours | 1. Enter 0 hours 2. Tap Add | Alert about valid hours |
+| WK-2.4 | [x] | Create Big Rock | 1. Enter title, hours 2. Tap Add | Big Rock in list |
+| WK-2.5 | [x] | Big Rock display | 1. Add Big Rock | Shows title, hours, checkbox |
 
 ### 3.3 Big Rock Management
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| WK-3.1 | [ ] | Complete Big Rock | 1. Tap checkbox | Checkmark, strikethrough |
-| WK-3.2 | [ ] | Uncomplete | 1. Tap completed checkbox | Checkmark removed |
-| WK-3.3 | [ ] | Delete Big Rock | 1. Tap X 2. Confirm | Big Rock removed |
-| WK-3.4 | [ ] | Always Quadrant II | 1. Add Big Rock 2. Check data | Big Rock has quadrant: "II" |
+| WK-3.1 | [x] | Complete Big Rock | 1. Tap checkbox | Checkmark, strikethrough |
+| WK-3.2 | [x] | Uncomplete | 1. Tap completed checkbox | Checkmark removed |
+| WK-3.3 | [x] | Delete Big Rock | 1. Tap X 2. Confirm | Big Rock removed |
+| WK-3.4 | [x] | Always Quadrant II | 1. Add Big Rock 2. Check data | Big Rock has quadrant: "II" |
 
 ### 3.4 Calendar Integration
 

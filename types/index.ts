@@ -56,7 +56,6 @@ export interface BigRock {
   completedAt?: string;
   createdAt: string;
   quadrant: 'II'; // Always Quadrant II
-  calendarEventId?: string; // Device calendar event ID
 }
 
 export interface DailyTask {
@@ -72,19 +71,6 @@ export interface DailyTask {
   estimatedMinutes: number;
   createdAt: string;
   completedAt?: string;
-  calendarEventId?: string; // Device calendar event ID
-}
-
-export interface CalendarEvent {
-  id: string;
-  title: string;
-  description?: string;
-  date: string;
-  startTime: string;
-  endTime: string;
-  type: 'big_rock' | 'meeting' | 'task' | 'other';
-  linkedBigRockId?: string;
-  linkedTaskId?: string;
 }
 
 export interface WeeklyPlan {
