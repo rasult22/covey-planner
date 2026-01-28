@@ -119,10 +119,7 @@ export default function TodayScreen() {
         <View style={styles.header}>
           <View style={styles.headerRow}>
             <Text style={styles.dateText}>{format(new Date(), 'EEEE, MMMM d')}</Text>
-            <View style={styles.helpIcons}>
-              <HelpIcon conceptId="priorities" size="small" />
-              <HelpIcon conceptId="daily-planning" size="small" />
-            </View>
+            <HelpIcon conceptId="daily-planning" size="small" />
           </View>
           <Text style={styles.subtitle}>Plan your day, win your day</Text>
         </View>
@@ -361,10 +358,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-  },
-  helpIcons: {
-    flexDirection: 'row',
-    gap: GAP.xs,
   },
   dateText: {
     fontSize: TYPOGRAPHY.h2.fontSize,

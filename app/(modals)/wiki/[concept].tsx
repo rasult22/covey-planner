@@ -8,6 +8,7 @@ import { getRelatedConcepts, getWikiConcept } from '@/lib/constants/wikiContent'
 import { router, useLocalSearchParams } from 'expo-router';
 import { ReactNode } from 'react';
 import { ScrollView, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Simple markdown parser for bold text (**text**)
 function parseMarkdown(text: string, baseStyle: TextStyle): ReactNode[] {
@@ -34,19 +35,19 @@ export default function WikiConceptPage() {
 
   if (!concept) {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Concept Not Found</Text>
           <TouchableOpacity onPress={() => router.back()}>
             <Text style={styles.closeButton}>Back</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => router.back()}>
           <Text style={styles.backButton}>← Back</Text>
@@ -100,7 +101,7 @@ export default function WikiConceptPage() {
           Return to App
         </Button>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

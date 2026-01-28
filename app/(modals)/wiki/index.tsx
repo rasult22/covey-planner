@@ -6,10 +6,11 @@ import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { WIKI_CONCEPTS } from '@/lib/constants/wikiContent';
 import { router } from 'expo-router';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function WikiIndex() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Learn the Method</Text>
         <TouchableOpacity onPress={() => router.back()}>
@@ -44,7 +45,7 @@ export default function WikiIndex() {
           </TouchableOpacity>
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 

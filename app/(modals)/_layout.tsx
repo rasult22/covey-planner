@@ -67,6 +67,12 @@ export default function ModalsLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="wiki"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }
