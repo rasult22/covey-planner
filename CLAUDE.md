@@ -30,12 +30,12 @@ npm run reset-project
 ## Architecture
 
 ### Tech Stack
-- **Framework**: Expo 54 with React Native 0.81
+- **Framework**: Expo ~54.0 with React Native 0.81.5
 - **React**: Version 19.1.0 (with new React compiler enabled)
-- **Routing**: Expo Router 6.0.19 (file-based routing)
-- **Styling**: NativeWind 4.2.1 (Tailwind CSS for React Native) + StyleSheet.create
+- **Routing**: Expo Router ~6.0.21 (file-based routing)
+- **Styling**: StyleSheet.create with inline styles (NativeWind was removed)
 - **State Management**: React Query 5.90.12 + React hooks + AsyncStorage
-- **Language**: TypeScript 5.9.2 with strict mode enabled
+- **Language**: TypeScript ~5.9.2 with strict mode enabled
 - **Date Utilities**: date-fns 4.1.0
 - **Path Aliases**: `@/*` maps to project root
 - **Testing**: No testing framework configured
@@ -153,7 +153,7 @@ Migrations run automatically when the app starts to ensure data consistency acro
 - **Dual data access patterns**: Both traditional React hooks AND React Query coexist, providing the same functionality through different approaches
 - **Domain-organized hooks**: Hooks/queries are organized by business domain (foundation, planning, gamification, etc.) rather than technical concerns
 - **Centralized types**: All TypeScript types live in a single file [types/index.ts](types/index.ts) for easy reference
-- **Styling approach**: Despite NativeWind setup, most styling uses `StyleSheet.create` with some inline styles
+- **Styling approach**: Uses `StyleSheet.create` with inline styles (NativeWind was removed)
 
 ### Configuration
 - First day of week is Sunday (US standard)
