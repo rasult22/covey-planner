@@ -14,8 +14,14 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+interface CustomValue {
+  name: string;
+  statement: string;
+}
+
 export default function SetupValuesScreen() {
   const [selectedValues, setSelectedValues] = useState<Set<string>>(new Set());
+  const [customValues, setCustomValues] = useState<CustomValue[]>([]);
   const [customValue, setCustomValue] = useState('');
   const [customStatement, setCustomStatement] = useState('');
   const [showCustomForm, setShowCustomForm] = useState(false);
@@ -32,11 +38,32 @@ export default function SetupValuesScreen() {
     setSelectedValues(newSelected);
   };
 
+  const toggleCustomValue = (valueName: string) => {
+    const newSelected = new Set(selectedValues);
+    if (newSelected.has(valueName)) {
+      newSelected.delete(valueName);
+    } else {
+      newSelected.add(valueName);
+    }
+    setSelectedValues(newSelected);
+  };
+
+  const removeCustomValue = (valueName: string) => {
+    setCustomValues(prev => prev.filter(v => v.name !== valueName));
+    const newSelected = new Set(selectedValues);
+    newSelected.delete(valueName);
+    setSelectedValues(newSelected);
+  };
+
   const addCustomValue = () => {
     if (!customValue.trim()) return;
 
+    const trimmedName = customValue.trim();
+    const trimmedStatement = customStatement.trim();
+
+    setCustomValues(prev => [...prev, { name: trimmedName, statement: trimmedStatement }]);
     const newSelected = new Set(selectedValues);
-    newSelected.add(customValue.trim());
+    newSelected.add(trimmedName);
     setSelectedValues(newSelected);
     setCustomValue('');
     setCustomStatement('');
@@ -53,10 +80,11 @@ export default function SetupValuesScreen() {
     try {
       const valuesToSave: Value[] = Array.from(selectedValues).map((valueName) => {
         const predefined = PREDEFINED_VALUES.find(v => v.name === valueName);
+        const custom = customValues.find(v => v.name === valueName);
         return {
           id: `value-${Date.now()}-${Math.random()}`,
           name: valueName,
-          statement: predefined?.description || '',
+          statement: predefined?.description || custom?.statement || '',
           predefined: !!predefined,
           category: predefined?.category,
           createdAt: new Date().toISOString(),
@@ -130,6 +158,44 @@ export default function SetupValuesScreen() {
 
         {(['personal', 'relationships', 'professional', 'financial', 'spiritual'] as ValueCategory[]).map(
           renderCategory
+        )}
+
+        {customValues.length > 0 && (
+          <View style={styles.categorySection}>
+            <Text style={styles.categoryTitle}>Your Custom Values</Text>
+            <View style={styles.valuesGrid}>
+              {customValues.map((value) => (
+                <TouchableOpacity
+                  key={value.name}
+                  onPress={() => toggleCustomValue(value.name)}
+                  onLongPress={() => removeCustomValue(value.name)}
+                  style={[
+                    styles.valueChip,
+                    styles.customValueChip,
+                    selectedValues.has(value.name) && styles.valueChipSelected,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.valueChipText,
+                      selectedValues.has(value.name) && styles.valueChipTextSelected,
+                    ]}
+                  >
+                    {value.name}
+                  </Text>
+                  <TouchableOpacity
+                    onPress={() => removeCustomValue(value.name)}
+                    hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                  >
+                    <Text style={[
+                      styles.removeIcon,
+                      selectedValues.has(value.name) && styles.removeIconSelected,
+                    ]}>✕</Text>
+                  </TouchableOpacity>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
         )}
 
         {!showCustomForm ? (
@@ -266,6 +332,19 @@ const styles = StyleSheet.create({
   valueChipTextSelected: {
     color: COLORS.background,
     fontWeight: '600',
+  },
+  customValueChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: GAP.xs,
+  },
+  removeIcon: {
+    fontSize: 12,
+    color: COLORS.text.tertiary,
+    marginLeft: 4,
+  },
+  removeIconSelected: {
+    color: COLORS.background,
   },
   customForm: {
     marginTop: PADDING.lg,

@@ -41,59 +41,59 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| OB-1.1 | [ ] | First launch | 1. Install app fresh 2. Launch | Welcome screen displayed |
-| OB-1.2 | [ ] | Get Started button | 1. Tap "Get Started" | Navigate to Philosophy screen |
-| OB-1.3 | [ ] | Disclaimer visible | 1. View welcome screen | Shows "Not affiliated with FranklinCovey" |
+| OB-1.1 | [x] | First launch | 1. Install app fresh 2. Launch | Welcome screen displayed |
+| OB-1.2 | [x] | Get Started button | 1. Tap "Get Started" | Navigate to Philosophy screen |
+| OB-1.3 | [x] | Disclaimer visible | 1. View welcome screen | Shows "Not affiliated with FranklinCovey" |
 
 ### 1.2 Philosophy Screen
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| OB-2.1 | [ ] | Quadrants displayed | 1. View Philosophy screen | All 4 quadrants shown with descriptions |
-| OB-2.2 | [ ] | Quadrant II highlighted | 1. View quadrants | Q2 has special border and "FOCUS HERE" badge |
-| OB-2.3 | [ ] | Back navigation | 1. Tap Back | Return to Welcome screen |
-| OB-2.4 | [ ] | Continue navigation | 1. Tap Continue | Navigate to Mission setup |
+| OB-2.1 | [x] | Quadrants displayed | 1. View Philosophy screen | All 4 quadrants shown with descriptions |
+| OB-2.2 | [x] | Quadrant II highlighted | 1. View quadrants | Q2 has special border and "FOCUS HERE" badge |
+| OB-2.3 | [x] | Back navigation | 1. Tap Back | Return to Welcome screen |
+| OB-2.4 | [x] | Continue navigation | 1. Tap Continue | Navigate to Mission setup |
 
 ### 1.3 Mission Setup Screen
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| OB-3.1 | [ ] | Empty mission blocked | 1. Leave field empty 2. Tap Continue | Alert: "Please write your personal mission statement" |
-| OB-3.2 | [ ] | Valid mission | 1. Enter mission text 2. Tap Continue | Mission saved, navigate to Values |
-| OB-3.3 | [ ] | Help icon | 1. Tap "?" icon | Navigate to mission wiki page |
-| OB-3.4 | [ ] | Guiding questions | 1. View screen | 5 guiding questions displayed |
-| OB-3.5 | [ ] | Long text | 1. Enter 500+ chars 2. Save | Text saved without truncation |
+| OB-3.1 | [x] | Empty mission blocked | 1. Leave field empty 2. Tap Continue | Alert: "Please write your personal mission statement" |
+| OB-3.2 | [x] | Valid mission | 1. Enter mission text 2. Tap Continue | Mission saved, navigate to Values |
+| OB-3.3 | [x] | Help icon | 1. Tap "?" icon | Navigate to mission wiki page |
+| OB-3.4 | [x] | Guiding questions | 1. View screen | 5 guiding questions displayed |
+| OB-3.5 | [x] | Long text | 1. Enter 500+ chars 2. Save | Text saved without truncation |
 
 ### 1.4 Values Setup Screen
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| OB-4.1 | [ ] | No values blocked | 1. Don't select any 2. Tap Continue | Alert: "Please select at least one value" |
-| OB-4.2 | [ ] | Select predefined value | 1. Tap value chip | Value highlighted/selected |
-| OB-4.3 | [ ] | Multiple values | 1. Select 3+ values 2. Tap Continue | All values saved |
-| OB-4.4 | [ ] | Custom value | 1. Tap "+ Add Custom Value" 2. Enter name 3. Add | Custom value in list |
-| OB-4.5 | [ ] | Categories displayed | 1. View screen | Values grouped by category |
-| OB-4.6 | [ ] | Selected count | 1. Select values | Button shows "Continue (X selected)" |
-| OB-4.7 | [ ] | Deselect value | 1. Select value 2. Tap again | Value deselected |
+| OB-4.1 | [x] | No values blocked | 1. Don't select any 2. Tap Continue | Alert: "Please select at least one value" |
+| OB-4.2 | [x] | Select predefined value | 1. Tap value chip | Value highlighted/selected |
+| OB-4.3 | [x] | Multiple values | 1. Select 3+ values 2. Tap Continue | All values saved |
+| OB-4.4 | [x] | Custom value | 1. Tap "+ Add Custom Value" 2. Enter name 3. Add | Custom value in list |
+| OB-4.5 | [x] | Categories displayed | 1. View screen | Values grouped by category |
+| OB-4.6 | [x] | Selected count | 1. Select values | Button shows "Continue (X selected)" |
+| OB-4.7 | [x] | Deselect value | 1. Select value 2. Tap again | Value deselected |
 
 ### 1.5 Roles Setup Screen
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| OB-5.1 | [ ] | No roles blocked | 1. Don't add any 2. Tap Continue | Alert: "Please add at least one role" |
-| OB-5.2 | [ ] | Add suggested role | 1. Tap role from suggestions | Role added to list |
-| OB-5.3 | [ ] | Max 7 roles | 1. Add 7 roles 2. Try adding 8th | Alert: "You can only have 7 roles" |
-| OB-5.4 | [ ] | Custom role | 1. Tap "+ Add Custom Role" 2. Enter name 3. Add | Role in list |
-| OB-5.5 | [ ] | Remove role | 1. Add role 2. Tap X | Role removed |
-| OB-5.6 | [ ] | Progress bar | 1. Add roles | Progress shows X/7 |
+| OB-5.1 | [x] | No roles blocked | 1. Don't add any 2. Tap Continue | Alert: "Please add at least one role" |
+| OB-5.2 | [x] | Add suggested role | 1. Tap role from suggestions | Role added to list |
+| OB-5.3 | [x] | Max 7 roles | 1. Add 7 roles 2. Try adding 8th | Alert: "You can only have 7 roles" |
+| OB-5.4 | [x] | Custom role | 1. Tap "+ Add Custom Role" 2. Enter name 3. Add | Role in list |
+| OB-5.5 | [x] | Remove role | 1. Add role 2. Tap X | Role removed |
+| OB-5.6 | [x] | Progress bar | 1. Add roles | Progress shows X/7 |
 
 ### 1.6 Complete Screen
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| OB-6.1 | [ ] | Completion message | 1. Reach complete screen | "You're All Set!" displayed |
-| OB-6.2 | [ ] | Start Planning | 1. Tap "Start Planning" | Navigate to Today tab |
-| OB-6.3 | [ ] | Onboarding persistence | 1. Complete onboarding 2. Close app 3. Reopen | App opens to Today tab, not onboarding |
+| OB-6.1 | [x] | Completion message | 1. Reach complete screen | "You're All Set!" displayed |
+| OB-6.2 | [x] | Start Planning | 1. Tap "Start Planning" | Navigate to Today tab |
+| OB-6.3 | [x] | Onboarding persistence | 1. Complete onboarding 2. Close app 3. Reopen | App opens to Today tab, not onboarding |
 
 ---
 
@@ -106,28 +106,28 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| TD-1.1 | [ ] | Empty state display | 1. Open Today with no tasks | "No Tasks Yet" card shown |
-| TD-1.2 | [ ] | Add First Task button | 1. View empty state | "Add First Task" button visible |
-| TD-1.3 | [ ] | Date display | 1. View header | Current date formatted (e.g., "Wednesday, January 28") |
+| TD-1.1 | [x] | Empty state display | 1. Open Today with no tasks | "No Tasks Yet" card shown |
+| TD-1.2 | [x] | Add First Task button | 1. View empty state | "Add First Task" button visible |
+| TD-1.3 | [x] | Date display | 1. View header | Current date formatted (e.g., "Wednesday, January 28") |
 
 ### 2.2 Task Creation
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| TD-2.1 | [ ] | Open add form | 1. Tap "+ Add Task" | Form appears with fields |
-| TD-2.2 | [ ] | Empty title blocked | 1. Leave title empty 2. Tap Add | Alert: "Please enter a task title" |
-| TD-2.3 | [ ] | Create task | 1. Enter title 2. Tap Add | Task appears in list |
-| TD-2.4 | [ ] | Default priority | 1. Open form | Priority defaults to "B" |
-| TD-2.5 | [ ] | Default quadrant | 1. Open form | Quadrant defaults to "II" |
-| TD-2.6 | [ ] | Priority A selection | 1. Select priority A 2. Add task | Task shows A badge (red) |
-| TD-2.7 | [ ] | Priority B selection | 1. Select priority B 2. Add task | Task shows B badge (orange) |
-| TD-2.8 | [ ] | Priority C selection | 1. Select priority C 2. Add task | Task shows C badge (yellow) |
-| TD-2.9 | [ ] | Quadrant I-IV | 1. Select each quadrant | Visual feedback on selection |
-| TD-2.10 | [ ] | Custom minutes | 1. Enter "45" 2. Add task | Task shows "45m" |
-| TD-2.11 | [ ] | Default minutes | 1. Leave minutes empty 2. Add | Task shows "30m" (default) |
-| TD-2.12 | [ ] | Cancel form | 1. Open form 2. Tap Cancel | Form closes, fields reset |
-| TD-2.13 | [ ] | Help icon (priorities) | 1. Tap "?" near Priority | Navigate to priorities wiki |
-| TD-2.14 | [ ] | Help icon (quadrants) | 1. Tap "?" near Quadrant | Navigate to quadrants wiki |
+| TD-2.1 | [x] | Open add form | 1. Tap "+ Add Task" | Form appears with fields |
+| TD-2.2 | [x] | Empty title blocked | 1. Leave title empty 2. Tap Add | Alert: "Please enter a task title" |
+| TD-2.3 | [x] | Create task | 1. Enter title 2. Tap Add | Task appears in list |
+| TD-2.4 | [x] | Default priority | 1. Open form | Priority defaults to "B" |
+| TD-2.5 | [x] | Default quadrant | 1. Open form | Quadrant defaults to "II" |
+| TD-2.6 | [x] | Priority A selection | 1. Select priority A 2. Add task | Task shows A badge (red) |
+| TD-2.7 | [x] | Priority B selection | 1. Select priority B 2. Add task | Task shows B badge (orange) |
+| TD-2.8 | [x] | Priority C selection | 1. Select priority C 2. Add task | Task shows C badge (yellow) |
+| TD-2.9 | [x] | Quadrant I-IV | 1. Select each quadrant | Visual feedback on selection |
+| TD-2.10 | [x] | Custom minutes | 1. Enter "45" 2. Add task | Task shows "45m" |
+| TD-2.11 | [x] | Default minutes | 1. Leave minutes empty 2. Add | Task shows "30m" (default) |
+| TD-2.12 | [x] | Cancel form | 1. Open form 2. Tap Cancel | Form closes, fields reset |
+| TD-2.13 | [x] | Help icon (priorities) | 1. Tap "?" near Priority | Navigate to priorities wiki |
+| TD-2.14 | [x] | Help icon (quadrants) | 1. Tap "?" near Quadrant | Navigate to quadrants wiki |
 
 ### 2.3 Task Management
 

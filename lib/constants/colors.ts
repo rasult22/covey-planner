@@ -44,11 +44,11 @@ export const COLORS = {
     dark: '#737373',
   },
 
-  // Priority colors (A, B, C) - using gray shades
+  // Priority colors (A, B, C) - semantic traffic light colors
   priority: {
-    A: '#FFFFFF', // White - Highest priority
-    B: '#A3A3A3', // Medium gray - Medium priority
-    C: '#525252', // Dark gray - Lowest priority
+    A: '#EF4444', // Red - Critical/Urgent
+    B: '#FBBF24', // Amber - Important
+    C: '#34D399', // Green - Can wait
   },
 
   // Quadrant colors (I, II, III, IV) - using gray shades
