@@ -125,31 +125,6 @@ export function useDailyTasks(dateKey?: string) {
     });
   };
 
-  const startTimer = async (id: string): Promise<boolean> => {
-    return await updateTask(id, {
-      timerStartedAt: new Date().toISOString(),
-      status: 'in_progress',
-    });
-  };
-
-  const stopTimer = async (id: string): Promise<boolean> => {
-    const task = tasks.find(t => t.id === id);
-    if (!task || !task.timerStartedAt) return false;
-
-    const startTime = new Date(task.timerStartedAt).getTime();
-    const endTime = Date.now();
-    const elapsedMinutes = Math.round((endTime - startTime) / 60000);
-
-    const currentActual = task.actualMinutes || 0;
-    const newActual = currentActual + elapsedMinutes;
-
-    return await updateTask(id, {
-      timerStartedAt: undefined,
-      actualMinutes: newActual,
-      status: 'pending',
-    });
-  };
-
   const setPriority = async (id: string, priority: Priority): Promise<boolean> => {
     return await updateTask(id, { priority });
   };
@@ -174,14 +149,6 @@ export function useDailyTasks(dateKey?: string) {
     return tasks.reduce((sum, task) => sum + task.estimatedMinutes, 0);
   };
 
-  const getTotalActualMinutes = (): number => {
-    return tasks.reduce((sum, task) => sum + (task.actualMinutes || 0), 0);
-  };
-
-  const getActiveTimer = (): DailyTask | null => {
-    return tasks.find(task => task.timerStartedAt) || null;
-  };
-
   const reload = () => {
     loadTasks();
   };
@@ -196,16 +163,12 @@ export function useDailyTasks(dateKey?: string) {
     deleteTask,
     completeTask,
     uncompleteTask,
-    startTimer,
-    stopTimer,
     setPriority,
     setQuadrant,
     getTasksByPriority,
     getTasksByQuadrant,
     getCompletedCount,
     getTotalEstimatedMinutes,
-    getTotalActualMinutes,
-    getActiveTimer,
     reload,
   };
 }

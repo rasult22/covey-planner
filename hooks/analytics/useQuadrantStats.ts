@@ -75,11 +75,13 @@ export function useQuadrantStats() {
       quadrant_IV: 0,
     };
 
-    tasks.forEach(task => {
-      const actualMinutes = task.actualMinutes || 0;
-      const key = `quadrant_${task.quadrant}` as keyof typeof quadrantMinutes;
-      quadrantMinutes[key] += actualMinutes;
-    });
+    // Only count completed tasks, using estimatedMinutes as "time spent"
+    tasks
+      .filter(task => task.status === 'completed')
+      .forEach(task => {
+        const key = `quadrant_${task.quadrant}` as keyof typeof quadrantMinutes;
+        quadrantMinutes[key] += task.estimatedMinutes || 0;
+      });
 
     return quadrantMinutes;
   };

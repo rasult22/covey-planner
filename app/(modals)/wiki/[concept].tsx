@@ -12,17 +12,19 @@ import { ScrollView, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 
 // Simple markdown parser for bold text (**text**)
 function parseMarkdown(text: string, baseStyle: TextStyle): ReactNode[] {
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
-  return parts.map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
-      const boldText = part.slice(2, -2);
-      return (
-        <Text key={index} style={[baseStyle, { fontWeight: '700' }]}>
-          {boldText}
-        </Text>
-      );
-    }
-    return <Text key={index} style={baseStyle}>{part}</Text>;
-  });
+  return parts
+    .filter((part) => part.length > 0)
+    .map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        const boldText = part.slice(2, -2);
+        return (
+          <Text key={index} style={[baseStyle, { fontWeight: '700' }]}>
+            {boldText}
+          </Text>
+        );
+      }
+      return part;
+    });
 }
 
 export default function WikiConceptPage() {

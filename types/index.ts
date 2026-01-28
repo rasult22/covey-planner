@@ -70,8 +70,6 @@ export interface DailyTask {
   linkedBigRockId?: string;
   linkedRoleId?: string;
   estimatedMinutes: number;
-  actualMinutes?: number; // Actual minutes tracked
-  timerStartedAt?: string; // ISO timestamp when timer started
   createdAt: string;
   completedAt?: string;
   calendarEventId?: string; // Device calendar event ID
@@ -242,8 +240,7 @@ export type TaskStatus =
   | 'completed'
   | 'forwarded'
   | 'cancelled'
-  | 'delegated'
-  | 'in_progress';
+  | 'delegated';
 
 export type ValueCategory =
   | 'personal'

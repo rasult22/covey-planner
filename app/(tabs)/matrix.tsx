@@ -43,12 +43,13 @@ export default function MatrixScreen() {
   };
 
   const getQuadrantTime = (quadrant: Quadrant): number => {
-    const quadrantTasks = tasks.filter(task => task.quadrant === quadrant);
-    return quadrantTasks.reduce((sum, task) => sum + (task.actualMinutes || 0), 0);
+    const completedTasks = tasks.filter(task => task.quadrant === quadrant && task.status === 'completed');
+    return completedTasks.reduce((sum, task) => sum + task.estimatedMinutes, 0);
   };
 
   const getTotalTime = (): number => {
-    return tasks.reduce((sum, task) => sum + (task.actualMinutes || 0), 0);
+    const completedTasks = tasks.filter(task => task.status === 'completed');
+    return completedTasks.reduce((sum, task) => sum + task.estimatedMinutes, 0);
   };
 
   const getQuadrantPercentage = (quadrant: Quadrant): number => {
@@ -190,16 +191,9 @@ export default function MatrixScreen() {
                       <Text style={styles.detailItemComplete}>✓</Text>
                     )}
                   </View>
-                  <View style={styles.detailItemMeta}>
-                    <Text style={styles.detailItemMetaText}>
-                      {task.estimatedMinutes}m planned
-                    </Text>
-                    {task.actualMinutes && task.actualMinutes > 0 && (
-                      <Text style={styles.detailItemMetaText}>
-                        • {task.actualMinutes}m actual
-                      </Text>
-                    )}
-                  </View>
+                  <Text style={styles.detailItemMetaText}>
+                    {task.estimatedMinutes}m
+                  </Text>
                 </Card>
               ))}
             </View>
@@ -563,10 +557,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: COLORS.primary,
     fontWeight: 'bold',
-  },
-  detailItemMeta: {
-    flexDirection: 'row',
-    gap: GAP.sm,
   },
   detailItemMetaText: {
     fontSize: TYPOGRAPHY.bodySmall.fontSize,
