@@ -44,13 +44,12 @@ npm run reset-project
 
 The app uses Expo Router with three main route groups defined in [app/_layout.tsx](app/_layout.tsx):
 
-1. **`(onboarding)/`** - Stack-based onboarding flow with 7 screens:
+1. **`(onboarding)/`** - Stack-based onboarding flow with 6 screens:
    - `welcome.tsx` - Welcome screen
    - `philosophy.tsx` - Philosophy introduction
    - `setup-mission.tsx` - Mission statement setup
    - `setup-values.tsx` - Values selection
-   - `setup-roles.tsx` - Life roles definition
-   - `setup-goals.tsx` - Goal setting
+   - `setup-roles.tsx` - Life roles definition (redirects to complete after)
    - `complete.tsx` - Onboarding completion
 
 2. **`(tabs)/`** - Main app navigation with 5 bottom tabs:
@@ -67,6 +66,7 @@ The app uses Expo Router with three main route groups defined in [app/_layout.ts
    - `goal/new.tsx`, `goal/[id].tsx` - Goal creation and editing (dynamic route)
    - `reflection/weekly.tsx` - Weekly reflection form
    - `settings/data.tsx`, `settings/notifications.tsx` - Settings screens
+   - `wiki/[concept].tsx` - In-app wiki pages explaining concepts (quadrants, priorities, etc.)
 
 Entry point [app/index.tsx](app/index.tsx) checks onboarding status and routes to either `(onboarding)/welcome` or `(tabs)/today`.
 
@@ -110,7 +110,7 @@ Both patterns coexist and access the same AsyncStorage backend. Choose based on 
 
 **Big Rocks**: Weekly high-priority items (always Quadrant II), tracked by week ID (`YYYY-WW`)
 
-**Daily Tasks**: Date-based (`YYYY-MM-DD`), include timer functionality for time tracking
+**Daily Tasks**: Date-based (`YYYY-MM-DD`), with `estimatedMinutes` for time planning. Completed tasks count their estimated time as "time spent" for analytics (no timer/actual tracking).
 
 ### UI Components
 
@@ -118,6 +118,7 @@ Reusable UI components in [components/ui/](components/ui/):
 - `Button.tsx` - Primary/secondary/ghost variants
 - `Input.tsx` - Text input with consistent styling
 - `Card.tsx` - Container component
+- `HelpIcon.tsx` - "?" button linking to wiki pages for contextual help
 
 Design tokens centralized in `lib/constants/`:
 - [colors.ts](lib/constants/colors.ts) - Monochrome dark theme with black background, white/gray text, and semantic colors for priorities (A/B/C), quadrants (I/II/III/IV), and status indicators
@@ -125,6 +126,7 @@ Design tokens centralized in `lib/constants/`:
 - [spacing.ts](lib/constants/spacing.ts) - 4px base unit system with presets for padding, margin, gap, radius, and icon sizes
 - [predefinedValues.ts](lib/constants/predefinedValues.ts) - Curated list of values for user selection
 - [roleExamples.ts](lib/constants/roleExamples.ts) - Example life roles to guide users
+- [wikiContent.ts](lib/constants/wikiContent.ts) - Content for in-app wiki/help pages
 
 ### Services
 
@@ -160,6 +162,10 @@ Migrations run automatically when the app starts to ensure data consistency acro
 - Dark mode support configured but implementation may be incomplete
 - All storage keys prefixed with `@covey_planner:` (21 keys total in [types/index.ts](types/index.ts))
 - VSCode workspace settings include auto-fix on save for ESLint
+
+### Common React Native Pitfalls
+- **Conditional rendering with numbers**: Never use `{value && <Component>}` where `value` can be `0`. Use `{value != null && value > 0 && ...}` or ternary. React Native will crash with "Text strings must be rendered within a Text component" if `0` is returned.
+- **Nested Text**: When dynamically building text with some parts styled differently, return plain strings (not `<Text>`) for unstyled parts - the parent `<Text>` will wrap them automatically.
 
 ### Plugin Configuration
 - **expo-notifications**: Configured with custom icon, color (#ffffff), default channel, and sound files in `local/assets/`. Background remote notifications disabled.
