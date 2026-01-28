@@ -154,14 +154,51 @@ export function useAddStepMutation() {
 
       const updatedGoals = currentGoals.map(goal => {
         if (goal.id !== goalId) return goal;
+        const updatedSteps = [...goal.steps, newStep];
+        // Recalculate progress when adding step
+        const completedSteps = updatedSteps.filter(s => s.completed).length;
+        const progress = updatedSteps.length > 0 ? Math.round((completedSteps / updatedSteps.length) * 100) : 0;
         return {
           ...goal,
-          steps: [...goal.steps, newStep],
+          steps: updatedSteps,
+          progress,
         };
       });
 
       await storageService.setItem(STORAGE_KEYS.LONG_TERM_GOALS, updatedGoals);
       return newStep;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['goals'] });
+    },
+  });
+}
+
+export function useDeleteStepMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ goalId, stepId }: { goalId: string; stepId: string }) => {
+      const currentGoals = queryClient.getQueryData<LongTermGoal[]>(['goals']) || [];
+
+      const updatedGoals = currentGoals.map(goal => {
+        if (goal.id !== goalId) return goal;
+        const updatedSteps = goal.steps.filter(s => s.id !== stepId);
+        // Recalculate progress when removing step
+        const completedSteps = updatedSteps.filter(s => s.completed).length;
+        const progress = updatedSteps.length > 0 ? Math.round((completedSteps / updatedSteps.length) * 100) : 0;
+        // Update completedAt based on new progress
+        const completedAt = progress === 100 ? new Date().toISOString() : undefined;
+        return {
+          ...goal,
+          steps: updatedSteps,
+          progress,
+          completedAt,
+        };
+      });
+
+      await storageService.setItem(STORAGE_KEYS.LONG_TERM_GOALS, updatedGoals);
+      return updatedGoals;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['goals'] });

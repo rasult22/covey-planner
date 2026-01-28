@@ -23,12 +23,14 @@ export default function GoalLayout() {
         name="new"
         options={{
           title: 'New Goal',
+          headerBackVisible: false,
         }}
       />
       <Stack.Screen
         name="[id]"
         options={{
           title: 'Goal Details',
+          headerBackVisible: false,
         }}
       />
     </Stack>

@@ -195,20 +195,22 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 ### 3.4 Calendar Integration
 
+> **Note**: Calendar integration functionality has been removed from the app. These test cases are marked as N/A.
+
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| WK-4.1 | [ ] | Add to calendar | 1. Tap calendar icon | "Added to Calendar" alert |
-| WK-4.2 | [ ] | No permission | 1. Deny permission 2. Tap calendar | Permission request alert |
-| WK-4.3 | [ ] | Calendar synced icon | 1. After adding to calendar | Calendar icon shows checkmark |
-| WK-4.4 | [ ] | Loading state | 1. Tap calendar icon | Shows "..." while syncing |
+| WK-4.1 | [x] | Add to calendar | N/A - Feature removed | N/A |
+| WK-4.2 | [x] | No permission | N/A - Feature removed | N/A |
+| WK-4.3 | [x] | Calendar synced icon | N/A - Feature removed | N/A |
+| WK-4.4 | [x] | Loading state | N/A - Feature removed | N/A |
 
 ### 3.5 Statistics
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| WK-5.1 | [ ] | Big Rocks count | 1. Add 3 Big Rocks | Stats show "3" |
-| WK-5.2 | [ ] | Completed count | 1. Complete 2 Big Rocks | Stats show "2" completed |
-| WK-5.3 | [ ] | Hours estimate | 1. Add (2h + 3h + 1h) | Stats show "6h" |
+| WK-5.1 | [x] | Big Rocks count | 1. Add 3 Big Rocks | Stats show "3" |
+| WK-5.2 | [x] | Completed count | 1. Complete 2 Big Rocks | Stats show "2" completed |
+| WK-5.3 | [x] | Hours estimate | 1. Add (2h + 3h + 1h) | Stats show "6h" |
 
 ---
 
@@ -221,30 +223,30 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| MX-1.1 | [ ] | All quadrants visible | 1. Open Matrix tab | 2x2 grid displayed |
-| MX-1.2 | [ ] | Quadrant II highlight | 1. View matrix | Q2 has thicker border, "Focus Zone" |
-| MX-1.3 | [ ] | Item counts | 1. Add tasks/Big Rocks | Count shown on each quadrant |
-| MX-1.4 | [ ] | Time percentages | 1. Complete tasks | Percentage per quadrant |
+| MX-1.1 | [x] | All quadrants visible | 1. Open Matrix tab | 2x2 grid displayed |
+| MX-1.2 | [x] | Quadrant II highlight | 1. View matrix | Q2 has thicker border, "Focus Zone" |
+| MX-1.3 | [x] | Item counts | 1. Add tasks/Big Rocks | Count shown on each quadrant |
+| MX-1.4 | [x] | Time percentages | 1. Complete tasks | Percentage per quadrant |
 
 ### 4.2 Quadrant Detail
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| MX-2.1 | [ ] | Tap quadrant | 1. Tap any quadrant card | Detail view opens |
-| MX-2.2 | [ ] | Big Rocks section | 1. View detail with Big Rocks | "Big Rocks" list shown |
-| MX-2.3 | [ ] | Tasks section | 1. View detail with tasks | "Today's Tasks" list shown |
-| MX-2.4 | [ ] | Empty quadrant | 1. View quadrant with no items | "No items in this quadrant" |
-| MX-2.5 | [ ] | Close detail | 1. Tap X | Return to grid |
-| MX-2.6 | [ ] | Task priority badge | 1. View tasks in detail | Priority (A/B/C) visible |
+| MX-2.1 | [x] | Tap quadrant | 1. Tap any quadrant card | Detail view opens |
+| MX-2.2 | [x] | Big Rocks section | 1. View detail with Big Rocks | "Big Rocks" list shown |
+| MX-2.3 | [x] | Tasks section | 1. View detail with tasks | "Today's Tasks" list shown |
+| MX-2.4 | [x] | Empty quadrant | 1. View quadrant with no items | "No items in this quadrant" |
+| MX-2.5 | [x] | Close detail | 1. Tap X | Return to grid |
+| MX-2.6 | [x] | Task priority badge | 1. View tasks in detail | Priority (A/B/C) visible |
 
 ### 4.3 Summary Statistics
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| MX-3.1 | [ ] | Summary card | 1. Complete task | Summary card appears at bottom |
-| MX-3.2 | [ ] | Total time | 1. View summary | Total minutes shown |
-| MX-3.3 | [ ] | Quadrant breakdown | 1. View summary | Q1-Q4 percentages with colors |
-| MX-3.4 | [ ] | No data | 1. No completed tasks | Summary card hidden |
+| MX-3.1 | [x] | Summary card | 1. Complete task | Summary card appears at bottom |
+| MX-3.2 | [x] | Total time | 1. View summary | Total minutes shown |
+| MX-3.3 | [x] | Quadrant breakdown | 1. View summary | Q1-Q4 percentages with colors |
+| MX-3.4 | [x] | No data | 1. No completed tasks | Summary card hidden |
 
 ---
 
@@ -257,43 +259,43 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| GL-1.1 | [ ] | Empty state | 1. Open Goals with none | "No Goals Yet" displayed |
-| GL-1.2 | [ ] | Statistics | 1. Have goals | Total, completed, avg progress shown |
-| GL-1.3 | [ ] | Add goal button | 1. Scroll to bottom | "Add New Goal" button visible |
+| GL-1.1 | [x] | Empty state | 1. Open Goals with none | "No Goals Yet" displayed |
+| GL-1.2 | [x] | Statistics | 1. Have goals | Total, completed, avg progress shown |
+| GL-1.3 | [x] | Add goal button | 1. Scroll to bottom | "Add New Goal" button visible |
 
 ### 5.2 Goal Creation
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| GL-2.1 | [ ] | Open new goal | 1. Tap "Create First Goal" | Modal opens |
-| GL-2.2 | [ ] | Empty title blocked | 1. Leave title empty 2. Create | Alert about title required |
-| GL-2.3 | [ ] | Default deadline | 1. Open form | Deadline = 1 year from now |
-| GL-2.4 | [ ] | Change deadline | 1. Tap deadline 2. Select date | New date saved |
-| GL-2.5 | [ ] | Default quadrant | 1. Open form | Quadrant II selected |
-| GL-2.6 | [ ] | Link values | 1. Tap value chips | Selection toggles |
-| GL-2.7 | [ ] | Link roles | 1. Tap role chips | Selection toggles |
-| GL-2.8 | [ ] | Create goal | 1. Fill form 2. Create | Goal added, modal closes |
+| GL-2.1 | [x] | Open new goal | 1. Tap "Create First Goal" | Modal opens |
+| GL-2.2 | [x] | Empty title blocked | 1. Leave title empty 2. Create | Alert about title required |
+| GL-2.3 | [x] | Default deadline | 1. Open form | Deadline = 1 year from now |
+| GL-2.4 | [x] | Change deadline | 1. Tap deadline 2. Select date | New date saved |
+| GL-2.5 | [x] | Default quadrant | 1. Open form | Quadrant II selected |
+| GL-2.6 | [x] | Link values | 1. Tap value chips | Selection toggles |
+| GL-2.7 | [x] | Link roles | 1. Tap role chips | Selection toggles |
+| GL-2.8 | [x] | Create goal | 1. Fill form 2. Create | Goal added, modal closes |
 
 ### 5.3 Goal Detail
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| GL-3.1 | [ ] | View goal | 1. Tap goal card | Detail modal opens |
-| GL-3.2 | [ ] | Info display | 1. View detail | Title, deadline, progress shown |
-| GL-3.3 | [ ] | Edit goal | 1. Tap Edit | Fields become editable |
-| GL-3.4 | [ ] | Save edit | 1. Edit 2. Save | Changes persisted |
-| GL-3.5 | [ ] | Cancel edit | 1. Edit 2. Cancel | Original text restored |
-| GL-3.6 | [ ] | Delete goal | 1. Tap "Delete Goal" 2. Confirm | Goal removed |
+| GL-3.1 | [x] | View goal | 1. Tap goal card | Detail modal opens |
+| GL-3.2 | [x] | Info display | 1. View detail | Title, deadline, progress shown |
+| GL-3.3 | [x] | Edit goal | 1. Tap Edit | Fields become editable |
+| GL-3.4 | [x] | Save edit | 1. Edit 2. Save | Changes persisted |
+| GL-3.5 | [x] | Cancel edit | 1. Edit 2. Cancel | Original text restored |
+| GL-3.6 | [x] | Delete goal | 1. Tap "Delete Goal" 2. Confirm | Goal removed |
 
 ### 5.4 Goal Steps
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| GL-4.1 | [ ] | No steps initially | 1. View new goal | "No steps yet" message |
-| GL-4.2 | [ ] | Add step | 1. Tap "+ Add Step" 2. Enter title 3. Add | Step in list |
-| GL-4.3 | [ ] | Complete step | 1. Tap step checkbox | Checkmark appears |
-| GL-4.4 | [ ] | Progress update | 1. Complete 2/5 steps | Progress bar shows 40% |
-| GL-4.5 | [ ] | 100% progress | 1. Complete all steps | Progress bar full |
+| GL-4.1 | [x] | No steps initially | 1. View new goal | "No steps yet" message |
+| GL-4.2 | [x] | Add step | 1. Tap "+ Add Step" 2. Enter title 3. Add | Step in list |
+| GL-4.3 | [x] | Complete step | 1. Tap step checkbox | Checkmark appears |
+| GL-4.4 | [x] | Progress update | 1. Complete 2/5 steps | Progress bar shows 40% |
+| GL-4.5 | [x] | 100% progress | 1. Complete all steps | Progress bar full |
 
 ---
 
