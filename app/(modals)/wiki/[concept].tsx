@@ -6,7 +6,24 @@ import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { getRelatedConcepts, getWikiConcept } from '@/lib/constants/wikiContent';
 import { router, useLocalSearchParams } from 'expo-router';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ReactNode } from 'react';
+import { ScrollView, StyleSheet, Text, TextStyle, TouchableOpacity, View } from 'react-native';
+
+// Simple markdown parser for bold text (**text**)
+function parseMarkdown(text: string, baseStyle: TextStyle): ReactNode[] {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      const boldText = part.slice(2, -2);
+      return (
+        <Text key={index} style={[baseStyle, { fontWeight: '700' }]}>
+          {boldText}
+        </Text>
+      );
+    }
+    return <Text key={index} style={baseStyle}>{part}</Text>;
+  });
+}
 
 export default function WikiConceptPage() {
   const { concept: conceptId } = useLocalSearchParams<{ concept: string }>();
@@ -49,7 +66,9 @@ export default function WikiConceptPage() {
         </View>
 
         <Card style={styles.contentCard}>
-          <Text style={styles.content}>{concept.content}</Text>
+          <Text style={styles.content}>
+            {parseMarkdown(concept.content, styles.content)}
+          </Text>
         </Card>
 
         {relatedConcepts.length > 0 && (
