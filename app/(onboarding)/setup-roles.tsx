@@ -85,7 +85,7 @@ export default function SetupRolesScreen() {
       await storageService.setItem(STORAGE_KEYS.USER_ROLES, rolesToSave);
       // Unlock achievement for establishing roles
       await unlockAchievement('roles_complete');
-      router.push('/(onboarding)/setup-goals');
+      router.push('/(onboarding)/complete');
     } catch (error) {
       console.error('Error saving roles:', error);
       alert('Failed to save roles. Please try again.');
