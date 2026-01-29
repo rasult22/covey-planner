@@ -160,13 +160,15 @@ export function useAchievements() {
 
   const unlockAchievement = async (key: AchievementKey): Promise<boolean> => {
     try {
-      const achievement = achievements.find(a => a.key === key);
+      // Read from storage to avoid stale state when multiple unlocks happen in sequence
+      const current = await storageService.getItem<Achievement[]>(STORAGE_KEYS.ACHIEVEMENTS) || achievements;
+      const achievement = current.find(a => a.key === key);
 
       if (!achievement || achievement.isUnlocked) {
         return false; // Already unlocked or doesn't exist
       }
 
-      const updated = achievements.map(a =>
+      const updated = current.map(a =>
         a.key === key
           ? { ...a, isUnlocked: true, unlockedAt: new Date().toISOString() }
           : a

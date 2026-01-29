@@ -6,10 +6,13 @@ import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { useAchievements } from '@/hooks/gamification/useAchievements';
+import { storageService } from '@/lib/storage/AsyncStorageService';
 import { useGoalsQuery } from '@/queries/foundation/goals';
 import { useRolesQuery } from '@/queries/foundation/roles';
 import { useAddBigRockMutation, useBigRocksQuery, useCompleteBigRockMutation, useDeleteBigRockMutation, useUncompleteBigRockMutation } from '@/queries/planning/bigRocks';
 import { getCurrentWeekId, getWeekDates, useWeeklyPlanQuery } from '@/queries/planning/weeklyPlan';
+import { BigRock, STORAGE_KEYS } from '@/types';
 import { format } from 'date-fns';
 import { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -24,6 +27,7 @@ export default function WeekScreen() {
   const { mutate: uncompleteBigRock } = useUncompleteBigRockMutation();
   const { mutate: addBigRock } = useAddBigRockMutation();
   const { mutate: deleteBigRock } = useDeleteBigRockMutation();
+  const { unlockAchievement } = useAchievements();
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newRockTitle, setNewRockTitle] = useState('');
@@ -45,7 +49,17 @@ export default function WeekScreen() {
     if (isCompleted) {
       uncompleteBigRock(id);
     } else {
-      completeBigRock(id);
+      completeBigRock(id, {
+        onSuccess: async () => {
+          const allRocks = await storageService.getItem<BigRock[]>(STORAGE_KEYS.BIG_ROCKS) || [];
+          const completedCount = allRocks.filter(r => r.completedAt).length;
+          if (completedCount >= 50) {
+            await unlockAchievement('fifty_big_rocks');
+          } else if (completedCount >= 10) {
+            await unlockAchievement('ten_big_rocks');
+          }
+        },
+      });
     }
   };
 
@@ -68,7 +82,12 @@ export default function WeekScreen() {
         weekId: currentWeekId,
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          const allRocks = await storageService.getItem<BigRock[]>(STORAGE_KEYS.BIG_ROCKS) || [];
+          if (allRocks.length === 1) {
+            await unlockAchievement('first_big_rock');
+            await unlockAchievement('first_weekly_plan');
+          }
           setNewRockTitle('');
           setNewRockHours('');
           setShowAddForm(false);
