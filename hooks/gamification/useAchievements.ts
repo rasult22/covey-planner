@@ -1,6 +1,7 @@
 // Principle Centered Planner - useAchievements Hook
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { Achievement, AchievementKey, STORAGE_KEYS } from '@/types';
+import { useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 
 // Achievement definitions
@@ -115,6 +116,7 @@ const ACHIEVEMENT_DEFINITIONS: Record<AchievementKey, { title: string; descripti
 };
 
 export function useAchievements() {
+  const queryClient = useQueryClient();
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -174,6 +176,7 @@ export function useAchievements() {
 
       if (success) {
         setAchievements(updated);
+        queryClient.invalidateQueries({ queryKey: ['achievements'] });
       }
 
       return success;
