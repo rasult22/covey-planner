@@ -1,6 +1,7 @@
 // Principle Centered Planner - Roles Modal
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { Input } from '@/components/ui/Input';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING, RADIUS } from '@/lib/constants/spacing';
@@ -9,7 +10,7 @@ import { MAX_ROLES, useAddRoleMutation, useCanAddRole, useDeleteRoleMutation, us
 import { Role } from '@/types';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function RolesModal() {
   const { data: roles = [], isLoading } = useRolesQuery();
@@ -23,16 +24,14 @@ export default function RolesModal() {
   const [newRoleStatement, setNewRoleStatement] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editStatement, setEditStatement] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+  const [showMaxAlert, setShowMaxAlert] = useState(false);
 
   const handleAddRole = () => {
     if (!newRoleName.trim()) return;
 
     if (!canAddRole) {
-      Alert.alert(
-        'Maximum Roles Reached',
-        `You can only have ${maxRoles} roles. Consider consolidating or removing a role before adding a new one.`,
-        [{ text: 'OK' }]
-      );
+      setShowMaxAlert(true);
       return;
     }
 
@@ -64,18 +63,14 @@ export default function RolesModal() {
   };
 
   const handleDelete = (id: string, name: string) => {
-    Alert.alert(
-      'Delete Role',
-      `Are you sure you want to delete "${name}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => deleteRole(id),
-        },
-      ]
-    );
+    setDeleteTarget({ id, name });
+  };
+
+  const confirmDelete = () => {
+    if (deleteTarget) {
+      deleteRole(deleteTarget.id);
+      setDeleteTarget(null);
+    }
   };
 
   const startEditing = (role: Role) => {
@@ -178,11 +173,7 @@ export default function RolesModal() {
           <Button
             onPress={() => {
               if (!canAddRole) {
-                Alert.alert(
-                  'Maximum Roles Reached',
-                  `You can only have ${maxRoles} roles. Consider consolidating or removing a role before adding a new one.`,
-                  [{ text: 'OK' }]
-                );
+                setShowMaxAlert(true);
                 return;
               }
               setShowAddForm(true);
@@ -239,6 +230,24 @@ export default function RolesModal() {
           Close
         </Button>
       </View>
+
+      <ConfirmModal
+        visible={deleteTarget !== null}
+        title="Delete Role"
+        message={`Are you sure you want to delete "${deleteTarget?.name}"?`}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
+
+      <ConfirmModal
+        visible={showMaxAlert}
+        title="Maximum Roles Reached"
+        message={`You can only have ${maxRoles} roles. Consider consolidating or removing a role before adding a new one.`}
+        confirmLabel="OK"
+        destructive={false}
+        onConfirm={() => setShowMaxAlert(false)}
+        onCancel={() => setShowMaxAlert(false)}
+      />
     </View>
   );
 }

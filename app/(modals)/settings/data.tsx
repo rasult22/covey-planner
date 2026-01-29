@@ -1,13 +1,14 @@
 // Principle Centered Planner - Data Management Screen
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { useDataManagement } from '@/hooks/settings/useDataManagement';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function DataManagementScreen() {
   const {
@@ -22,6 +23,9 @@ export default function DataManagementScreen() {
   const [dataSize, setDataSize] = useState({ sizeKB: 0, itemCount: 0 });
   const [importText, setImportText] = useState('');
   const [showImport, setShowImport] = useState(false);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [importConfirm, setImportConfirm] = useState<{ merge: boolean } | null>(null);
+  const [infoModal, setInfoModal] = useState<{ title: string; message: string; onDismiss?: () => void } | null>(null);
 
   useEffect(() => {
     loadDataSize();
@@ -36,104 +40,59 @@ export default function DataManagementScreen() {
     const success = await shareDataAsText();
 
     if (success) {
-      Alert.alert(
-        'Export Successful',
-        'Your data has been exported. Save the JSON text to a safe location.',
-        [{ text: 'OK' }]
-      );
+      setInfoModal({ title: 'Export Successful', message: 'Your data has been exported. Save the JSON text to a safe location.' });
     } else {
-      Alert.alert(
-        'Export Failed',
-        'Failed to export your data. Please try again.',
-        [{ text: 'OK' }]
-      );
+      setInfoModal({ title: 'Export Failed', message: 'Failed to export your data. Please try again.' });
     }
   };
 
-  const handleImport = async (merge: boolean) => {
+  const handleImport = (merge: boolean) => {
     if (!importText.trim()) {
-      Alert.alert(
-        'No Data',
-        'Please paste your exported JSON data in the text area.',
-        [{ text: 'OK' }]
-      );
+      setInfoModal({ title: 'No Data', message: 'Please paste your exported JSON data in the text area.' });
       return;
     }
+    setImportConfirm({ merge });
+  };
 
-    Alert.alert(
-      merge ? 'Merge Data?' : 'Replace Data?',
-      merge
-        ? 'This will merge the imported data with your existing data. Duplicates will be updated with imported values.'
-        : 'This will replace all your current data with the imported data. This action cannot be undone.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: merge ? 'Merge' : 'Replace',
-          style: merge ? 'default' : 'destructive',
-          onPress: async () => {
-            const success = await importData(importText, merge);
+  const confirmImport = async () => {
+    if (!importConfirm) return;
+    const { merge } = importConfirm;
+    setImportConfirm(null);
 
-            if (success) {
-              Alert.alert(
-                'Import Successful',
-                merge
-                  ? 'Your data has been merged successfully.'
-                  : 'Your data has been restored successfully.',
-                [
-                  {
-                    text: 'OK',
-                    onPress: () => {
-                      setImportText('');
-                      setShowImport(false);
-                      loadDataSize();
-                    },
-                  },
-                ]
-              );
-            } else {
-              Alert.alert(
-                'Import Failed',
-                'Failed to import data. Please ensure the JSON is valid and from a compatible version.',
-                [{ text: 'OK' }]
-              );
-            }
-          },
+    const success = await importData(importText, merge);
+
+    if (success) {
+      setInfoModal({
+        title: 'Import Successful',
+        message: merge
+          ? 'Your data has been merged successfully.'
+          : 'Your data has been restored successfully.',
+        onDismiss: () => {
+          setImportText('');
+          setShowImport(false);
+          loadDataSize();
         },
-      ]
-    );
+      });
+    } else {
+      setInfoModal({ title: 'Import Failed', message: 'Failed to import data. Please ensure the JSON is valid and from a compatible version.' });
+    }
   };
 
   const handleClearData = () => {
-    Alert.alert(
-      'Clear All Data?',
-      'This will permanently delete all your data including mission, values, roles, goals, tasks, and achievements. This action cannot be undone.\n\nConsider exporting your data first.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Clear All Data',
-          style: 'destructive',
-          onPress: async () => {
-            const success = await clearAllData();
+    setShowClearConfirm(true);
+  };
 
-            if (success) {
-              Alert.alert(
-                'Data Cleared',
-                'All your data has been cleared. The app will restart.',
-                [
-                  {
-                    text: 'OK',
-                    onPress: () => {
-                      // Optionally navigate to onboarding
-                      router.replace('/');
-                    },
-                  },
-                ]
-              );
-            }
-          },
-        },
-      ]
-    );
+  const confirmClear = async () => {
+    setShowClearConfirm(false);
+    const success = await clearAllData();
+
+    if (success) {
+      setInfoModal({
+        title: 'Data Cleared',
+        message: 'All your data has been cleared. The app will restart.',
+        onDismiss: () => router.replace('/'),
+      });
+    }
   };
 
   return (
@@ -264,6 +223,37 @@ export default function DataManagementScreen() {
         </View>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <ConfirmModal
+        visible={showClearConfirm}
+        title="Clear All Data?"
+        message={'This will permanently delete all your data including mission, values, roles, goals, tasks, and achievements. This action cannot be undone.\n\nConsider exporting your data first.'}
+        confirmLabel="Clear All Data"
+        onConfirm={confirmClear}
+        onCancel={() => setShowClearConfirm(false)}
+      />
+
+      <ConfirmModal
+        visible={importConfirm !== null}
+        title={importConfirm?.merge ? 'Merge Data?' : 'Replace Data?'}
+        message={importConfirm?.merge
+          ? 'This will merge the imported data with your existing data. Duplicates will be updated with imported values.'
+          : 'This will replace all your current data with the imported data. This action cannot be undone.'}
+        confirmLabel={importConfirm?.merge ? 'Merge' : 'Replace'}
+        destructive={!importConfirm?.merge}
+        onConfirm={confirmImport}
+        onCancel={() => setImportConfirm(null)}
+      />
+
+      <ConfirmModal
+        visible={infoModal !== null}
+        title={infoModal?.title ?? ''}
+        message={infoModal?.message ?? ''}
+        confirmLabel="OK"
+        destructive={false}
+        onConfirm={() => { infoModal?.onDismiss?.(); setInfoModal(null); }}
+        onCancel={() => { infoModal?.onDismiss?.(); setInfoModal(null); }}
+      />
     </View>
   );
 }

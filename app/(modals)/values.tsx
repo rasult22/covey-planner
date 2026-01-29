@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
+import { ConfirmModal } from '@/components/ui/ConfirmModal';
 import { COLORS } from '@/lib/constants/colors';
 import { CATEGORY_LABELS } from '@/lib/constants/predefinedValues';
 import { GAP, PADDING } from '@/lib/constants/spacing';
@@ -10,7 +11,7 @@ import { useAddValueMutation, useDeleteValueMutation, useUpdateValueMutation, us
 import { Value, ValueCategory } from '@/types';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function ValuesModal() {
   const { data: values = [], isLoading } = useValuesQuery();
@@ -22,6 +23,7 @@ export default function ValuesModal() {
   const [newValueStatement, setNewValueStatement] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editStatement, setEditStatement] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
 
   const handleAddValue = () => {
     if (!newValueName.trim()) return;
@@ -55,18 +57,14 @@ export default function ValuesModal() {
   };
 
   const handleDelete = (id: string, name: string) => {
-    Alert.alert(
-      'Delete Value',
-      `Are you sure you want to delete "${name}"?`,
-      [
-        { text: 'Cancel', style: 'cancel' },
-        {
-          text: 'Delete',
-          style: 'destructive',
-          onPress: () => deleteValue(id),
-        },
-      ]
-    );
+    setDeleteTarget({ id, name });
+  };
+
+  const confirmDelete = () => {
+    if (deleteTarget) {
+      deleteValue(deleteTarget.id);
+      setDeleteTarget(null);
+    }
   };
 
   const startEditing = (value: Value) => {
@@ -225,6 +223,14 @@ export default function ValuesModal() {
           Close
         </Button>
       </View>
+
+      <ConfirmModal
+        visible={deleteTarget !== null}
+        title="Delete Value"
+        message={`Are you sure you want to delete "${deleteTarget?.name}"?`}
+        onConfirm={confirmDelete}
+        onCancel={() => setDeleteTarget(null)}
+      />
     </View>
   );
 }

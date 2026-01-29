@@ -308,29 +308,29 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| PR-1.1 | [ ] | Foundation section | 1. Open Profile | Mission, Values, Roles cards visible |
-| PR-1.2 | [ ] | Mission card | 1. Tap mission | Mission modal opens |
-| PR-1.3 | [ ] | Values card | 1. Tap values | Values modal opens, count shown |
-| PR-1.4 | [ ] | Roles card | 1. Tap roles | Roles modal opens, X/7 shown |
-| PR-1.5 | [ ] | Achievements card | 1. Tap achievements | Achievements modal opens |
-| PR-1.6 | [ ] | Analytics card | 1. Tap analytics | Analytics modal opens |
-| PR-1.7 | [ ] | Reflection card | 1. Tap reflection | Reflection modal opens |
-| PR-1.8 | [ ] | Settings visible | 1. Scroll down | Notifications, Data, Wiki links |
+| PR-1.1 | [x] | Foundation section | 1. Open Profile | Mission, Values, Roles cards visible |
+| PR-1.2 | [x] | Mission card | 1. Tap mission | Mission modal opens |
+| PR-1.3 | [x] | Values card | 1. Tap values | Values modal opens, count shown |
+| PR-1.4 | [x] | Roles card | 1. Tap roles | Roles modal opens, X/7 shown |
+| PR-1.5 | [x] | Achievements card | 1. Tap achievements | Achievements modal opens |
+| PR-1.6 | [x] | Analytics card | 1. Tap analytics | Analytics modal opens |
+| PR-1.7 | [x] | Reflection card | 1. Tap reflection | Reflection modal opens |
+| PR-1.8 | [x] | Settings visible | 1. Scroll down | Notifications, Data, Wiki links |
 
 ### 6.2 Foundation Modals
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| PR-2.1 | [ ] | View mission | 1. Open mission modal | Saved mission displayed |
-| PR-2.2 | [ ] | Edit mission | 1. Edit 2. Save | Mission updated |
-| PR-2.3 | [ ] | Empty mission blocked | 1. Clear 2. Save | Alert about empty |
-| PR-2.4 | [ ] | View values | 1. Open values modal | Values by category |
-| PR-2.5 | [ ] | Add custom value | 1. Tap + 2. Enter name 3. Add | Value added |
-| PR-2.6 | [ ] | Delete value | 1. Tap X on value | Value removed |
-| PR-2.7 | [ ] | View roles | 1. Open roles modal | All roles listed |
-| PR-2.8 | [ ] | Add role | 1. Tap + 2. Enter name 3. Add | Role added |
-| PR-2.9 | [ ] | Delete role | 1. Tap X on role | Role removed |
-| PR-2.10 | [ ] | Max 7 roles | 1. Have 7 2. Try adding | Alert about limit |
+| PR-2.1 | [x] | View mission | 1. Open mission modal | Saved mission displayed |
+| PR-2.2 | [x] | Edit mission | 1. Edit 2. Save | Mission updated |
+| PR-2.3 | [x] | Empty mission blocked | 1. Clear 2. Save | Alert about empty |
+| PR-2.4 | [x] | View values | 1. Open values modal | Values by category |
+| PR-2.5 | [x] | Add custom value | 1. Tap + 2. Enter name 3. Add | Value added |
+| PR-2.6 | [x] | Delete value | 1. Tap X on value | Value removed |
+| PR-2.7 | [x] | View roles | 1. Open roles modal | All roles listed |
+| PR-2.8 | [x] | Add role | 1. Tap + 2. Enter name 3. Add | Role added |
+| PR-2.9 | [x] | Delete role | 1. Tap X on role | Role removed |
+| PR-2.10 | [x] | Max 7 roles | 1. Have 7 2. Try adding | Alert about limit |
 
 ### 6.3 Achievements
 

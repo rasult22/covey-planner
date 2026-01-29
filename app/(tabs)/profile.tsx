@@ -1,7 +1,5 @@
 // Principle Centered Planner - Profile Screen
 import { Card } from '@/components/ui/Card';
-import { useAchievements } from '@/hooks/gamification/useAchievements';
-import { useStreaks } from '@/hooks/gamification/useStreaks';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
@@ -9,6 +7,8 @@ import { useGoalsQuery } from '@/queries/foundation/goals';
 import { useMissionQuery } from '@/queries/foundation/mission';
 import { useRolesQuery } from '@/queries/foundation/roles';
 import { useValuesQuery } from '@/queries/foundation/values';
+import { useAchievementsQuery } from '@/queries/gamification/achievements';
+import { useStreaksQuery } from '@/queries/gamification/streaks';
 import { router } from 'expo-router';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -17,8 +17,14 @@ export default function ProfileScreen() {
   const { data: values = [] } = useValuesQuery();
   const { data: roles = [] } = useRolesQuery();
   const { data: goals = [] } = useGoalsQuery();
-  const { getUnlockedCount, getTotalCount, getProgress, reload: reloadAchievements } = useAchievements();
-  const { getWeeklyStreak, getDailyStreak } = useStreaks();
+  const { data: achievements = [] } = useAchievementsQuery();
+  const { data: streakData } = useStreaksQuery();
+
+  const unlockedCount = achievements.filter(a => a.isUnlocked).length;
+  const totalCount = achievements.length;
+  const progress = totalCount > 0 ? Math.round((unlockedCount / totalCount) * 100) : 0;
+  const weeklyStreak = streakData?.weeklyPlanning.currentStreak ?? 0;
+  const dailyStreak = streakData?.dailyPlanning.currentStreak ?? 0;
 
   const foundationItems = [
     {
@@ -122,7 +128,7 @@ export default function ProfileScreen() {
             <Card>
               <View style={styles.achievementsHeader}>
                 <Text style={styles.achievementsTitle}>
-                  {getUnlockedCount()} of {getTotalCount()} Unlocked
+                  {unlockedCount} of {totalCount} Unlocked
                 </Text>
                 <Text style={styles.cardArrow}>›</Text>
               </View>
@@ -132,20 +138,20 @@ export default function ProfileScreen() {
                   <View
                     style={[
                       styles.progressBarFill,
-                      { width: `${getProgress()}%` },
+                      { width: `${progress}%` },
                     ]}
                   />
                 </View>
-                <Text style={styles.progressPercent}>{getProgress()}%</Text>
+                <Text style={styles.progressPercent}>{progress}%</Text>
               </View>
 
               <View style={styles.streaksRow}>
                 <View style={styles.streakMini}>
-                  <Text style={styles.streakMiniValue}>{getWeeklyStreak()}</Text>
+                  <Text style={styles.streakMiniValue}>{weeklyStreak}</Text>
                   <Text style={styles.streakMiniLabel}>Week Streak</Text>
                 </View>
                 <View style={styles.streakMini}>
-                  <Text style={styles.streakMiniValue}>{getDailyStreak()}</Text>
+                  <Text style={styles.streakMiniValue}>{dailyStreak}</Text>
                   <Text style={styles.streakMiniLabel}>Day Streak</Text>
                 </View>
               </View>
