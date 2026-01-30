@@ -336,21 +336,21 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| PR-3.1 | [ ] | Progress display | 1. Open achievements | X/Y unlocked with progress bar |
-| PR-3.2 | [ ] | Streaks display | 1. View card | Week and day streaks shown |
-| PR-3.3 | [ ] | Unlocked section | 1. Have unlocked | List with trophy icons |
-| PR-3.4 | [ ] | Locked section | 1. Have locked | List with lock icons, muted |
-| PR-3.5 | [ ] | Unlock date | 1. View unlocked | "Unlocked [date]" shown |
+| PR-3.1 | [x] | Progress display | 1. Open achievements | X/Y unlocked with progress bar |
+| PR-3.2 | [x] | Streaks display | 1. View card | Week and day streaks shown |
+| PR-3.3 | [x] | Unlocked section | 1. Have unlocked | List with trophy icons |
+| PR-3.4 | [x] | Locked section | 1. Have locked | List with lock icons, muted |
+| PR-3.5 | [x] | Unlock date | 1. View unlocked | "Unlocked [date]" shown |
 
 ### 6.4 Achievement Unlocks
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| PR-4.1 | [ ] | first_mission | 1. Complete mission in onboarding | Achievement unlocked |
-| PR-4.2 | [ ] | values_defined | 1. Complete values setup | Achievement unlocked |
-| PR-4.3 | [ ] | roles_complete | 1. Complete roles setup | Achievement unlocked |
-| PR-4.4 | [ ] | first_goal | 1. Create first goal | Achievement unlocked |
-| PR-4.5 | [ ] | first_reflection | 1. Complete first reflection | Achievement unlocked |
+| PR-4.1 | [x] | first_mission | 1. Complete mission in onboarding | Achievement unlocked |
+| PR-4.2 | [x] | values_defined | 1. Complete values setup | Achievement unlocked |
+| PR-4.3 | [x] | roles_complete | 1. Complete roles setup | Achievement unlocked |
+| PR-4.4 | [x] | first_goal | 1. Create first goal | Achievement unlocked |
+| PR-4.5 | [x] | first_reflection | 1. Complete first reflection | Achievement unlocked |
 
 ---
 
