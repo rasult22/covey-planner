@@ -52,7 +52,7 @@ export default function ModalsLayout() {
       <Stack.Screen
         name="analytics"
         options={{
-          title: 'Analytics',
+          headerShown: false,
         }}
       />
       <Stack.Screen

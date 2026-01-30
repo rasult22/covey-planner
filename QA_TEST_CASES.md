@@ -395,12 +395,12 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| ST-1.1 | [ ] | Permission required | 1. First access | "Enable Notifications" button |
-| ST-1.2 | [ ] | Request permission | 1. Tap enable | System dialog appears |
-| ST-1.3 | [ ] | Permission granted | 1. Grant | Settings toggles appear |
-| ST-1.4 | [ ] | Weekly planning toggle | 1. Toggle on/off | Setting saved |
-| ST-1.5 | [ ] | Daily planning toggle | 1. Toggle on/off | Setting saved |
-| ST-1.6 | [ ] | Weekly reflection toggle | 1. Toggle on/off | Setting saved |
+| ST-1.1 | [x] | Permission required | 1. First access | "Enable Notifications" button |
+| ST-1.2 | [x] | Request permission | 1. Tap enable | System dialog appears |
+| ST-1.3 | [x] | Permission granted | 1. Grant | Settings toggles appear |
+| ST-1.4 | [x] | Weekly planning toggle | 1. Toggle on/off | Setting saved |
+| ST-1.5 | [x] | Daily planning toggle | 1. Toggle on/off | Setting saved |
+| ST-1.6 | [x] | Weekly reflection toggle | 1. Toggle on/off | Setting saved |
 
 ### 8.2 Data Management
 
