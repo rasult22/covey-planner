@@ -8,7 +8,7 @@ import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { endOfWeek, format } from 'date-fns';
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 export default function WeeklyReflectionScreen() {
@@ -35,6 +35,15 @@ export default function WeeklyReflectionScreen() {
   const [gratitude, setGratitude] = useState(
     reflection?.questions.gratitude || ''
   );
+
+  useEffect(() => {
+    if (reflection) {
+      setWhatWorkedWell(reflection.questions.whatWorkedWell || '');
+      setWhatToImprove(reflection.questions.whatToImprove || '');
+      setLessonsLearned(reflection.questions.lessonsLearned || '');
+      setGratitude(reflection.questions.gratitude || '');
+    }
+  }, [reflection]);
 
   const formatWeekRange = () => {
     const start = new Date(currentWeekStart);

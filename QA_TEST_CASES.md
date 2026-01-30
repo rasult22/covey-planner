@@ -363,26 +363,26 @@ This document contains comprehensive test cases for the Principle-Centered Plann
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| AN-1.1 | [ ] | Empty state | 1. No tracked time | "No Data Yet" message |
-| AN-1.2 | [ ] | Quadrant II insight | 1. View with data | Insight about Q2 focus |
-| AN-1.3 | [ ] | Time distribution | 1. Complete tasks | Average percentages shown |
-| AN-1.4 | [ ] | Q2 focus metric | 1. View metrics | "Weeks with 60%+ Q2" |
-| AN-1.5 | [ ] | Weeks tracked | 1. View metrics | Number of weeks shown |
-| AN-1.6 | [ ] | Recent weeks | 1. Have data | Last 8 weeks breakdown |
-| AN-1.7 | [ ] | Q2 badge | 1. Week with 60%+ Q2 | "Great Q2 Focus!" badge |
+| AN-1.1 | [x] | Empty state | 1. No tracked time | "No Data Yet" message |
+| AN-1.2 | [x] | Quadrant II insight | 1. View with data | Insight about Q2 focus |
+| AN-1.3 | [x] | Time distribution | 1. Complete tasks | Average percentages shown |
+| AN-1.4 | [x] | Q2 focus metric | 1. View metrics | "Weeks with 60%+ Q2" |
+| AN-1.5 | [x] | Weeks tracked | 1. View metrics | Number of weeks shown |
+| AN-1.6 | [x] | Recent weeks | 1. Have data | Last 8 weeks breakdown |
+| AN-1.7 | [x] | Q2 badge | 1. Week with 60%+ Q2 | "Great Q2 Focus!" badge |
 
 ### 7.2 Weekly Reflection
 
 | ID | Status | Test Case | Steps | Expected Result |
 |----|--------|-----------|-------|-----------------|
-| RF-1.1 | [ ] | Week range | 1. Open reflection | Current week range shown |
-| RF-1.2 | [ ] | Questions displayed | 1. View modal | 4 questions (3 required, 1 optional) |
-| RF-1.3 | [ ] | Empty submission blocked | 1. Leave empty 2. Save | Alert: "Please answer first three questions" |
-| RF-1.4 | [ ] | Valid submission | 1. Fill Q1-Q3 2. Save | "Reflection Saved" alert |
-| RF-1.5 | [ ] | Optional Q4 | 1. Skip Q4 2. Submit | Saves successfully |
-| RF-1.6 | [ ] | Load existing | 1. Complete 2. Reopen | Previous answers loaded |
-| RF-1.7 | [ ] | Update button | 1. With existing | Button says "Update Reflection" |
-| RF-1.8 | [ ] | first_reflection achievement | 1. First completion | Achievement unlocked |
+| RF-1.1 | [x] | Week range | 1. Open reflection | Current week range shown |
+| RF-1.2 | [x] | Questions displayed | 1. View modal | 4 questions (3 required, 1 optional) |
+| RF-1.3 | [x] | Empty submission blocked | 1. Leave empty 2. Save | Alert: "Please answer first three questions" |
+| RF-1.4 | [x] | Valid submission | 1. Fill Q1-Q3 2. Save | "Reflection Saved" alert |
+| RF-1.5 | [x] | Optional Q4 | 1. Skip Q4 2. Submit | Saves successfully |
+| RF-1.6 | [x] | Load existing | 1. Complete 2. Reopen | Previous answers loaded |
+| RF-1.7 | [x] | Update button | 1. With existing | Button says "Update Reflection" |
+| RF-1.8 | [x] | first_reflection achievement | 1. First completion | Achievement unlocked |
 
 ---
 
