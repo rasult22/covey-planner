@@ -3,10 +3,13 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { HelpIcon } from '@/components/ui/HelpIcon';
 import { Input } from '@/components/ui/Input';
+import { useStreaks } from '@/hooks/gamification/useStreaks';
+import { checkQ2ChampionAchievement, checkQuadrantAchievements } from '@/lib/achievements/achievementChecker';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { getTodayKey, useAddDailyTaskMutation, useCompleteDailyTaskMutation, useDailyTasksQuery, useDeleteDailyTaskMutation, useUncompleteDailyTaskMutation } from '@/queries/planning/dailyTasks';
+import { getCurrentWeekId } from '@/queries/planning/weeklyPlan';
 import { Priority, Quadrant } from '@/types';
 import { format } from 'date-fns';
 import { useState } from 'react';
@@ -17,11 +20,13 @@ const QUADRANTS: Quadrant[] = ['I', 'II', 'III', 'IV'];
 
 export default function TodayScreen() {
   const currentDateKey = getTodayKey();
+  const currentWeekId = getCurrentWeekId();
   const { data: tasks = [], isLoading } = useDailyTasksQuery(currentDateKey);
   const { mutate: addTask } = useAddDailyTaskMutation();
   const { mutate: deleteTask } = useDeleteDailyTaskMutation();
   const { mutate: completeTask } = useCompleteDailyTaskMutation();
   const { mutate: uncompleteTask } = useUncompleteDailyTaskMutation();
+  const { recordDailyPlanning } = useStreaks();
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState('');
@@ -52,7 +57,8 @@ export default function TodayScreen() {
         },
       },
       {
-        onSuccess: () => {
+        onSuccess: async () => {
+          await recordDailyPlanning(currentDateKey);
           setNewTaskTitle('');
           setNewTaskMinutes('');
           setNewTaskPriority('B');
@@ -67,7 +73,12 @@ export default function TodayScreen() {
     if (isCompleted) {
       uncompleteTask({ id: taskId, dateKey: currentDateKey });
     } else {
-      completeTask({ id: taskId, dateKey: currentDateKey });
+      completeTask({ id: taskId, dateKey: currentDateKey }, {
+        onSuccess: async () => {
+          await checkQuadrantAchievements(currentWeekId);
+          await checkQ2ChampionAchievement(currentWeekId);
+        },
+      });
     }
   };
 

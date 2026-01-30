@@ -1,4 +1,5 @@
 // Principle Centered Planner - useStreaks Hook
+import { checkDailyStreakAchievements, checkWeeklyStreakAchievements } from '@/lib/achievements/achievementChecker';
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { STORAGE_KEYS, StreakData } from '@/types';
 import { getWeek, getYear, parseISO, subDays } from 'date-fns';
@@ -110,7 +111,11 @@ export function useStreaks() {
       },
     };
 
-    return await saveStreaks(updated);
+    const success = await saveStreaks(updated);
+    if (success) {
+      await checkWeeklyStreakAchievements(currentStreak);
+    }
+    return success;
   };
 
   const recordDailyPlanning = async (dateKey?: string): Promise<boolean> => {
@@ -153,7 +158,11 @@ export function useStreaks() {
       },
     };
 
-    return await saveStreaks(updated);
+    const success = await saveStreaks(updated);
+    if (success) {
+      await checkDailyStreakAchievements(currentStreak);
+    }
+    return success;
   };
 
   const getWeeklyStreak = (): number => {

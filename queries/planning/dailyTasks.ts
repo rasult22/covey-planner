@@ -1,4 +1,5 @@
 // Principle Centered Planner - Daily Tasks Queries & Mutations
+import { checkTaskAchievements } from '@/lib/achievements/achievementChecker';
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { DailyTask, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -96,8 +97,9 @@ export function useDeleteDailyTaskMutation() {
 // ============================================================================
 
 export function useCompleteDailyTaskMutation() {
+  const queryClient = useQueryClient();
   const { mutate, ...rest } = useUpdateDailyTaskMutation();
-  
+
   return {
     ...rest,
     mutate: (args: { id: string; dateKey: string }, options?: any) => {
@@ -109,7 +111,16 @@ export function useCompleteDailyTaskMutation() {
             completedAt: new Date().toISOString(),
           },
         },
-        options
+        {
+          ...options,
+          onSuccess: async (...successArgs: any[]) => {
+            options?.onSuccess?.(...successArgs);
+            const unlocked = await checkTaskAchievements();
+            if (unlocked) {
+              queryClient.invalidateQueries({ queryKey: ['achievements'] });
+            }
+          },
+        }
       );
     },
   };

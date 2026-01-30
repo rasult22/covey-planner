@@ -7,6 +7,8 @@ import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { useAchievements } from '@/hooks/gamification/useAchievements';
+import { useStreaks } from '@/hooks/gamification/useStreaks';
+import { checkBalancedWeekAchievement, checkQ2ChampionAchievement, checkQuadrantAchievements } from '@/lib/achievements/achievementChecker';
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { useGoalsQuery } from '@/queries/foundation/goals';
 import { useRolesQuery } from '@/queries/foundation/roles';
@@ -28,6 +30,7 @@ export default function WeekScreen() {
   const { mutate: addBigRock } = useAddBigRockMutation();
   const { mutate: deleteBigRock } = useDeleteBigRockMutation();
   const { unlockAchievement } = useAchievements();
+  const { recordWeeklyPlanning } = useStreaks();
 
   const [showAddForm, setShowAddForm] = useState(false);
   const [newRockTitle, setNewRockTitle] = useState('');
@@ -58,6 +61,9 @@ export default function WeekScreen() {
           } else if (completedCount >= 10) {
             await unlockAchievement('ten_big_rocks');
           }
+          await checkBalancedWeekAchievement(currentWeekId);
+          await checkQuadrantAchievements(currentWeekId);
+          await checkQ2ChampionAchievement(currentWeekId);
         },
       });
     }
@@ -88,6 +94,8 @@ export default function WeekScreen() {
             await unlockAchievement('first_big_rock');
             await unlockAchievement('first_weekly_plan');
           }
+          await recordWeeklyPlanning(currentWeekId);
+          await checkBalancedWeekAchievement(currentWeekId);
           setNewRockTitle('');
           setNewRockHours('');
           setShowAddForm(false);

@@ -1,4 +1,5 @@
 // Principle Centered Planner - Goals Queries & Mutations
+import { checkGoalCompletionAchievements } from '@/lib/achievements/achievementChecker';
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { Achievement, GoalStep, LongTermGoal, STORAGE_KEYS } from '@/types';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
@@ -133,8 +134,12 @@ export function useToggleStepCompletionMutation() {
       await storageService.setItem(STORAGE_KEYS.LONG_TERM_GOALS, updatedGoals);
       return updatedGoals;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['goals'] });
+      const unlocked = await checkGoalCompletionAchievements();
+      if (unlocked) {
+        queryClient.invalidateQueries({ queryKey: ['achievements'] });
+      }
     },
   });
 }
@@ -200,8 +205,12 @@ export function useDeleteStepMutation() {
       await storageService.setItem(STORAGE_KEYS.LONG_TERM_GOALS, updatedGoals);
       return updatedGoals;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries({ queryKey: ['goals'] });
+      const unlocked = await checkGoalCompletionAchievements();
+      if (unlocked) {
+        queryClient.invalidateQueries({ queryKey: ['achievements'] });
+      }
     },
   });
 }
