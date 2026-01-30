@@ -1,7 +1,7 @@
 // Principle Centered Planner - Achievement Checker Service
 // Standalone service for checking and unlocking achievements without React hooks
 import { storageService } from '@/lib/storage/AsyncStorageService';
-import { Achievement, AchievementKey, BigRock, DailyTask, LongTermGoal, Role, STORAGE_KEYS } from '@/types';
+import { Achievement, AchievementKey, BigRock, DailyTask, LongTermGoal, QuadrantStats, Role, STORAGE_KEYS } from '@/types';
 import { endOfWeek, format, getWeek, getYear, startOfWeek, subWeeks } from 'date-fns';
 
 /**
@@ -314,5 +314,40 @@ export async function checkQ2ChampionAchievement(weekId: string): Promise<boolea
   } catch (err) {
     console.error('Error checking Q2 champion achievement:', err);
     return false;
+  }
+}
+
+// ============================================================================
+// QUADRANT STATS PERSISTENCE
+// ============================================================================
+
+/**
+ * Recalculate and persist quadrant stats for a given week.
+ * Call this whenever a task or big rock is completed/uncompleted.
+ */
+export async function updateQuadrantStatsForWeek(weekId: string): Promise<void> {
+  try {
+    const tasks = await storageService.getItem<DailyTask[]>(STORAGE_KEYS.DAILY_TASKS) || [];
+    const bigRocks = await storageService.getItem<BigRock[]>(STORAGE_KEYS.BIG_ROCKS) || [];
+
+    const minutes = calculateWeekQuadrantMinutes(tasks, bigRocks, weekId);
+
+    const stats = await storageService.getItem<QuadrantStats>(STORAGE_KEYS.QUADRANT_STATS) || {};
+    const total = minutes.I + minutes.II + minutes.III + minutes.IV;
+
+    if (total > 0) {
+      stats[weekId] = {
+        quadrant_I: minutes.I,
+        quadrant_II: minutes.II,
+        quadrant_III: minutes.III,
+        quadrant_IV: minutes.IV,
+      };
+    } else {
+      delete stats[weekId];
+    }
+
+    await storageService.setItem(STORAGE_KEYS.QUADRANT_STATS, stats);
+  } catch (err) {
+    console.error('Error updating quadrant stats:', err);
   }
 }

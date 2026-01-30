@@ -8,7 +8,7 @@ import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
 import { useAchievements } from '@/hooks/gamification/useAchievements';
 import { useStreaks } from '@/hooks/gamification/useStreaks';
-import { checkBalancedWeekAchievement, checkQ2ChampionAchievement, checkQuadrantAchievements } from '@/lib/achievements/achievementChecker';
+import { checkBalancedWeekAchievement, checkQ2ChampionAchievement, checkQuadrantAchievements, updateQuadrantStatsForWeek } from '@/lib/achievements/achievementChecker';
 import { storageService } from '@/lib/storage/AsyncStorageService';
 import { useGoalsQuery } from '@/queries/foundation/goals';
 import { useRolesQuery } from '@/queries/foundation/roles';
@@ -50,7 +50,11 @@ export default function WeekScreen() {
 
   const handleToggleBigRock = (id: string, isCompleted: boolean) => {
     if (isCompleted) {
-      uncompleteBigRock(id);
+      uncompleteBigRock(id, {
+        onSuccess: async () => {
+          await updateQuadrantStatsForWeek(currentWeekId);
+        },
+      });
     } else {
       completeBigRock(id, {
         onSuccess: async () => {
@@ -64,6 +68,7 @@ export default function WeekScreen() {
           await checkBalancedWeekAchievement(currentWeekId);
           await checkQuadrantAchievements(currentWeekId);
           await checkQ2ChampionAchievement(currentWeekId);
+          await updateQuadrantStatsForWeek(currentWeekId);
         },
       });
     }

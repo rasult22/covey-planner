@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/Card';
 import { HelpIcon } from '@/components/ui/HelpIcon';
 import { Input } from '@/components/ui/Input';
 import { useStreaks } from '@/hooks/gamification/useStreaks';
-import { checkQ2ChampionAchievement, checkQuadrantAchievements } from '@/lib/achievements/achievementChecker';
+import { checkQ2ChampionAchievement, checkQuadrantAchievements, updateQuadrantStatsForWeek } from '@/lib/achievements/achievementChecker';
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
@@ -71,12 +71,17 @@ export default function TodayScreen() {
 
   const handleToggleTask = (taskId: string, isCompleted: boolean) => {
     if (isCompleted) {
-      uncompleteTask({ id: taskId, dateKey: currentDateKey });
+      uncompleteTask({ id: taskId, dateKey: currentDateKey }, {
+        onSuccess: async () => {
+          await updateQuadrantStatsForWeek(currentWeekId);
+        },
+      });
     } else {
       completeTask({ id: taskId, dateKey: currentDateKey }, {
         onSuccess: async () => {
           await checkQuadrantAchievements(currentWeekId);
           await checkQ2ChampionAchievement(currentWeekId);
+          await updateQuadrantStatsForWeek(currentWeekId);
         },
       });
     }
