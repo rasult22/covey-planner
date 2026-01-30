@@ -5,6 +5,7 @@ import { useNotificationSettings } from '@/hooks/settings/useNotificationSetting
 import { COLORS } from '@/lib/constants/colors';
 import { GAP, PADDING } from '@/lib/constants/spacing';
 import { TYPOGRAPHY } from '@/lib/constants/typography';
+import { NotificationService } from '@/lib/notifications/NotificationService';
 import { router } from 'expo-router';
 import { Alert, ScrollView, StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native';
 
@@ -118,14 +119,20 @@ export default function NotificationSettingsScreen() {
               <Text style={styles.settingTitle}>Weekly Planning</Text>
               <Switch
                 value={settings.weeklyPlanningEnabled}
-                onValueChange={(bool) => {toggleWeeklyPlanning(bool)}} 
-                trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
+                onValueChange={(bool) => {toggleWeeklyPlanning(bool)}}
+                trackColor={{ false: COLORS.border.light, true: COLORS.gray[400] }}
                 thumbColor={COLORS.text.primary}
               />
             </View>
             <Text style={styles.settingDescription}>
               Reminder to plan your week and identify Big Rocks
             </Text>
+            <TouchableOpacity
+              style={styles.testButton}
+              onPress={() => NotificationService.sendTestNotification('weeklyPlanning')}
+            >
+              <Text style={styles.testButtonText}>Send Test Notification</Text>
+            </TouchableOpacity>
           </View>
 
           {settings.weeklyPlanningEnabled && (
@@ -150,13 +157,19 @@ export default function NotificationSettingsScreen() {
                 onValueChange={bool => {
                   toggleDailyPlanning(bool)
                 }}
-                trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
+                trackColor={{ false: COLORS.border.light, true: COLORS.gray[400] }}
                 thumbColor={COLORS.text.primary}
               />
             </View>
             <Text style={styles.settingDescription}>
               Daily reminder to organize your most important tasks
             </Text>
+            <TouchableOpacity
+              style={styles.testButton}
+              onPress={() => NotificationService.sendTestNotification('dailyPlanning')}
+            >
+              <Text style={styles.testButtonText}>Send Test Notification</Text>
+            </TouchableOpacity>
           </View>
 
           {settings.dailyPlanningEnabled && (
@@ -178,13 +191,19 @@ export default function NotificationSettingsScreen() {
                 onValueChange={bool => {
                   toggleWeeklyCompass(bool)
                 }}
-                trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
+                trackColor={{ false: COLORS.border.light, true: COLORS.gray[400] }}
                 thumbColor={COLORS.text.primary}
               />
             </View>
             <Text style={styles.settingDescription}>
               Review your mission, values, and roles weekly
             </Text>
+            <TouchableOpacity
+              style={styles.testButton}
+              onPress={() => NotificationService.sendTestNotification('weeklyCompass')}
+            >
+              <Text style={styles.testButtonText}>Send Test Notification</Text>
+            </TouchableOpacity>
           </View>
 
           {settings.weeklyCompassEnabled && (
@@ -206,13 +225,19 @@ export default function NotificationSettingsScreen() {
                 onValueChange={bool => {
                   toggleWeeklyReflection(bool)
                 }}
-                trackColor={{ false: COLORS.border.light, true: COLORS.primary }}
+                trackColor={{ false: COLORS.border.light, true: COLORS.gray[400] }}
                 thumbColor={COLORS.text.primary}
               />
             </View>
             <Text style={styles.settingDescription}>
               Reflect on your week and plan improvements
             </Text>
+            <TouchableOpacity
+              style={styles.testButton}
+              onPress={() => NotificationService.sendTestNotification('weeklyReflection')}
+            >
+              <Text style={styles.testButtonText}>Send Test Notification</Text>
+            </TouchableOpacity>
           </View>
 
           {settings.weeklyReflectionEnabled && (
@@ -344,5 +369,18 @@ const styles = StyleSheet.create({
   },
   dayButtonTextActive: {
     color: COLORS.background,
+  },
+  testButton: {
+    alignSelf: 'flex-start',
+    marginTop: PADDING.sm,
+    paddingVertical: PADDING.xs,
+    paddingHorizontal: PADDING.md,
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: COLORS.border.light,
+  },
+  testButtonText: {
+    fontSize: TYPOGRAPHY.caption.fontSize,
+    color: COLORS.text.tertiary,
   },
 });

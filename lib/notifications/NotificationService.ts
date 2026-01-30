@@ -216,6 +216,40 @@ export class NotificationService {
   }
 
   /**
+   * Send a test notification immediately
+   */
+  static async sendTestNotification(
+    type: 'weeklyPlanning' | 'dailyPlanning' | 'weeklyCompass' | 'weeklyReflection'
+  ): Promise<void> {
+    const content: Record<string, { title: string; body: string }> = {
+      weeklyPlanning: {
+        title: 'Time to Plan Your Week',
+        body: 'Take 30 minutes to identify your Big Rocks for the week ahead.',
+      },
+      dailyPlanning: {
+        title: 'Plan Your Day',
+        body: 'Take 10 minutes to organize your most important tasks for today.',
+      },
+      weeklyCompass: {
+        title: 'Weekly Compass',
+        body: 'Review your mission, values, and roles to stay aligned with your principles.',
+      },
+      weeklyReflection: {
+        title: 'Weekly Reflection',
+        body: 'Take time to reflect on your week. What worked well? What can improve?',
+      },
+    };
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        ...content[type],
+        sound: true,
+      },
+      trigger: null,
+    });
+  }
+
+  /**
    * Cancel all notifications
    */
   static async cancelAll(): Promise<void> {
